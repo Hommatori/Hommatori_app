@@ -5,19 +5,17 @@ import Styles from '../Styles';
 export default function MainPage() {
   return (
 
-    <SafeAreaView>
-
-        <View style={Styles.searchBar}>
-            <Text>Hommatori</Text>
-            <TextInput 
-            //style={Styles.searchBar}
-            //onChangeText={}
-            //value={}
-            placeholder="Syötä hakusana"
-            />
-            
+    <View style={Styles.container}>
+        <Text>Tervetuloa hommatorille</Text>
+            <View style={Styles.searchBar}>
+                <TextInput 
+                //style={Styles.searchBar}
+                //onChangeText={}
+                //value={}
+                placeholder="Syötä hakusana"
+                />       
         </View>
-    </SafeAreaView>
+    </View>
 
   );
 }

@@ -3,9 +3,10 @@ import Constants from 'expo-constants';
 
 export default StyleSheet.create({
         container: {
-            paddingTop: Platform.OS === 'android' ? Constants.StatusBarheight: 0,
+            paddingTop: 100,
+            alignItems: 'center',
             
-            //justifyContent: 'center',
+            
         },
         searchBar: {
             alignItems: 'center',
@@ -14,6 +15,6 @@ export default StyleSheet.create({
             padding: 20,
             elevation: 2,
             marginBottom: 5,
-            backgroundColor: '#',
+            backgroundColor: '#24e357',
         }
   });

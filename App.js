@@ -12,7 +12,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator 
         initialRouteName='MainPage'
-        screenOptions={{headerShown: false}}> 
+        screenOptions={{headerShown: true}}> 
           <Stack.Screen 
             name="MainPage" 
             component={MainPage} 

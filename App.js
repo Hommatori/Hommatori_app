@@ -15,6 +15,7 @@ export default function App() {
         screenOptions={{headerShown: true}}> 
           <Stack.Screen 
             name="MainPage" 
+            options={{title: 'Hommatori'}}
             component={MainPage} 
             />
       </Stack.Navigator>

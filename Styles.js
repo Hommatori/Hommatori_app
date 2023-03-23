@@ -3,18 +3,37 @@ import Constants from 'expo-constants';
 
 export default StyleSheet.create({
         container: {
-            paddingTop: 100,
+            flex: 1,
             alignItems: 'center',
-            
-            
+            backgroundColor: '#FFFFFF',
         },
-        searchBar: {
-            alignItems: 'center',
-            margin: 10,
-            borderRadius: 0,
-            padding: 20,
-            elevation: 2,
+        heading: {
+    
+            padding: 10,
+        },
+        font: {
+            fontSize: 30,
+        },
+        borders: {
+            borderColor: '#24e357',
+            borderWidth: 3,
+            borderRadius: 15,
+            padding: 5,
+            backgroundColor: '#FFFFFF',
+        },
+        rowContainer: {
+            flex: 1,
+            flexDirection: 'row',
+            marginTop: 5,
             marginBottom: 5,
-            backgroundColor: '#24e357',
-        }
+        },
+        rowText: {
+            fontSize: 20,
+            marginLeft: 5,
+          },
+          navButton: {
+            marginRight: 10,
+            fontSize: 24,
+            padding: 4,
+          }
   });

@@ -1,9 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect,useLayoutEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View, ScrollView, Image, Modal, Pressable } from 'react-native';
+import { SafeAreaView, StyleSheet, Text, TextInput, View, ScrollView, Image, Modal, Pressable, Button } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
-import Styles from '../Styles';
+import Styles from './Styles';
+import Footer from './Footer';
+import SearchBox from './SearchBox';
 
 export default function MainPage({navigation}) {
 
@@ -19,72 +21,14 @@ export default function MainPage({navigation}) {
     setTestData(testArray);
   },[]) 
 
-  // yläPalkki
-  useLayoutEffect( () => {
-    navigation.setOptions({
-        headerStyle: {
-            //backroundColor: '#f0f0f0'
-            //fontSize: 30,
-        },
-        headerRight: () => (
-            <Feather
-                style={Styles.navButton}
-                name="menu"
-                size={24}
-                color="black"
-                onPress={ () => setModalVisible(true)}
-            />  
-            
-        ),  
-    }) 
-}, [])
-
-//tämä funktio sulkee modalin
-function closeModal() {
-  setModalVisible(false);
-}
-
   return (
 
     
     <View style={Styles.container}>
-      <Modal 
-      visible={modalVisible}
-      onRequestClose ={closeModal}
-      >
-        <View style={Styles.modal}>
-          <Text> Mitä haluaisit tehdä?</Text>
-          <Pressable onPress={() => {
-            setModalVisible(false);
-          }}>
-            <Text style={Styles.modalItem}>Ilmoita</Text>
-            </Pressable>
-            <Pressable onPress={() => {
-            setModalVisible(false);
-          }}>
-            <Text style={Styles.modalItem}>Asetukset</Text>
-            </Pressable>
-            <Pressable onPress={() => {
-            setModalVisible(false);
-          }}>
-            <Text style={Styles.modalItem}>Peruuta</Text>
-            </Pressable>
-        </View>
-      </Modal>
-
-      <View style={Styles.heading}>
-        <Text style={Styles.font}>Onko remontti tekemättä?</Text>
-        <View style={Styles.borders}>
-        <TextInput 
-            //style={Styles.searchBar}
-            //onChangeText={}
-            //value={}
-        placeholder="Syötä hakusana"
-        />       
-        </View>
-      </View>
       
-      <ScrollView style={Styles.borders}>
+      <SearchBox></SearchBox>
+      
+      <ScrollView >
         {
           testData.map((item) => (
             <View style={Styles.rowContainer} key={item.id}>
@@ -100,6 +44,12 @@ function closeModal() {
           ))
         }
       </ScrollView>
+
+
+      <Footer></Footer>
+      
+ 
+
     </View>
 
   );

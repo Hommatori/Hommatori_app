@@ -6,13 +6,13 @@ import { Feather } from '@expo/vector-icons';
 import Styles from '../Styles/Styles';
 import HeaderStyles from '../Styles/HeaderStyles';
 import FooterStyles from '../Styles/FooterStyles';
+import SearchBoxStyles from '../Styles/SearchBoxStyles';
 //import Footer from './Footer';
 //import SearchBox from './SearchBox';
 
 export default function MainPage({navigation}) {
 
   const [testData, setTestData] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
 
   // tässä luodaan testitaulukko
   useEffect(() => {
@@ -32,22 +32,20 @@ export default function MainPage({navigation}) {
         <Text style={HeaderStyles.headerText}>Hommatori</Text>
       </View>
   
-      <View style={Styles.searcBoxContainer}>    
-        <View>
+      <View style={SearchBoxStyles.searcBoxContainer}>    
           <View>
-            <TextInput style={Styles.textInputContainer1}
+            <TextInput style={SearchBoxStyles.textInputContainer1}
             placeholder="Syötä hakusana"
             />       
           </View>
-          <View style={Styles.searchButtonContainer}>
-            <TextInput style={Styles.textInputContainer2}
-            placeholder="Postinumero"
+          <View style={SearchBoxStyles.searchButtonContainer}>
+            <TextInput style={SearchBoxStyles.textInputContainer2}
+            placeholder="Alue"
             />    
-            <TextInput style={Styles.textInputContainer2}
-            placeholder="Varaus"
+            <TextInput style={SearchBoxStyles.textInputContainer2}
+            placeholder="Tyyppi"
             />    
           </View>
-        </View>
     </View>
       
       <ScrollView >
@@ -76,7 +74,7 @@ export default function MainPage({navigation}) {
           <Pressable style={FooterStyles.button} 
             onPress={() => navigation.navigate('Announce')} 
           >
-            <Text style={FooterStyles.buttonText}>Ilm.</Text>
+            <Text style={FooterStyles.buttonText}>Ilmoita</Text>
           </Pressable>
           <Pressable style={FooterStyles.button}>
             <Text style={FooterStyles.buttonText}>Viestit</Text>

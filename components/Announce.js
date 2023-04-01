@@ -37,7 +37,7 @@ export default function Announce({navigation}) {
           <Pressable style={FooterStyles.button} 
             onPress={() => navigation.navigate('Announce')} 
           >
-            <Text style={FooterStyles.buttonText}>Ilm.</Text>
+            <Text style={FooterStyles.buttonText}>ilmoita</Text>
           </Pressable>
           <Pressable style={FooterStyles.button}>
             <Text style={FooterStyles.buttonText}>Viestit</Text>

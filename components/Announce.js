@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, Pressable} from 'react-native';
 import Styles from '../Styles/Styles';
 import HeaderStyles from '../Styles/HeaderStyles';
-import FooterStyles from '../Styles/FooterStyles';
+import FooterStyles from '../Styles/TaskBarStyles';
 import AnnounceStyles from '../Styles/AnnounceStyles';
 import { TextInput } from 'react-native-gesture-handler';
 

@@ -5,8 +5,9 @@ import { FlatList } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import Styles from '../Styles/Styles';
 import HeaderStyles from '../Styles/HeaderStyles';
-import FooterStyles from '../Styles/FooterStyles';
+import FooterStyles from '../Styles/TaskBarStyles';
 import SearchBoxStyles from '../Styles/SearchBoxStyles';
+import TaskBar from './TaskBar';
 //import Footer from './Footer';
 //import SearchBox from './SearchBox';
 
@@ -65,6 +66,12 @@ export default function MainPage({navigation}) {
         }
       </ScrollView>
 
+
+
+    <TaskBar></TaskBar>
+
+
+{/*
       <View style={FooterStyles.buttonContainer}>
           <Pressable style={FooterStyles.button}
             onPress={() => navigation.navigate('MainPage')}
@@ -82,7 +89,7 @@ export default function MainPage({navigation}) {
           <Pressable style={FooterStyles.button}>
             <Text style={FooterStyles.buttonText}>Tili</Text>
           </Pressable>
-        </View> 
+        </View>  */}
 
     </View>
 

@@ -4,6 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
 import MainPage from './components/MainPage';
 import Announce from './components/Announce';
+import TaskBar from './components/TaskBar';
 
 
 export default function App() {
@@ -32,6 +33,11 @@ export default function App() {
           <Stack.Screen 
             name="Announce" 
             component={Announce}
+            options={{ headerTitle: 'Hommatori'}}
+            />
+            <Stack.Screen 
+            name="TaskBar" 
+            component={TaskBar}
             options={{ headerTitle: 'Hommatori'}}
             />
       </Stack.Navigator>

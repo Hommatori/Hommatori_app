@@ -4,6 +4,7 @@ import Styles from '../Styles/Styles';
 import HeaderStyles from '../Styles/HeaderStyles';
 import FooterStyles from '../Styles/FooterStyles';
 import AnnounceStyles from '../Styles/AnnounceStyles';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default function Announce({navigation}) {
 
@@ -18,6 +19,13 @@ export default function Announce({navigation}) {
 
         <View style={AnnounceStyles.head}>  
             <Text>Jätä ilmoitus</Text>
+            <Text>Myytkö Vai Ostatko?</Text>
+            <Text>Otsikko</Text>
+            <TextInput style={AnnounceStyles.textInputContainer1}></TextInput>
+            <Text>Kuvaus</Text>
+            <TextInput style={AnnounceStyles.textInputContainer2}></TextInput>
+
+
         </View> 
 
         <View style={FooterStyles.buttonContainer}>

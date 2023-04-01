@@ -7,6 +7,14 @@ export default StyleSheet.create({
             alignItems: 'center',
             backgroundColor: '#FFFFFF',
         },
+        header: {
+          width: '100%',
+          height: 50,
+          backgroundColor: '#25db55',
+          alignItems: 'center',
+           
+          
+        },
         rowContainer: {
             flex: 1,
             flexDirection: 'row',
@@ -60,6 +68,7 @@ export default StyleSheet.create({
             letterSpacing: 0.25,
           },
           buttonContainer: {
+            
             flexDirection: 'row',
             paddingTop: 5,
           },

@@ -4,7 +4,7 @@ import Styles from './Styles';
 
 export default function SearchBox({navigation}) {
 
-  
+      // HOXXX Tämä ei ole käytössä
     return (
   
     <View style={Styles.searcBoxContainer}>    

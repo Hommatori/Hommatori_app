@@ -7,23 +7,15 @@ export default StyleSheet.create({
             alignItems: 'center',
             backgroundColor: '#FFFFFF',
         },
-        header: {
-          width: '100%',
-          height: 50,
-          backgroundColor: '#25db55',
-          alignItems: 'center',
-           
-          
-        },
         rowContainer: {
-            flex: 1,
+           
             flexDirection: 'row',
             marginTop: 5,
             marginBottom: 5,
             borderColor: '#25db55',
             borderWidth: 3,
             borderRadius: 15,
-            width: 340,
+            width: '100%',
         },
         rowText: {
             fontSize: 20,
@@ -35,7 +27,8 @@ export default StyleSheet.create({
             marginBottom: 15,
             padding: 30,
             borderRadius: 15,
-            width: 340,
+            width: '90%',
+            elevation: 10,
           },
           textInputContainer1: {
             backgroundColor: '#FFFFFF',
@@ -52,24 +45,5 @@ export default StyleSheet.create({
           searchButtonContainer:{        
             flexDirection: 'row',
           },
-          button: {
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingVertical: 12,
-            paddingHorizontal: 32,
-            borderRadius: 4,
-            elevation: 3,
-            backgroundColor: '#25db55',
-          },
-          buttonText: {
-            fontSize: 16,
-            lineHeight: 21,
-            fontWeight: 'bold',
-            letterSpacing: 0.25,
-          },
-          buttonContainer: {
-            
-            flexDirection: 'row',
-            paddingTop: 5,
-          },
+   
   });

@@ -4,7 +4,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
 import MainPage from './components/MainPage';
 import Announce from './components/Announce';
-import Footer from './components/Footer';
 
 
 export default function App() {
@@ -35,11 +34,6 @@ export default function App() {
             component={Announce}
             options={{ headerTitle: 'Hommatori'}}
             />
-          <Stack.Screen 
-            name="Footer" 
-            component={Footer}
-            options={{ headerTitle: 'Hommatori'}}
-          />
       </Stack.Navigator>
     </NavigationContainer>
   );

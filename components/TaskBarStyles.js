@@ -2,6 +2,11 @@ import {StyleSheet, Platform} from 'react-native';
 import Constants from 'expo-constants';
 
 export default StyleSheet.create({
+
+          buttonContainer: {
+            flexDirection: 'row',
+            paddingTop: 5,
+          },
           button: {  
             alignItems: 'center',
             flex: 1,
@@ -15,9 +20,5 @@ export default StyleSheet.create({
             lineHeight: 21,
             fontWeight: 'bold',
             letterSpacing: 0.25,
-          },
-          buttonContainer: {
-            flexDirection: 'row',
-            paddingTop: 5,
           },
   });

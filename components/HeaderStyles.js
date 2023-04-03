@@ -5,7 +5,6 @@ export default StyleSheet.create({
         
         header: {
           alignItems: 'center',
-          width: '100%',
           height: 50,
           backgroundColor: '#25db55',
           padding: 15,

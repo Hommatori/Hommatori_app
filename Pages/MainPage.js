@@ -21,44 +21,45 @@ export default function MainPage({navigation}) {
 
     
     <View style={Styles.container}>
-
-      <Header></Header>
-  
-      <View style={Styles.searchBoxContainer}>    
-          <View>
-            <TextInput style={Styles.textInputContainer1}
-            placeholder="Syötä hakusana"
-            />       
-          </View>
-          <View style={Styles.searchButtonContainer}>
-            <TextInput style={Styles.textInputContainer2}
-            placeholder="Alue"
-            />    
-            <TextInput style={Styles.textInputContainer2}
-            placeholder="Tyyppi"
-            />    
-          </View>
-    </View>
-      
-      <ScrollView >
-        {
-          testData.map((item) => (
-            <View style={Styles.rowContainer} key={item.id}>
-              <Image
-              source={{
-                uri: item.image,
-                width: 100,
-                height: 100,
-              }}
-              />
-              <Text style={Styles.rowText}>{item.name}</Text>
+           <Header></Header>
+      <View style={Styles.container2}>
+   
+    
+        <View style={Styles.searchBoxContainer}>    
+            <View>
+              <TextInput style={Styles.textInputContainer1}
+              placeholder="Syötä hakusana"
+              />       
             </View>
-          ))
-        }
-      </ScrollView>
-
-    <TaskBar navigation={navigation}></TaskBar>
-
+            <View style={Styles.searchButtonContainer}>
+              <TextInput style={Styles.textInputContainer2}
+              placeholder="Alue"
+              />    
+              <TextInput style={Styles.textInputContainer2}
+              placeholder="Tyyppi"
+              />    
+            </View>
+      </View>
+        
+        <ScrollView >
+          {
+            testData.map((item) => (
+              <View style={Styles.rowContainer} key={item.id}>
+                <Image
+                source={{
+                  uri: item.image,
+                  width: 100,
+                  height: 100,
+                }}
+                />
+                <Text style={Styles.rowText}>{item.name}</Text>
+              </View>
+            ))
+          }
+        </ScrollView>
+        
+      </View>     
+        <TaskBar navigation={navigation}></TaskBar>
     </View>
 
   );

@@ -4,8 +4,12 @@ import Constants from 'expo-constants';
 export default StyleSheet.create({
         container: {
             flex: 1,
-            margin: 10,        
             backgroundColor: '#FFFFFF',
+        },
+        container2: {
+            flex: 1,
+            margin: 10,    
+          
         },
           searchBoxContainer: {
             marginTop: 10,

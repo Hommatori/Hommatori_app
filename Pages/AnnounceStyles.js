@@ -3,22 +3,25 @@ import Constants from 'expo-constants';
 
 export default StyleSheet.create({
 
-        head: {
+        container: {
           flex: 1,
+          backgroundColor: '#FFFFFF',
+        },
+          property: {
+            flex: 1,
+            margin: 10,
         },
           textInputContainer1: {
             backgroundColor: '#dadee6',
-            margin: 10,
             padding: 7,
             borderRadius: 10,
-            width: 220,
+
           },
           textInputContainer2: {
+            flex: 1,
             backgroundColor: '#dadee6',
-            margin: 10,
-            padding: 60,
             borderRadius: 10,
-            width: 220,
+            padding: 7,
           },
    
   });

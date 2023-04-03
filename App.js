@@ -2,8 +2,8 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
-import MainPage from './components/MainPage';
-import Announce from './components/Announce';
+import MainPage from './Pages/MainPage';
+import Announce from './Pages/Announce';
 import TaskBar from './components/TaskBar';
 
 

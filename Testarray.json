@@ -1,0 +1,17 @@
+
+
+ [
+    {
+        "adid": 1,
+        "type": "myydään",
+        "header": "Lumen luonti",
+        "description": "löytyy lumilinko",
+        "location": "01600 Vantaa",
+        "price": "20",
+        "date": "2023-03-04T00:00:00.000Z",
+        "userid": 1,
+        "region": "Uusimaa",
+        "municipality": "Vantaa",
+        "image": null
+    }
+] 

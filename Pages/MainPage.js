@@ -4,19 +4,22 @@ import Styles from './Styles';
 import TaskBar from '../components/TaskBar';
 import Header from '../components/Header';
 import axios from 'axios';
-// import testData from '../Testarray2.json';  // json taulukko testiä varten
+import ad from '../Testarray.json';  // json taulukko testiä varten
+import testImage from '../vasarat.jpg'; 
 
 export default function MainPage({navigation}) {
 
-  const [product, setProduct] = useState([]);
+/*  const [ad, setAd] = useState([]);
 
-    useEffect(() => {
+     useEffect(() => {
     const getData = async () => {
     const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/1')
-    setProduct(results.data);
+    setAd(results.data);
     }
     getData();
-  }, []); 
+  }, []);  */
+
+  //console.log(ad)
 
   return (
 
@@ -44,22 +47,34 @@ export default function MainPage({navigation}) {
         
         <ScrollView >
           {
-            product.map((item) => (
-              <View style={Styles.rowContainer} key={item.adid}>
-                <Text style={Styles.rowText}> 
-                  {item.type} 
-                  {item.header}
-                  {item.description}
-                  {item.location}
-                  {item.price}
-                  {item.date}
-                  {item.region}
-                  {item.municipality}
-                </Text>
+            ad.map((item) => (
+              <View style={Styles.adContainer} key={item.adid}>
+                  <Image
+                  source={{
+                    uri: item.image,
+                    width: 150,
+                    height: 150,
+                  }}
+                  />
+                <View style={Styles.descriptionContainer1}>
+                  <View style={Styles.descriptionContainer2}>
+                    <View style={Styles.descriptionContainer3}>
+                      <Text style={Styles.descriptionText}> {item.type} </Text>       
+                      <Text style={Styles.descriptionText}>{item.header} </Text>
+                      <Text style={Styles.descriptionText}>{item.location}</Text>    
+                    </View>
+                    <View style={Styles.priceContainer}>
+                      <Text style={Styles.descriptionText}>Hinta {item.price}€</Text>
+                    </View>
+                  </View>
+                    <View style={Styles.descriptionContainer3}>
+                      <Text>{item.description}</Text>
+                  </View>
+                </View>  
               </View>
             ))
           }
-        </ScrollView>
+        </ScrollView> 
         
       </View>     
         <TaskBar navigation={navigation}></TaskBar>

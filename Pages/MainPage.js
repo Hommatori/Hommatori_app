@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {Text, TextInput, View, ScrollView, Image } from 'react-native';
+/* import {Image} from 'expo-image'; */
 import Styles from './Styles';
 import TaskBar from '../components/TaskBar';
 import Header from '../components/Header';
@@ -49,12 +50,9 @@ export default function MainPage({navigation}) {
           {
             ad.map((item) => (
               <View style={Styles.adContainer} key={item.adid}>
-                  <Image
-                  source={{
-                    uri: item.image,
-                    width: 150,
-                    height: 150,
-                  }}
+                  <Image 
+                  style ={Styles.image}
+                  source={{ uri: item.image }}         
                   />
                 <View style={Styles.descriptionContainer1}>
                   <View style={Styles.descriptionContainer2}>

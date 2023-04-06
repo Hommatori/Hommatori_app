@@ -59,5 +59,9 @@ export default StyleSheet.create({
           fontSize: 15,
           fontWeight: 'bold',
       },
+      image: {
+        height: 150,
+        width: 150,
+      },
 
   });

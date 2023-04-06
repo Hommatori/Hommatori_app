@@ -4,6 +4,56 @@
     {
         "adid": 1,
         "type": "myydään",
+        "header": "Lumen luontia",
+        "description": "löytyy lumilinko ja lapio, tarvittaessa voin myös hiekoittaa",
+        "location": "01600 Vantaa",
+        "price": "20",
+        "date": "2023-03-04T00:00:00.000Z",
+        "userid": 1,
+        "region": "Uusimaa",
+        "municipality": "Vantaa",
+        "image": "https://reactnative.dev/img/tiny_logo.png"
+    },
+    {
+        "adid": 2,
+        "type": "Ostetaan",
+        "header": "nurmen leikkausta",
+        "description": "Löytyy päältäajettava ruohonleikkuri ja polttoainetta, pndpqnenqepndq ownfoånawenfqonoenv eorfneongeånogånqwoång wångoqngoeåwn ewongqpnrgwpenp",
+        "location": "90630 Oulu",
+        "price": "20",
+        "date": "2023-03-04T00:00:00.000Z",
+        "userid": 1,
+        "region": "Uusimaa",
+        "municipality": "Vantaa",
+        "image": "https://reactnative.dev/img/tiny_logo.png"
+    },    {
+        "adid": 3,
+        "type": "myydään",
+        "header": "Remonttia",
+        "description": "löytyy lumilinko wnfowjnpnqefpqnefpqnfpqödqp nqpenfpqnfqpnq",
+        "location": "94100 Kemi",
+        "price": "20",
+        "date": "2023-03-04T00:00:00.000Z",
+        "userid": 1,
+        "region": "Uusimaa",
+        "municipality": "Vantaa",
+        "image": "https://reactnative.dev/img/tiny_logo.png"
+    },    
+        {
+        "adid": 4,
+        "type": "Ostetaan",
+        "header": "Maalausta",
+        "description": "löytyy lumilinko",
+        "location": "01600 Vantaa",
+        "price": "20",
+        "date": "2023-03-04T00:00:00.000Z",
+        "userid": 1,
+        "region": "Uusimaa",
+        "municipality": "Vantaa",
+        "image": "https://reactnative.dev/img/tiny_logo.png"
+    },    {
+        "adid": 5,
+        "type": "myydään",
         "header": "Lumen luonti",
         "description": "löytyy lumilinko",
         "location": "01600 Vantaa",
@@ -12,6 +62,44 @@
         "userid": 1,
         "region": "Uusimaa",
         "municipality": "Vantaa",
-        "image": null
+        "image": "https://reactnative.dev/img/tiny_logo.png"
+    },    {
+        "adid": 6,
+        "type": "Ostetaan",
+        "header": "Lumen luonti",
+        "description": "löytyy lumilinko",
+        "location": "01600 Vantaa",
+        "price": "20",
+        "date": "2023-03-04T00:00:00.000Z",
+        "userid": 1,
+        "region": "Uusimaa",
+        "municipality": "Vantaa",
+        "image": "https://reactnative.dev/img/tiny_logo.png"
+    },    {
+        "adid": 7,
+        "type": "myydään",
+        "header": "Lumen luonti",
+        "description": "löytyy lumilinko",
+        "location": "01600 Vantaa",
+        "price": "20",
+        "date": "2023-03-04T00:00:00.000Z",
+        "userid": 1,
+        "region": "Uusimaa",
+        "municipality": "Vantaa",
+        "image": "https://reactnative.dev/img/tiny_logo.png"
+    },
+    {
+        "adid": 8,
+        "type": "Ostetaan",
+        "header": "Lumen luonti",
+        "description": "löytyy lumilinko",
+        "location": "01600 Vantaa",
+        "price": "20",
+        "date": "2023-03-04T00:00:00.000Z",
+        "userid": 1,
+        "region": "Uusimaa",
+        "municipality": "Vantaa",
+        "image": "https://reactnative.dev/img/tiny_logo.png"
     }
+    
 ] 

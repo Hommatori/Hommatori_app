@@ -34,15 +34,34 @@ export default StyleSheet.create({
             borderRadius: 12, 
             padding: 5,         
           },
-          rowContainer: {
+          adContainer: {
+            flex: 1,
             flexDirection: 'row',
             borderColor: '#25db55',
             borderWidth: 3,
             borderRadius: 15,
+            marginBottom: 3,
         },
-        rowText: {
-            fontSize: 20,
-            marginLeft: 5,
-        }
+        descriptionContainer1: {
+            flex: 1,
+            margin: 5,
+            
+        },
+        descriptionContainer2: {
+          flexDirection: 'row',    
+      },
+        priceContainer: {
+          flex: 1,
+          flexDirection: 'row',
+          justifyContent: 'flex-end',
+        },
+        descriptionText: {
+          fontSize: 15,
+          fontWeight: 'bold',
+      },
+      image: {
+        height: 150,
+        width: 150,
+      },
 
   });

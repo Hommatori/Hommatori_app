@@ -3,29 +3,29 @@ import React, { useEffect,useLayoutEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, TextInput, View, ScrollView, Image, Modal, Pressable, Button, } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
-import FooterStyles from './TaskBarStyles';
+import NavBarStyles from './NavBarStyles';
 
-export default function TaskBar({navigation}) {
+export default function NavBar({navigation}) {
 
 
   return (
 
-      <View style={FooterStyles.buttonContainer}>
-          <Pressable style={FooterStyles.button}
+      <View style={NavBarStyles.buttonContainer}>
+          <Pressable style={NavBarStyles.button}
             onPress={() => navigation.navigate('MainPage')}
           >
-            <Text style={FooterStyles.buttonText}>Haku</Text>
+            <Text style={NavBarStyles.buttonText}>Haku</Text>
           </Pressable>
-          <Pressable style={FooterStyles.button} 
+          <Pressable style={NavBarStyles.button} 
             onPress={() => navigation.navigate('Announce')} 
           >
-            <Text style={FooterStyles.buttonText}>Ilmoita</Text>
+            <Text style={NavBarStyles.buttonText}>Ilmoita</Text>
           </Pressable>
-          <Pressable style={FooterStyles.button}>
-            <Text style={FooterStyles.buttonText}>Viestit</Text>
+          <Pressable style={NavBarStyles.button}>
+            <Text style={NavBarStyles.buttonText}>Viestit</Text>
           </Pressable>
-          <Pressable style={FooterStyles.button}>
-            <Text style={FooterStyles.buttonText}>Tili</Text>
+          <Pressable style={NavBarStyles.button}>
+            <Text style={NavBarStyles.buttonText}>Tili</Text>
           </Pressable>
         </View> 
 

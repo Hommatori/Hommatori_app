@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import Styles from './Styles';
 import AnnounceStyles from './AnnounceStyles';
 import { TextInput } from 'react-native-gesture-handler';
-import TaskBar from '../components/TaskBar';
+import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 
 export default function Announce({navigation}) {
@@ -31,7 +31,7 @@ export default function Announce({navigation}) {
 
         </View> 
 
-      <TaskBar navigation={navigation}></TaskBar>
+      <NavBar navigation={navigation}></NavBar>
 
      </View>
    

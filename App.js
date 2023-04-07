@@ -4,7 +4,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Image } from 'react-native';
 import MainPage from './Pages/MainPage';
 import Announce from './Pages/Announce';
-import TaskBar from './components/TaskBar';
+import NavBar from './components/NavBar';
 
 
 export default function App() {
@@ -36,8 +36,8 @@ export default function App() {
             options={{ headerTitle: 'Hommatori'}}
             />
             <Stack.Screen 
-            name="TaskBar" 
-            component={TaskBar}
+            name="NavBar" 
+            component={NavBar}
             options={{ headerTitle: 'Hommatori'}}
             />
       </Stack.Navigator>

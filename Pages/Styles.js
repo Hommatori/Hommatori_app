@@ -41,27 +41,26 @@ export default StyleSheet.create({
             borderWidth: 3,
             borderRadius: 15,
             marginBottom: 3,
-        },
-        descriptionContainer1: {
+          },
+          descriptionContainer1: {
+              flex: 1,
+              margin: 5,          
+          },
+          descriptionContainer2: {
+            flexDirection: 'row',    
+          },
+          priceContainer: {
             flex: 1,
-            margin: 5,
-            
-        },
-        descriptionContainer2: {
-          flexDirection: 'row',    
-      },
-        priceContainer: {
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-        },
-        descriptionText: {
-          fontSize: 15,
-          fontWeight: 'bold',
-      },
-      image: {
-        height: 150,
-        width: 150,
-      },
+            flexDirection: 'row',
+            justifyContent: 'flex-end',
+          },
+          descriptionText: {
+            fontSize: 15,
+            fontWeight: 'bold',
+          },
+          image: {
+            height: 150,
+            width: 150,
+          },
 
   });

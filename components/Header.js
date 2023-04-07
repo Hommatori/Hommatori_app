@@ -5,7 +5,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { Feather } from '@expo/vector-icons';
 import Styles from '../Pages/Styles';
 import HeaderStyles from './HeaderStyles';
-import FooterStyles from './TaskBarStyles';
+import FooterStyles from './NavBarStyles';
 //import Footer from './Footer';
 //import SearchBox from './SearchBox';
 

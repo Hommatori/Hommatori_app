@@ -47,20 +47,19 @@ export default StyleSheet.create({
               margin: 5,          
           },
           descriptionContainer2: {
-            flexDirection: 'row',    
+            flexDirection: 'column',   
+      
           },
           priceContainer: {
             flex: 1,
             flexDirection: 'row',
-            justifyContent: 'flex-end',
-          },
-          descriptionText: {
-            fontSize: 15,
-            fontWeight: 'bold',
+            justifyContent: 'flex-start',
           },
           image: {
             height: 150,
             width: 150,
+            backgroundColor: '#25db55',
+            borderRadius: 15,
           },
 
   });

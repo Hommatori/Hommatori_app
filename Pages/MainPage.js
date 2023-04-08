@@ -5,35 +5,38 @@ import Styles from './Styles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
-import ad from '../Testarray.json';  // json taulukko testiä varten
-import testImage from '../vasarat.jpg'; 
+//import ad from '../json/Testarray.json';  // json taulukko testiä varten
+//import testImage from '../vasarat.jpg'; 
+import DropDownPicker from 'react-native-dropdown-picker';
 
 export default function MainPage({navigation}) {
 
-  const [items, setItems] = useState([]);
-  const [search, setSearch] = useState('');
+    const [filteredAd, setFilteredAd] = useState([]);
+    const [search, setSearch] = useState('');
 
-/*  const [ad, setAd] = useState([]);
+    // tarvii testitaulukon kanssa
+/*     useEffect(() => {
+      setFilteredAd(ad)
+    }) */
 
-     useEffect(() => {
+  const [ad, setAd] = useState([]);
+
+      // tämä hakee databasesta ilmoitukset.
+    useEffect(() => {
     const getData = async () => {
-    const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/1')
+    const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/')
     setAd(results.data);
+    setFilteredAd(results.data);
     }
     getData();
-  }, []);  */
+  }, []);    
 
-  //console.log(ad)
-
-  useEffect(() => {
-    setItems(ad);
-  }, [])
-
-  const executeSearch = (search) => {
-    const searchArray = ad.filter((item) => item.header.includes(search));
-    setItems(searchArray);
-    //console.log(items);
-  }
+    // hakee ilmoitusten otsikoista vastaavuuksia paikallisesti
+    const executeSearch = (search) => {
+      const searchArray = ad.filter((item) => item.header.includes(search));
+      setFilteredAd(searchArray);
+      //console.log(items);
+    }
 
   return (
 
@@ -54,9 +57,11 @@ export default function MainPage({navigation}) {
               />       
             </View>
             <View style={Styles.searchButtonContainer}>
-              <TextInput style={Styles.textInputContainer2}
-              placeholder="Alue"
-              />    
+{/*               <TextInput style={Styles.textInputContainer2}
+              placeholder="Alue" 
+              />    */}
+
+         
               <TextInput style={Styles.textInputContainer2}
               placeholder="Tyyppi"
               />    
@@ -65,7 +70,7 @@ export default function MainPage({navigation}) {
         
         <ScrollView >
           {
-            items.map((item) => (
+            filteredAd.map((item) => (
               <View style={Styles.adContainer} key={item.adid}>
                   <Image 
                   style ={Styles.image}
@@ -73,13 +78,14 @@ export default function MainPage({navigation}) {
                   />
                 <View style={Styles.descriptionContainer1}>
                   <View style={Styles.descriptionContainer2}>
-                    <View style={Styles.descriptionContainer3}>
-                      <Text style={Styles.descriptionText}> {item.type} </Text>       
-                      <Text style={Styles.descriptionText}>{item.header} </Text>
+                    <View style={Styles.descriptionContainer3}>   
+                      <Text style={{fontSize:15, fontWeight: 'bold', }}>{item.header} </Text>
+                      <Text style={{fontSize: 15,fontWeight: 'bold'}}>Hinta {item.price}€</Text>
                       <Text style={Styles.descriptionText}>{item.location}</Text>    
+                     
                     </View>
                     <View style={Styles.priceContainer}>
-                      <Text style={Styles.descriptionText}>Hinta {item.price}€</Text>
+                      
                     </View>
                   </View>
                     <View style={Styles.descriptionContainer3}>

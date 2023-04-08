@@ -8,15 +8,18 @@ export default StyleSheet.create({
         },
         container2: {
             flex: 1,
-            margin: 10,    
-          
+            margin: 10,          
         },
-          searchBoxContainer: {
+        searchBoxContainer1: {
+            zIndex:9999,
+          },
+          searchBoxContainer2: {  
             marginTop: 10,
             marginBottom: 10,
             backgroundColor: '#25db55',        
             borderRadius: 12,
             elevation: 10,
+      
           },
           textInputContainer1: {
             backgroundColor: '#FFFFFF',
@@ -24,15 +27,16 @@ export default StyleSheet.create({
             borderRadius: 12,   
             padding:5,       
           },
-          searchButtonContainer:{        
+          searchButtonContainer:{  
             flexDirection: 'row',
           },
-          textInputContainer2: {
-            backgroundColor: '#FFFFFF',
+          dropDawnList: {
             flex: 1,
             margin: 10,
-            borderRadius: 12, 
-            padding: 5,         
+          },
+          dropDawn: {
+            borderRadius: 12,
+            borderColor: 'white',
           },
           adContainer: {
             flex: 1,
@@ -41,6 +45,7 @@ export default StyleSheet.create({
             borderWidth: 3,
             borderRadius: 15,
             marginBottom: 3,
+            zIndex: 10,
           },
           descriptionContainer1: {
               flex: 1,
@@ -49,11 +54,6 @@ export default StyleSheet.create({
           descriptionContainer2: {
             flexDirection: 'column',   
       
-          },
-          priceContainer: {
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'flex-start',
           },
           image: {
             height: 150,

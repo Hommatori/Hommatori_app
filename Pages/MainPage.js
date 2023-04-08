@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {Text, TextInput, View, ScrollView, Image } from 'react-native';
+import { StatusBar, hidden } from 'expo-status-bar';
 /* import {Image} from 'expo-image'; */
 import Styles from './Styles';
 import NavBar from '../components/NavBar';
@@ -8,11 +9,23 @@ import axios from 'axios';
 //import ad from '../json/Testarray.json';  // json taulukko testiä varten
 //import testImage from '../vasarat.jpg'; 
 import DropDownPicker from 'react-native-dropdown-picker';
+import DATA from '../json/regions.json'
 
 export default function MainPage({navigation}) {
 
     const [filteredAd, setFilteredAd] = useState([]);
     const [search, setSearch] = useState('');
+
+    const [open, setOpen] = useState(false);
+    const [region, setRegion] = useState(null);
+    const [regions, setRegions] = useState([]);
+
+    const [openAnother, setOpenAnother] = useState(false);
+    const [type, setType] = useState(null);
+    const [types, setTypes] = useState([]);
+
+    const [testi, setTesti] = useState([]);
+    
 
     // tarvii testitaulukon kanssa
 /*     useEffect(() => {
@@ -38,15 +51,27 @@ export default function MainPage({navigation}) {
       //console.log(items);
     }
 
+    const onOpen = useCallback(() => {
+      setOpenAnother(false);
+    }, []);
+    const onAnotherOpen = useCallback(() => {
+      setOpen(false);
+    }, []);
+
+    //DropDownPicker.setListMode("SCROLLVIEW");
+
+
   return (
 
     
     <View style={Styles.container}>
+      <StatusBar style="light" translucent={true}/>
            <Header></Header>
       <View style={Styles.container2}>
+
    
-    
-        <View style={Styles.searchBoxContainer}>    
+        <View style={Styles.searchBoxContainer1}>
+          <View style={Styles.searchBoxContainer2}>    
             <View>
               <TextInput 
               style={Styles.textInputContainer1}
@@ -57,16 +82,35 @@ export default function MainPage({navigation}) {
               />       
             </View>
             <View style={Styles.searchButtonContainer}>
-{/*               <TextInput style={Styles.textInputContainer2}
-              placeholder="Alue" 
-              />    */}
-
-         
-              <TextInput style={Styles.textInputContainer2}
-              placeholder="Tyyppi"
-              />    
+              <View style={Styles.dropDawnList}>
+                <DropDownPicker
+                  style={Styles.dropDawn}
+                  placeholder="Paikkakunta"
+                  open={open}
+                  onOpen={onOpen}
+                  value={region}
+                  items={regions}
+                  setOpen={setOpen}
+                  setValue={setRegion}
+                  setItems={setRegions}     
+                />
+              </View>
+              <View style={Styles.dropDawnList}>
+                <DropDownPicker
+                  style={Styles.dropDawn}
+                  placeholder="Tyyppi"
+                  open={openAnother}
+                  onOpen={onAnotherOpen}
+                  value={type}
+                  items={types}
+                  setOpen={setOpenAnother}
+                  setValue={setType}
+                  setItems={setTypes}     
+                  />  
+                </View>
             </View>
-      </View>
+          </View>
+        </View>
         
         <ScrollView >
           {
@@ -83,9 +127,6 @@ export default function MainPage({navigation}) {
                       <Text style={{fontSize: 15,fontWeight: 'bold'}}>Hinta {item.price}€</Text>
                       <Text style={Styles.descriptionText}>{item.location}</Text>    
                      
-                    </View>
-                    <View style={Styles.priceContainer}>
-                      
                     </View>
                   </View>
                     <View style={Styles.descriptionContainer3}>

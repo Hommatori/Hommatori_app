@@ -1,49 +1,77 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {Text, TextInput, View, ScrollView, Image } from 'react-native';
+import { StatusBar, hidden } from 'expo-status-bar';
 /* import {Image} from 'expo-image'; */
 import Styles from './Styles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
-import ad from '../Testarray.json';  // json taulukko testiä varten
-import testImage from '../vasarat.jpg'; 
+//import ad from '../json/Testarray.json';  // json taulukko testiä varten
+//import testImage from '../vasarat.jpg'; 
+import DropDownPicker from 'react-native-dropdown-picker';
+import DATA from '../json/regions.json'
 
 export default function MainPage({navigation}) {
 
-  const [items, setItems] = useState([]);
-  const [search, setSearch] = useState('');
+    const [filteredAd, setFilteredAd] = useState([]);
+    const [search, setSearch] = useState('');
 
-/*  const [ad, setAd] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [region, setRegion] = useState(null);
+    const [regions, setRegions] = useState([]);
 
-     useEffect(() => {
+    const [openAnother, setOpenAnother] = useState(false);
+    const [type, setType] = useState(null);
+    const [types, setTypes] = useState([]);
+
+    const [testi, setTesti] = useState([]);
+    
+
+    // tarvii testitaulukon kanssa
+/*     useEffect(() => {
+      setFilteredAd(ad)
+    }) */
+
+  const [ad, setAd] = useState([]);
+
+      // tämä hakee databasesta ilmoitukset.
+    useEffect(() => {
     const getData = async () => {
-    const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/1')
+    const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/')
     setAd(results.data);
+    setFilteredAd(results.data);
     }
     getData();
-  }, []);  */
+  }, []);    
 
-  //console.log(ad)
+    // hakee ilmoitusten otsikoista vastaavuuksia paikallisesti
+    const executeSearch = (search) => {
+      const searchArray = ad.filter((item) => item.header.includes(search));
+      setFilteredAd(searchArray);
+      //console.log(items);
+    }
 
-  useEffect(() => {
-    setItems(ad);
-  }, [])
+    const onOpen = useCallback(() => {
+      setOpenAnother(false);
+    }, []);
+    const onAnotherOpen = useCallback(() => {
+      setOpen(false);
+    }, []);
 
-  const executeSearch = (search) => {
-    const searchArray = ad.filter((item) => item.header.includes(search));
-    setItems(searchArray);
-    //console.log(items);
-  }
+    //DropDownPicker.setListMode("SCROLLVIEW");
+
 
   return (
 
     
     <View style={Styles.container}>
+      <StatusBar style="light" translucent={true}/>
            <Header></Header>
       <View style={Styles.container2}>
+
    
-    
-        <View style={Styles.searchBoxContainer}>    
+        <View style={Styles.searchBoxContainer1}>
+          <View style={Styles.searchBoxContainer2}>    
             <View>
               <TextInput 
               style={Styles.textInputContainer1}
@@ -54,18 +82,39 @@ export default function MainPage({navigation}) {
               />       
             </View>
             <View style={Styles.searchButtonContainer}>
-              <TextInput style={Styles.textInputContainer2}
-              placeholder="Alue"
-              />    
-              <TextInput style={Styles.textInputContainer2}
-              placeholder="Tyyppi"
-              />    
+              <View style={Styles.dropDawnList}>
+                <DropDownPicker
+                  style={Styles.dropDawn}
+                  placeholder="Paikkakunta"
+                  open={open}
+                  onOpen={onOpen}
+                  value={region}
+                  items={regions}
+                  setOpen={setOpen}
+                  setValue={setRegion}
+                  setItems={setRegions}     
+                />
+              </View>
+              <View style={Styles.dropDawnList}>
+                <DropDownPicker
+                  style={Styles.dropDawn}
+                  placeholder="Tyyppi"
+                  open={openAnother}
+                  onOpen={onAnotherOpen}
+                  value={type}
+                  items={types}
+                  setOpen={setOpenAnother}
+                  setValue={setType}
+                  setItems={setTypes}     
+                  />  
+                </View>
             </View>
-      </View>
+          </View>
+        </View>
         
         <ScrollView >
           {
-            items.map((item) => (
+            filteredAd.map((item) => (
               <View style={Styles.adContainer} key={item.adid}>
                   <Image 
                   style ={Styles.image}
@@ -73,13 +122,11 @@ export default function MainPage({navigation}) {
                   />
                 <View style={Styles.descriptionContainer1}>
                   <View style={Styles.descriptionContainer2}>
-                    <View style={Styles.descriptionContainer3}>
-                      <Text style={Styles.descriptionText}> {item.type} </Text>       
-                      <Text style={Styles.descriptionText}>{item.header} </Text>
+                    <View style={Styles.descriptionContainer3}>   
+                      <Text style={{fontSize:15, fontWeight: 'bold', }}>{item.header} </Text>
+                      <Text style={{fontSize: 15,fontWeight: 'bold'}}>Hinta {item.price}€</Text>
                       <Text style={Styles.descriptionText}>{item.location}</Text>    
-                    </View>
-                    <View style={Styles.priceContainer}>
-                      <Text style={Styles.descriptionText}>Hinta {item.price}€</Text>
+                     
                     </View>
                   </View>
                     <View style={Styles.descriptionContainer3}>

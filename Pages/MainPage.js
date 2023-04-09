@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import {Text, TextInput, View, ScrollView, Image } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
 /* import {Image} from 'expo-image'; */
-import Styles from './Styles';
+import Styles from '../Styles/Styles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
@@ -10,6 +10,7 @@ import axios from 'axios';
 //import testImage from '../vasarat.jpg'; 
 import DropDownPicker from 'react-native-dropdown-picker';
 import DATA from '../json/regions.json'
+import DropdownStyles from '../Styles/DropdownStyles';
 
 export default function MainPage({navigation}) {
 
@@ -82,9 +83,9 @@ export default function MainPage({navigation}) {
               />       
             </View>
             <View style={Styles.searchButtonContainer}>
-              <View style={Styles.dropDawnList}>
+              <View style={DropdownStyles.dropDawnList}>
                 <DropDownPicker
-                  style={Styles.dropDawn}
+                  style={DropdownStyles.dropDawn}
                   placeholder="Paikkakunta"
                   open={open}
                   onOpen={onOpen}
@@ -95,9 +96,9 @@ export default function MainPage({navigation}) {
                   setItems={setRegions}     
                 />
               </View>
-              <View style={Styles.dropDawnList}>
+              <View style={DropdownStyles.dropDawnList}>
                 <DropDownPicker
-                  style={Styles.dropDawn}
+                  style={DropdownStyles.dropDawn}
                   placeholder="Tyyppi"
                   open={openAnother}
                   onOpen={onAnotherOpen}

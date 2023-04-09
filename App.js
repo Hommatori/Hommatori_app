@@ -5,6 +5,8 @@ import { Image } from 'react-native';
 import MainPage from './Pages/MainPage';
 import Announce from './Pages/Announce';
 import NavBar from './components/NavBar';
+import Messages from './Pages/Messages';
+import Account from './Pages/Account';
 
 
 export default function App() {
@@ -14,7 +16,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='MainPage'
+        initialRouteName='Announce'
           screenOptions={{
             headerShown: false,
             headerStyle: {
@@ -39,6 +41,16 @@ export default function App() {
             name="NavBar" 
             component={NavBar}
             options={{ headerTitle: 'Hommatori'}}
+            />
+            <Stack.Screen 
+            name="Messages" 
+            component={Messages}
+            options={{ headerTitle: 'Messages'}}
+            />
+            <Stack.Screen 
+            name="Account" 
+            component={Account}
+            options={{ headerTitle: 'Account'}}
             />
       </Stack.Navigator>
     </NavigationContainer>

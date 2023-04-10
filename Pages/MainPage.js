@@ -109,7 +109,6 @@ export default function MainPage({navigation}) {
                   style={DropdownStyles.dropDawn}        
                   placeholder="Tyyppi"
                   listMode="SCROLLVIEW"
-                  //aukeaa modalina koska en saanut scrollaamaan. kaikki vaihtoehto uupuu
                   dropDownDirection="DOWN"
                   dropDownContainerStyle={{
                     backgroundColor: "#dfdfdf",

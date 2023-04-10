@@ -1,5 +1,5 @@
-import {React, useState} from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {React, useState, useEffect} from 'react';
+import {View, Text, Pressable, ScrollView} from 'react-native';
 import AnnounceStyles from '../Styles/AnnounceStyles';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
@@ -9,23 +9,23 @@ import RadioButton from '../components/RadioButton';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DropdownStyles from '../Styles/DropdownStyles';
 import ButtonStyles from '../Styles/ButtonStyles';
+import regions from '../json/regions.json';
 
 
 
-
-export default function Announce({navigation}) {
+export default function Announce({navigation, }) {
 
     const [test, setText] = useState(0)
 
     const [open, setOpen] = useState(false);
     const [region, setRegion] = useState(null);
-    const [regions, setRegions] = useState([]);
+ //   const [regions, setRegions] = useState([]);
 
     const options = [
       {label: 'Myyn', value: 1},
       {label: 'Ostan', value: 2},
-    ]
-
+    ] 
+  
     return (
     
     <View style={AnnounceStyles.container}>
@@ -51,16 +51,25 @@ export default function Announce({navigation}) {
             <TextInput style={AnnounceStyles.textInputContainer1}></TextInput>
         
             <View style={DropdownStyles.dropDawnList2}>
-                <DropDownPicker
-                  style={DropdownStyles.dropDawn}
+                 <DropDownPicker
+                  style={DropdownStyles.dropDawn}        
                   placeholder="Paikkakunta"
+                  listMode="MODAL"    
+            //   aukeaa modalinakoska en saanut scrollaamaan, kaikki vaihtoehto uupuu
+                  dropDownDirection="TOP"
+                  dropDownContainerStyle={{
+                    backgroundColor: "#dfdfdf",
+                    borderColor: '#25db55',
+                    borderRadius: 12,
+                  }}
                   open={open}
-                  value={region}
-                  items={regions}
                   setOpen={setOpen}
-                  setValue={setRegion}
-                  setItems={setRegions}     
-                />
+                  
+                  items={Object.keys(regions).map((item,index) => ({
+                    value: index,
+                    label: item
+                  }))}
+                />                
               </View>
 
               <Pressable style={ButtonStyles.button}>

@@ -11,6 +11,8 @@ import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DATA from '../json/regions.json'
 import DropdownStyles from '../Styles/DropdownStyles';
+import regions from '../json/regions';
+import Type from '../json/Type';
 
 export default function MainPage({navigation}) {
 
@@ -19,7 +21,6 @@ export default function MainPage({navigation}) {
 
     const [open, setOpen] = useState(false);
     const [region, setRegion] = useState(null);
-    const [regions, setRegions] = useState([]);
 
     const [openAnother, setOpenAnother] = useState(false);
     const [type, setType] = useState(null);
@@ -84,30 +85,45 @@ export default function MainPage({navigation}) {
             </View>
             <View style={Styles.searchButtonContainer}>
               <View style={DropdownStyles.dropDawnList}>
-                <DropDownPicker
-                  style={DropdownStyles.dropDawn}
+              <DropDownPicker
+                  style={DropdownStyles.dropDawn}        
                   placeholder="Paikkakunta"
+                  listMode="MODAL"
+                  //aukeaa modalina koska en saanut scrollaamaan. kaikki vaihtoehto uupuu
+                  dropDownDirection="TOP"
+                  dropDownContainerStyle={{
+                    backgroundColor: "#dfdfdf",
+                    borderColor: '#25db55',
+                    borderRadius: 12,
+                  }}
                   open={open}
-                  onOpen={onOpen}
-                  value={region}
-                  items={regions}
                   setOpen={setOpen}
-                  setValue={setRegion}
-                  setItems={setRegions}     
-                />
+                  items={Object.keys(regions).map((item,index) => ({
+                    value: index,
+                    label: item
+                  }))}
+                />                
               </View>
               <View style={DropdownStyles.dropDawnList}>
                 <DropDownPicker
-                  style={DropdownStyles.dropDawn}
+                  style={DropdownStyles.dropDawn}        
                   placeholder="Tyyppi"
+                  listMode="SCROLLVIEW"
+                  //aukeaa modalina koska en saanut scrollaamaan. kaikki vaihtoehto uupuu
+                  dropDownDirection="DOWN"
+                  dropDownContainerStyle={{
+                    backgroundColor: "#dfdfdf",
+                    borderColor: '#25db55',
+                    borderRadius: 12,
+                  }}
                   open={openAnother}
-                  onOpen={onAnotherOpen}
-                  value={type}
-                  items={types}
                   setOpen={setOpenAnother}
-                  setValue={setType}
-                  setItems={setTypes}     
-                  />  
+                  items={Type.types.map((item,index) => ({
+                    value: index,
+                    label: item
+                  }))}
+                  
+                />   
                 </View>
             </View>
           </View>

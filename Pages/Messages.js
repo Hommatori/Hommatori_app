@@ -1,6 +1,7 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import MessageStyles from '../Styles/MessageStyles';
+import ButtonStyles from '../Styles/ButtonStyles';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
@@ -28,6 +29,9 @@ export default function Messages({navigation}) {
               >
             </TextInput>
 
+            <Pressable style={ButtonStyles.button}>
+                <Text style={ButtonStyles.buttonText}>Lähetä</Text>
+              </Pressable>
 
         </View> 
 

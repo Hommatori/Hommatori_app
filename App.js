@@ -16,7 +16,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='Announce'
+        initialRouteName='MainPage'
           screenOptions={{
             headerShown: false,
             headerStyle: {

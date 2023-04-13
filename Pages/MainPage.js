@@ -90,7 +90,7 @@ export default function MainPage({navigation}) {
                   placeholder="Paikkakunta"
                   listMode="MODAL"
                   //aukeaa modalina koska en saanut scrollaamaan. kaikki vaihtoehto uupuu
-                  dropDownDirection="TOP"
+                  dropDownDirection="DOWN"
                   dropDownContainerStyle={{
                     backgroundColor: "#dfdfdf",
                     borderColor: '#25db55',
@@ -134,7 +134,7 @@ export default function MainPage({navigation}) {
               <View style={Styles.adContainer} key={item.adid}>
                   <Image 
                   style ={Styles.image}
-                  source={{ uri: item.image }}         
+                  source={ item.image && item.image != '' ? { uri: item.image } : null }        
                   />
                 <View style={Styles.descriptionContainer1}>
                   <View style={Styles.descriptionContainer2}>

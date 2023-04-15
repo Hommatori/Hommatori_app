@@ -97,6 +97,7 @@ export default function MainPage({navigation}) {
                     borderRadius: 12,
                   }}
                   open={open}
+                  onOpen={onOpen}
                   setOpen={setOpen}
                   items={Object.keys(regions).map((item,index) => ({
                     value: index,
@@ -116,6 +117,7 @@ export default function MainPage({navigation}) {
                     borderRadius: 12,
                   }}
                   open={openAnother}
+                  onOpen={onAnotherOpen}
                   setOpen={setOpenAnother}
                   items={Type.types.map((item,index) => ({
                     value: index,

@@ -90,13 +90,14 @@ export default function MainPage({navigation}) {
                   placeholder="Paikkakunta"
                   listMode="MODAL"
                   //aukeaa modalina koska en saanut scrollaamaan. kaikki vaihtoehto uupuu
-                  dropDownDirection="TOP"
+                  dropDownDirection="DOWN"
                   dropDownContainerStyle={{
                     backgroundColor: "#dfdfdf",
                     borderColor: '#25db55',
                     borderRadius: 12,
                   }}
                   open={open}
+                  onOpen={onOpen}
                   setOpen={setOpen}
                   items={Object.keys(regions).map((item,index) => ({
                     value: index,
@@ -109,7 +110,6 @@ export default function MainPage({navigation}) {
                   style={DropdownStyles.dropDawn}        
                   placeholder="Tyyppi"
                   listMode="SCROLLVIEW"
-                  //aukeaa modalina koska en saanut scrollaamaan. kaikki vaihtoehto uupuu
                   dropDownDirection="DOWN"
                   dropDownContainerStyle={{
                     backgroundColor: "#dfdfdf",
@@ -117,6 +117,7 @@ export default function MainPage({navigation}) {
                     borderRadius: 12,
                   }}
                   open={openAnother}
+                  onOpen={onAnotherOpen}
                   setOpen={setOpenAnother}
                   items={Type.types.map((item,index) => ({
                     value: index,
@@ -135,7 +136,7 @@ export default function MainPage({navigation}) {
               <View style={Styles.adContainer} key={item.adid}>
                   <Image 
                   style ={Styles.image}
-                  source={{ uri: item.image }}         
+                  source={ item.image && item.image != '' ? { uri: item.image } : null }        
                   />
                 <View style={Styles.descriptionContainer1}>
                   <View style={Styles.descriptionContainer2}>

@@ -99,9 +99,10 @@ export default function MainPage({navigation}) {
                   open={open}
                   onOpen={onOpen}
                   setOpen={setOpen}
+
                   items={Object.keys(regions).map((item,index) => ({
                     value: index,
-                    label: item
+                    label: item, 
                   }))}
                 />                
               </View>
@@ -112,13 +113,14 @@ export default function MainPage({navigation}) {
                   listMode="SCROLLVIEW"
                   dropDownDirection="DOWN"
                   dropDownContainerStyle={{
-                    backgroundColor: "#dfdfdf",
+                    backgroundColor: "white",
                     borderColor: '#25db55',
                     borderRadius: 12,
                   }}
                   open={openAnother}
                   onOpen={onAnotherOpen}
                   setOpen={setOpenAnother}
+
                   items={Type.types.map((item,index) => ({
                     value: index,
                     label: item

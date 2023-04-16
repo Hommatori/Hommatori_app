@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {Text, TextInput, View, ScrollView, Image } from 'react-native';
+import {Text, TextInput, View, ScrollView, Image, Pressable } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
 /* import {Image} from 'expo-image'; */
 import Styles from '../Styles/Styles';
+import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
@@ -163,9 +164,12 @@ export default function MainPage({navigation}) {
                 </View>  
               </View>
             ))
+            
           }
         </ScrollView>  
-        
+          <Pressable style={ButtonStyles.button}>
+            <Text style={ButtonStyles.buttonText}>Seuraavat</Text>
+          </Pressable>
       </View>     
         <NavBar navigation={navigation}></NavBar>
     </View>

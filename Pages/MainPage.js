@@ -30,10 +30,13 @@ export default function MainPage({navigation}) {
       }, []); 
 
     const getData = async () => {
+      try{
       const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&offset='+offset+'&query='+searchText+'')
       setAd(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
-      }
+      } catch (error){
+        console.log("getData error")
+      }}
  
     //tässä lisätään offsettia jotta saadaan seuraava sivu
     const nextAds = async () => {
@@ -41,6 +44,7 @@ export default function MainPage({navigation}) {
       setOffset2(offset2+10)
       setOffset3(offset3+10)
       getData();
+      
     }
     // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
     const previousAds = async () => {

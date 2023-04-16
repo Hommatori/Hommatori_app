@@ -19,16 +19,26 @@ export default StyleSheet.create({
           },
           nextContainer: {
             flexDirection: 'row', 
-            justifyContent: 'space-between'
+            justifyContent: 'space-between',
+            marginTop: 10,
           },
           buttonSearch:{
             alignItems: 'center',
-            marginTop: 10,
+         
             paddingVertical: 12,
             borderRadius: 5,
             elevation: 10,
             backgroundColor: '#25db55',
             width: 100
-          }
+          },
+          infoText: {
+            fontSize: 16,
+            lineHeight: 21,
+            fontWeight: 'bold',
+            letterSpacing: 0.25,
+          },
+          infoContainer: {    
+            justifyContent: 'center',
+          },
 
   });

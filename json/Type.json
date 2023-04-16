@@ -1,7 +1,6 @@
-    {
-        "types": [
-            "kaikki Ilmoitukset",
-            "Työnhakijat",
-            "Työtarjoukset"
-        ]
-     }
+    
+        
+           [ "all", "jobseeker", "joboffer"]
+             
+        
+    

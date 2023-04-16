@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {Text, TextInput, View, ScrollView, Image } from 'react-native';
+import {Text, TextInput, View, ScrollView, Image, Pressable } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
 /* import {Image} from 'expo-image'; */
 import Styles from '../Styles/Styles';
+import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
@@ -39,13 +40,18 @@ export default function MainPage({navigation}) {
       // tämä hakee databasesta ilmoitukset.
     useEffect(() => {
     const getData = async () => {
-    const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/')
-    setAd(results.data);
-    setFilteredAd(results.data);
+    //const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/')
+    const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type=all&region=all&order=&offset=&query=')
+    //setAd(results.data);
+    //console.log(results.data);
+   // setFilteredAd(Object.values(ad.data));
+   setAd(Object.values(results.data.data))
+    
     }
     getData();
+   
   }, []);    
-
+  
     // hakee ilmoitusten otsikoista vastaavuuksia paikallisesti
     const executeSearch = (search) => {
       const searchArray = ad.filter((item) => item.header.includes(search));
@@ -60,8 +66,11 @@ export default function MainPage({navigation}) {
       setOpen(false);
     }, []);
 
-    //DropDownPicker.setListMode("SCROLLVIEW");
+    //DropDownPicker.setListMode("SCROLLVIEW");  
 
+   // console.log(ad)
+
+  
 
   return (
 
@@ -99,9 +108,10 @@ export default function MainPage({navigation}) {
                   open={open}
                   onOpen={onOpen}
                   setOpen={setOpen}
+
                   items={Object.keys(regions).map((item,index) => ({
                     value: index,
-                    label: item
+                    label: item, 
                   }))}
                 />                
               </View>
@@ -112,13 +122,14 @@ export default function MainPage({navigation}) {
                   listMode="SCROLLVIEW"
                   dropDownDirection="DOWN"
                   dropDownContainerStyle={{
-                    backgroundColor: "#dfdfdf",
+                    backgroundColor: "white",
                     borderColor: '#25db55',
                     borderRadius: 12,
                   }}
                   open={openAnother}
                   onOpen={onAnotherOpen}
                   setOpen={setOpenAnother}
+
                   items={Type.types.map((item,index) => ({
                     value: index,
                     label: item
@@ -130,20 +141,20 @@ export default function MainPage({navigation}) {
           </View>
         </View>
         
-        <ScrollView >
+         <ScrollView >
           {
-            filteredAd.map((item) => (
-              <View style={Styles.adContainer} key={item.adid}>
+            Object.values(ad).map((item, index) =>(
+                <View style={Styles.adContainer} key={index}>
                   <Image 
                   style ={Styles.image}
                   source={ item.image && item.image != '' ? { uri: item.image } : null }        
-                  />
+                  /> 
                 <View style={Styles.descriptionContainer1}>
                   <View style={Styles.descriptionContainer2}>
                     <View style={Styles.descriptionContainer3}>   
-                      <Text style={{fontSize:15, fontWeight: 'bold', }}>{item.header} </Text>
-                      <Text style={{fontSize: 15,fontWeight: 'bold'}}>Hinta {item.price}€</Text>
-                      <Text style={Styles.descriptionText}>{item.location}</Text>    
+                      <Text style={Styles.textStyle}>{item.header} </Text>
+                      <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
+                      <Text style={Styles.textStyle}>{item.region}</Text> 
                      
                     </View>
                   </View>
@@ -153,9 +164,12 @@ export default function MainPage({navigation}) {
                 </View>  
               </View>
             ))
+            
           }
-        </ScrollView> 
-        
+        </ScrollView>  
+          <Pressable style={ButtonStyles.button}>
+            <Text style={ButtonStyles.buttonText}>Seuraavat</Text>
+          </Pressable>
       </View>     
         <NavBar navigation={navigation}></NavBar>
     </View>

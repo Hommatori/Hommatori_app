@@ -61,5 +61,9 @@ export default StyleSheet.create({
             backgroundColor: '#25db55',
             borderRadius: 15,
           },
+          textStyle: {
+            fontSize: 15,
+            fontWeight: 'bold',
+          },
 
   });

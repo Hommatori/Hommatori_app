@@ -69,6 +69,8 @@ export default function Announce({navigation, }) {
                     value: index,
                     label: item
                   }))}
+                  value={region}
+                  setValue={setRegion}
                 />                
               </View>
 

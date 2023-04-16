@@ -17,34 +17,37 @@ export default function MainPage({navigation}) {
     const [openAnother, setOpenAnother] = useState(false);
     const [ad, setAd] = useState([]);
     const [offset, setOffset] = useState(0);
-    const [offset2, setOffset2] = useState(10);
+    const [offset2, setOffset2] = useState(1);
+    const [offset3, setOffset3] = useState(10);
     const [total_rows, setTota_rows] = useState(0)
     const [region, setRegion] = useState('all');
     const [type, setType] = useState('all');
     const [types, setTypes] = useState([]);
-
+    const [searchText, setSearchText] = useState("");
       // tämä hakee databasesta ilmoitukset.
       useEffect(() => {
         getData();    
       }, []); 
 
     const getData = async () => {
-      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&offset='+offset+'&query=')
+      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&offset='+offset+'&query='+searchText+'')
       setAd(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       }
-
+ 
     //tässä lisätään offsettia jotta saadaan seuraava sivu
-    const nextAds = () => {
+    const nextAds = async () => {
       setOffset(offset+1)
       setOffset2(offset2+10)
+      setOffset3(offset3+10)
       getData();
     }
     // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
-    const previousAds = () => {
+    const previousAds = async () => {
       if (offset > 0) {
         setOffset(offset-1)
         setOffset2(offset2-10)
+        setOffset3(offset3-10)
       }
       getData();
     }
@@ -57,11 +60,6 @@ export default function MainPage({navigation}) {
       setOpen(false);
     }, []);
 
-    //console.log(type)
-
-
-    console.log(type)
-
   return (
 
     
@@ -73,14 +71,19 @@ export default function MainPage({navigation}) {
    
         <View style={Styles.searchBoxContainer1}>
           <View style={Styles.searchBoxContainer2}>    
-            <View>
+            <View style={Styles.searchBoxContainer3}>
               <TextInput 
               style={Styles.textInputContainer1}
               placeholder="Syötä hakusana"
-             // onChangeText={(text => setSearch(text))}
+              onChangeText={(text => setSearchText(text))}
               returnKeyType='search'
              // onSubmitEditing={() => executeSearch(search) }
               />       
+              <Pressable style={ButtonStyles.buttonSearch}
+              onPress={() => getData()}
+              >
+              <Text style={ButtonStyles.buttonText}>Hae</Text>
+            </Pressable>
             </View>
             <View style={Styles.searchButtonContainer}>
               <View style={DropdownStyles.dropDawnList}>
@@ -106,7 +109,6 @@ export default function MainPage({navigation}) {
                   value={region}
                   setValue={setRegion}
                 />
-
               </View>
               <View style={DropdownStyles.dropDawnList}>
                 <DropDownPicker
@@ -122,16 +124,14 @@ export default function MainPage({navigation}) {
                   open={openAnother}
                   onOpen={onAnotherOpen}
                   setOpen={setOpenAnother}
-                  items={Type.types.map((item,index) => ({
+                  items={Type.map((item,index) => ({
                     value: item,
                     label: item
-                  }))}
+                  }))} 
                   value={type}
                   setValue={setType}
                   setItems={setTypes}
-
-                  
-                />   
+                /> 
                 </View>
             </View>
           </View>
@@ -148,7 +148,7 @@ export default function MainPage({navigation}) {
                 <View style={Styles.descriptionContainer1}>
                   <View style={Styles.descriptionContainer2}>
                     <View style={Styles.descriptionContainer3}>   
-                      <Text style={Styles.textStyle}>{item.adid}--{item.header} </Text>
+                      <Text style={Styles.textStyle}>{item.header} </Text>
                       <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
                       <Text style={Styles.textStyle}>{item.region}</Text> 
                      
@@ -169,7 +169,9 @@ export default function MainPage({navigation}) {
                 >
               <Text style={ButtonStyles.buttonText}>Takaisin</Text>
             </Pressable>
-              <Text style={ButtonStyles.buttonText}>Sivu {offset+1} ilmoituksia {offset2} / {total_rows}</Text>
+              <View style={ButtonStyles.infoContainer}>
+               <Text style={ButtonStyles.infoText}>Sivu{offset+1}    {offset2}-{offset3}/{total_rows}</Text>
+              </View>
             <Pressable style={ButtonStyles.buttonSearch}
               onPress={() => nextAds()}
               >

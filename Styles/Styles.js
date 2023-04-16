@@ -21,11 +21,18 @@ export default StyleSheet.create({
             elevation: 10,
       
           },
-          textInputContainer1: {
-            backgroundColor: '#FFFFFF',
+          searchBoxContainer3: {  
+            flexDirection: 'row',
+            justifyContent: 'center',
             margin: 10,
+
+          },
+          textInputContainer1: {
+            flex: 1,
+            backgroundColor: '#FFFFFF',
             borderRadius: 12,   
             padding:5,       
+            marginRight: 10,
           },
           searchButtonContainer:{  
             flexDirection: 'row',

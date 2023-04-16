@@ -21,21 +21,18 @@ export default function MainPage({navigation}) {
     const [total_rows, setTota_rows] = useState(0)
     const [region, setRegion] = useState('all');
     const [type, setType] = useState('all');
+    const [types, setTypes] = useState([]);
 
       // tämä hakee databasesta ilmoitukset.
       useEffect(() => {
         getData();    
       }, []); 
 
-    
-
     const getData = async () => {
-      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type=all&region='+region+'&order=&offset='+offset+'&query=')
+      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&offset='+offset+'&query=')
       setAd(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       }
-
-
 
     //tässä lisätään offsettia jotta saadaan seuraava sivu
     const nextAds = () => {
@@ -52,15 +49,6 @@ export default function MainPage({navigation}) {
       getData();
     }
 
-    //console.log('region',region)
-    //console.log (ad)
-    // hakee ilmoitusten otsikoista vastaavuuksia paikallisesti (ei käytössä enää)
-    /* const executeSearch = (search) => {
-      const searchArray = ad.filter((item) => item.header.includes(search));
-      setFilteredAd(searchArray);
-      //console.log(items);
-    } */
-
     //tämää aukoo ja sulkee vain toisen pudotuslistan kerrallaan.
     const onOpen = useCallback(() => {
       setOpenAnother(false);
@@ -69,7 +57,10 @@ export default function MainPage({navigation}) {
       setOpen(false);
     }, []);
 
-   
+    //console.log(type)
+
+
+    console.log(type)
 
   return (
 
@@ -93,6 +84,7 @@ export default function MainPage({navigation}) {
             </View>
             <View style={Styles.searchButtonContainer}>
               <View style={DropdownStyles.dropDawnList}>
+                
               <DropDownPicker
                   style={DropdownStyles.dropDawn}        
                   placeholder="Maakunta"
@@ -108,13 +100,13 @@ export default function MainPage({navigation}) {
                   onOpen={onOpen}
                   setOpen={setOpen}
                   items={Object.keys(regions).map((item,index) => ({
-                    value: index,
+                    value: item,
                     label: item, 
                   }))}
                   value={region}
                   setValue={setRegion}
+                />
 
-                />                
               </View>
               <View style={DropdownStyles.dropDawnList}>
                 <DropDownPicker
@@ -130,13 +122,13 @@ export default function MainPage({navigation}) {
                   open={openAnother}
                   onOpen={onAnotherOpen}
                   setOpen={setOpenAnother}
-
                   items={Type.types.map((item,index) => ({
-                    value: index,
+                    value: item,
                     label: item
                   }))}
                   value={type}
                   setValue={setType}
+                  setItems={setTypes}
 
                   
                 />   

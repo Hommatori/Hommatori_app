@@ -1,64 +1,67 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {Text, TextInput, View, ScrollView, Image, Pressable } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
-/* import {Image} from 'expo-image'; */
 import Styles from '../Styles/Styles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
-//import ad from '../json/Testarray.json';  // json taulukko testiä varten
-//import testImage from '../vasarat.jpg'; 
 import DropDownPicker from 'react-native-dropdown-picker';
-import DATA from '../json/regions.json'
 import DropdownStyles from '../Styles/DropdownStyles';
 import regions from '../json/regions';
 import Type from '../json/Type';
 
 export default function MainPage({navigation}) {
 
-    const [filteredAd, setFilteredAd] = useState([]);
-    const [search, setSearch] = useState('');
-
     const [open, setOpen] = useState(false);
-    const [region, setRegion] = useState(null);
-
     const [openAnother, setOpenAnother] = useState(false);
-    const [type, setType] = useState(null);
-    const [types, setTypes] = useState([]);
-
-    const [testi, setTesti] = useState([]);
-    
-
-    // tarvii testitaulukon kanssa
-/*     useEffect(() => {
-      setFilteredAd(ad)
-    }) */
-
-  const [ad, setAd] = useState([]);
+    const [ad, setAd] = useState([]);
+    const [offset, setOffset] = useState(0);
+    const [offset2, setOffset2] = useState(10);
+    const [total_rows, setTota_rows] = useState(0)
+    const [region, setRegion] = useState('all');
+    const [type, setType] = useState('all');
 
       // tämä hakee databasesta ilmoitukset.
-    useEffect(() => {
-    const getData = async () => {
-    //const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/')
-    const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type=all&region=all&order=&offset=&query=')
-    //setAd(results.data);
-    //console.log(results.data);
-   // setFilteredAd(Object.values(ad.data));
-   setAd(Object.values(results.data.data))
+      useEffect(() => {
+        getData();    
+      }, []); 
+
     
+
+    const getData = async () => {
+      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type=all&region='+region+'&order=&offset='+offset+'&query=')
+      setAd(Object.values(results.data.data))
+      setTota_rows(results.data.total_rows)
+      }
+
+
+
+    //tässä lisätään offsettia jotta saadaan seuraava sivu
+    const nextAds = () => {
+      setOffset(offset+1)
+      setOffset2(offset2+10)
+      getData();
     }
-    getData();
-   
-  }, []);    
-  
-    // hakee ilmoitusten otsikoista vastaavuuksia paikallisesti
-    const executeSearch = (search) => {
+    // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
+    const previousAds = () => {
+      if (offset > 0) {
+        setOffset(offset-1)
+        setOffset2(offset2-10)
+      }
+      getData();
+    }
+
+    //console.log('region',region)
+    //console.log (ad)
+    // hakee ilmoitusten otsikoista vastaavuuksia paikallisesti (ei käytössä enää)
+    /* const executeSearch = (search) => {
       const searchArray = ad.filter((item) => item.header.includes(search));
       setFilteredAd(searchArray);
       //console.log(items);
-    }
+    } */
 
+    //tämää aukoo ja sulkee vain toisen pudotuslistan kerrallaan.
     const onOpen = useCallback(() => {
       setOpenAnother(false);
     }, []);
@@ -66,11 +69,7 @@ export default function MainPage({navigation}) {
       setOpen(false);
     }, []);
 
-    //DropDownPicker.setListMode("SCROLLVIEW");  
-
-   // console.log(ad)
-
-  
+   
 
   return (
 
@@ -87,19 +86,19 @@ export default function MainPage({navigation}) {
               <TextInput 
               style={Styles.textInputContainer1}
               placeholder="Syötä hakusana"
-              onChangeText={(text => setSearch(text))}
+             // onChangeText={(text => setSearch(text))}
               returnKeyType='search'
-              onSubmitEditing={() => executeSearch(search) }
+             // onSubmitEditing={() => executeSearch(search) }
               />       
             </View>
             <View style={Styles.searchButtonContainer}>
               <View style={DropdownStyles.dropDawnList}>
               <DropDownPicker
                   style={DropdownStyles.dropDawn}        
-                  placeholder="Paikkakunta"
+                  placeholder="Maakunta"
                   listMode="MODAL"
-                  //aukeaa modalina koska en saanut scrollaamaan. kaikki vaihtoehto uupuu
-                  dropDownDirection="DOWN"
+                  searchable={true}
+                  dropDownDirection="AUTO"
                   dropDownContainerStyle={{
                     backgroundColor: "#dfdfdf",
                     borderColor: '#25db55',
@@ -108,11 +107,13 @@ export default function MainPage({navigation}) {
                   open={open}
                   onOpen={onOpen}
                   setOpen={setOpen}
-
                   items={Object.keys(regions).map((item,index) => ({
                     value: index,
                     label: item, 
                   }))}
+                  value={region}
+                  setValue={setRegion}
+
                 />                
               </View>
               <View style={DropdownStyles.dropDawnList}>
@@ -134,6 +135,9 @@ export default function MainPage({navigation}) {
                     value: index,
                     label: item
                   }))}
+                  value={type}
+                  setValue={setType}
+
                   
                 />   
                 </View>
@@ -152,7 +156,7 @@ export default function MainPage({navigation}) {
                 <View style={Styles.descriptionContainer1}>
                   <View style={Styles.descriptionContainer2}>
                     <View style={Styles.descriptionContainer3}>   
-                      <Text style={Styles.textStyle}>{item.header} </Text>
+                      <Text style={Styles.textStyle}>{item.adid}--{item.header} </Text>
                       <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
                       <Text style={Styles.textStyle}>{item.region}</Text> 
                      
@@ -166,10 +170,20 @@ export default function MainPage({navigation}) {
             ))
             
           }
-        </ScrollView>  
-          <Pressable style={ButtonStyles.button}>
-            <Text style={ButtonStyles.buttonText}>Seuraavat</Text>
-          </Pressable>
+        </ScrollView>
+          <View style={ButtonStyles.nextContainer}>
+            <Pressable style={ButtonStyles.buttonSearch}
+                onPress={() => previousAds()}
+                >
+              <Text style={ButtonStyles.buttonText}>Takaisin</Text>
+            </Pressable>
+              <Text style={ButtonStyles.buttonText}>Sivu {offset+1} ilmoituksia {offset2} / {total_rows}</Text>
+            <Pressable style={ButtonStyles.buttonSearch}
+              onPress={() => nextAds()}
+              >
+              <Text style={ButtonStyles.buttonText}>Seuraava</Text>
+            </Pressable>
+          </View>  
       </View>     
         <NavBar navigation={navigation}></NavBar>
     </View>

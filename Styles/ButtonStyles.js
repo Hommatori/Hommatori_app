@@ -17,4 +17,18 @@ export default StyleSheet.create({
             fontWeight: 'bold',
             letterSpacing: 0.25,
           },
+          nextContainer: {
+            flexDirection: 'row', 
+            justifyContent: 'space-between'
+          },
+          buttonSearch:{
+            alignItems: 'center',
+            marginTop: 10,
+            paddingVertical: 12,
+            borderRadius: 5,
+            elevation: 10,
+            backgroundColor: '#25db55',
+            width: 100
+          }
+
   });

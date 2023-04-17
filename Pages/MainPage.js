@@ -24,36 +24,42 @@ export default function MainPage({navigation}) {
     const [type, setType] = useState('all');
     const [types, setTypes] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const [page, setPage] = useState(0);
       // tämä hakee databasesta ilmoitukset.
       useEffect(() => {
-        getData();    
-      }, []); 
+        getData(); 
+      }, [offset]); 
 
     const getData = async () => {
       try{
+       // console.log('region=',region, 'type=',type, 'searchtext=',searchText)
       const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&offset='+offset+'&query='+searchText+'')
       setAd(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
+
       } catch (error){
         console.log("getData error")
       }}
+
+      const search = async () => {
+        setOffset(0)
+        getData();
+      }
  
     //tässä lisätään offsettia jotta saadaan seuraava sivu
     const nextAds = async () => {
-      setOffset(offset+1)
-      setOffset2(offset2+10)
-      setOffset3(offset3+10)
-      getData();
-      
+      const pages = Math.ceil(total_rows/10)
+        if (offset+1 < pages) {
+          setOffset(offset+1);
+          getData();
+        }
     }
     // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
     const previousAds = async () => {
-      if (offset > 0) {
-        setOffset(offset-1)
-        setOffset2(offset2-10)
-        setOffset3(offset3-10)
+      if (offset > 0){
+        setOffset(offset-1);
+        getData();
       }
-      getData();
     }
 
     //tämää aukoo ja sulkee vain toisen pudotuslistan kerrallaan.
@@ -84,7 +90,7 @@ export default function MainPage({navigation}) {
              // onSubmitEditing={() => executeSearch(search) }
               />       
               <Pressable style={ButtonStyles.buttonSearch}
-              onPress={() => getData()}
+              onPress={() => search()}
               >
               <Text style={ButtonStyles.buttonText}>Hae</Text>
             </Pressable>
@@ -174,7 +180,7 @@ export default function MainPage({navigation}) {
               <Text style={ButtonStyles.buttonText}>Takaisin</Text>
             </Pressable>
               <View style={ButtonStyles.infoContainer}>
-               <Text style={ButtonStyles.infoText}>Sivu{offset+1}    {offset2}-{offset3}/{total_rows}</Text>
+               <Text style={ButtonStyles.infoText}>Sivu {offset+1}/{Math.ceil(total_rows/10)}   osumia {total_rows}</Text>
               </View>
             <Pressable style={ButtonStyles.buttonSearch}
               onPress={() => nextAds()}

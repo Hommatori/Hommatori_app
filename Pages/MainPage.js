@@ -16,48 +16,47 @@ export default function MainPage({navigation}) {
     const [open, setOpen] = useState(false);
     const [openAnother, setOpenAnother] = useState(false);
     const [ad, setAd] = useState([]);
-    const [offset, setOffset] = useState(0);
-    const [offset2, setOffset2] = useState(1);
-    const [offset3, setOffset3] = useState(10);
+    const [page, setPage] = useState(1);
     const [total_rows, setTota_rows] = useState(0)
     const [region, setRegion] = useState('all');
     const [type, setType] = useState('all');
     const [types, setTypes] = useState([]);
     const [searchText, setSearchText] = useState("");
-    const [page, setPage] = useState(0);
+
       // tämä hakee databasesta ilmoitukset.
       useEffect(() => {
         getData(); 
-      }, [offset]); 
+      }, [page]); 
 
-    const getData = async () => {
+     const getData = async () => {
       try{
-       // console.log('region=',region, 'type=',type, 'searchtext=',searchText)
-      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&offset='+offset+'&query='+searchText+'')
+      //console.log('region=',region, 'type=',type, 'searchtext=',searchText, 'page=',page)
+      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&page='+page+'&query='+searchText+'')
       setAd(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
 
       } catch (error){
         console.log("getData error")
-      }}
+      }} 
+
 
       const search = async () => {
-        setOffset(0)
+        setPage(1)
         getData();
       }
  
     //tässä lisätään offsettia jotta saadaan seuraava sivu
     const nextAds = async () => {
       const pages = Math.ceil(total_rows/10)
-        if (offset+1 < pages) {
-          setOffset(offset+1);
+        if (page < pages) {
+          setPage(page+1);
           getData();
         }
     }
     // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
     const previousAds = async () => {
-      if (offset > 0){
-        setOffset(offset-1);
+      if (page > 1){
+        setPage(page-1);
         getData();
       }
     }
@@ -180,7 +179,7 @@ export default function MainPage({navigation}) {
               <Text style={ButtonStyles.buttonText}>Takaisin</Text>
             </Pressable>
               <View style={ButtonStyles.infoContainer}>
-               <Text style={ButtonStyles.infoText}>Sivu {offset+1}/{Math.ceil(total_rows/10)}   osumia {total_rows}</Text>
+               <Text style={ButtonStyles.infoText}>Sivu {page}/{Math.ceil(total_rows/10)}   osumia {total_rows}</Text>
               </View>
             <Pressable style={ButtonStyles.buttonSearch}
               onPress={() => nextAds()}

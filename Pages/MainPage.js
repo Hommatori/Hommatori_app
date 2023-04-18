@@ -18,8 +18,8 @@ export default function MainPage({navigation}) {
     const [ad, setAd] = useState([]);
     const [page, setPage] = useState(1);
     const [total_rows, setTota_rows] = useState(0)
-    const [region, setRegion] = useState('all');
-    const [type, setType] = useState('all');
+    const [region, setRegion] = useState('');
+    const [type, setType] = useState('');
     const [types, setTypes] = useState([]);
     const [searchText, setSearchText] = useState("");
 

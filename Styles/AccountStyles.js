@@ -9,6 +9,7 @@ export default StyleSheet.create({
         },
           property: {
             flex: 1,
+            justifyContent: 'center',
             margin: 10,           
         },
         headerText: {
@@ -23,6 +24,7 @@ export default StyleSheet.create({
             backgroundColor: '#dadee6',
             padding: 7,
             borderRadius: 10,
+          }
 
-          },
+
   });

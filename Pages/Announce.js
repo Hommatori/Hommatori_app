@@ -71,15 +71,16 @@ export default function Announce({navigation, }) {
                   }))}
                   value={region}
                   setValue={setRegion}
-                />                
+                />         
+                       
               </View>
 
               <Pressable style={ButtonStyles.button}>
-                <Text style={ButtonStyles.buttonText}>Tallenna</Text>
+                <Text style={ButtonStyles.buttonText}>Lisää kuva</Text>
               </Pressable>
 
               <Pressable style={ButtonStyles.button}>
-                <Text style={ButtonStyles.buttonText}>Lisää Kuva</Text>
+                <Text style={ButtonStyles.buttonText}>Tallenna</Text>
               </Pressable>
 
         </View> 

@@ -149,25 +149,28 @@ export default function MainPage({navigation}) {
          <ScrollView >
           {
             Object.values(ad).map((item, index) =>(
-                <View style={Styles.adContainer} key={index}>
-                  <Image 
-                  style ={Styles.image}
-                  source={ item.image && item.image != '' ? { uri: item.image } : null }        
-                  /> 
-                <View style={Styles.descriptionContainer1}>
-                  <View style={Styles.descriptionContainer2}>
-                    <View style={Styles.descriptionContainer3}>   
-                      <Text style={Styles.textStyle}>{item.header} </Text>
-                      <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
-                      <Text style={Styles.textStyle}>{item.region}</Text> 
-                     
+              <Pressable key={index} onPress={() => nextAds()}> {/* tähän toiminto joka vie tettyyn ilmoon */}
+                <View style={Styles.adContainer}>
+                    <Image 
+                    style ={Styles.image}
+                    source={ item.image && item.image != '' ? { uri: item.image } : null }        
+                    /> 
+                  <View style={Styles.descriptionContainer1}>
+                    <View style={Styles.descriptionContainer2}>
+                      <View style={Styles.descriptionContainer3}>   
+                        <Text style={Styles.textStyle}>{item.header} </Text>
+                        <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
+                        <Text style={Styles.textStyle}>{item.region}</Text> 
+                      
+                      </View>
                     </View>
-                  </View>
-                    <View style={Styles.descriptionContainer3}>
-                      <Text>{item.description}</Text>
-                  </View>
-                </View>  
-              </View>
+                      <View style={Styles.descriptionContainer3}>
+                        <Text>{item.description}</Text>
+                    </View>
+                  </View>  
+               
+                </View>
+              </Pressable>
             ))
             
           }

@@ -27,5 +27,6 @@ export default StyleSheet.create({
             borderRadius: 10,
             padding: 7,
           },
+          
    
   });

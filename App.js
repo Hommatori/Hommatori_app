@@ -7,6 +7,7 @@ import Announce from './Pages/Announce';
 import NavBar from './components/NavBar';
 import Messages from './Pages/Messages';
 import Account from './Pages/Account';
+import AdAccount from './Pages/AdAccount';
 
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='MainPage'
+        initialRouteName='Announce'
           screenOptions={{
             headerShown: false,
             headerStyle: {
@@ -51,6 +52,11 @@ export default function App() {
             name="Account" 
             component={Account}
             options={{ headerTitle: 'Account'}}
+            />
+            <Stack.Screen 
+            name="AdAccount" 
+            component={AdAccount}
+            options={{ headerTitle: 'AdAccount'}}
             />
       </Stack.Navigator>
     </NavigationContainer>

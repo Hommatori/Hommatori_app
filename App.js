@@ -8,6 +8,7 @@ import NavBar from './components/NavBar';
 import Messages from './Pages/Messages';
 import Account from './Pages/Account';
 import AdAccount from './Pages/AdAccount';
+import ShowAd from './Pages/ShowAd';
 
 
 export default function App() {
@@ -57,6 +58,11 @@ export default function App() {
             name="AdAccount" 
             component={AdAccount}
             options={{ headerTitle: 'AdAccount'}}
+            />
+            <Stack.Screen 
+            name="ShowAd" 
+            component={ShowAd}
+            options={{ headerTitle: 'ShowAd'}}
             />
       </Stack.Navigator>
     </NavigationContainer>

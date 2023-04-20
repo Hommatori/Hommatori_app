@@ -16,24 +16,28 @@ export default function MainPage({navigation}) {
     const [open, setOpen] = useState(false);
     const [openAnother, setOpenAnother] = useState(false);
     const [ad, setAd] = useState([]);
+    const [ads, setAds] = useState([]);
     const [page, setPage] = useState(1);
     const [total_rows, setTota_rows] = useState(0)
     const [region, setRegion] = useState('');
     const [type, setType] = useState('');
     const [types, setTypes] = useState([]);
     const [searchText, setSearchText] = useState("");
+    const [id, setId] = useState('')
 
       // tämä hakee databasesta ilmoitukset.
       useEffect(() => {
         getData(); 
       }, [page]); 
 
+
      const getData = async () => {
       try{
       //console.log('region=',region, 'type=',type, 'searchtext=',searchText, 'page=',page)
       const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&page='+page+'&query='+searchText+'')
-      setAd(Object.values(results.data.data))
+      setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
+      //console.log(ad)
 
       } catch (error){
         console.log("getData error")
@@ -68,6 +72,11 @@ export default function MainPage({navigation}) {
     const onAnotherOpen = useCallback(() => {
       setOpen(false);
     }, []);
+
+    const handleButtonAdClicket = (adid) => {    
+      navigation.navigate('ShowAd',{adid}) 
+    }
+   // console.log (ad)
 
   return (
 
@@ -148,29 +157,28 @@ export default function MainPage({navigation}) {
         
          <ScrollView >
           {
-            Object.values(ad).map((item, index) =>(
-              <Pressable key={index} onPress={() => nextAds()}> {/* tähän toiminto joka vie tettyyn ilmoon */}
-                <View style={Styles.adContainer}>
+            Object.values(ads).map((item, index) =>(
+                <View style={Styles.adContainer} key={index}>
+                  <Pressable onPress={(() => handleButtonAdClicket(item.adid))}>
                     <Image 
                     style ={Styles.image}
                     source={ item.image && item.image != '' ? { uri: item.image } : null }        
                     /> 
-                  <View style={Styles.descriptionContainer1}>
-                    <View style={Styles.descriptionContainer2}>
-                      <View style={Styles.descriptionContainer3}>   
-                        <Text style={Styles.textStyle}>{item.header} </Text>
-                        <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
-                        <Text style={Styles.textStyle}>{item.region}</Text> 
-                      
-                      </View>
+                  </Pressable>
+                <View style={Styles.descriptionContainer1}>
+                  <View style={Styles.descriptionContainer2}>
+                    <View style={Styles.descriptionContainer3}>   
+                      <Text style={Styles.textStyle}>{item.header} </Text>
+                      <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
+                      <Text style={Styles.textStyle}>{item.region}</Text> 
+                     
                     </View>
-                      <View style={Styles.descriptionContainer3}>
-                        <Text>{item.description}</Text>
-                    </View>
-                  </View>  
-               
-                </View>
-              </Pressable>
+                  </View>
+                    <View style={Styles.descriptionContainer3}>
+                      <Text>{item.description}</Text>
+                  </View>
+                </View>  
+              </View>
             ))
             
           }

@@ -11,17 +11,27 @@ export default StyleSheet.create({
             flex: 1,
             margin: 10,
         },
-          textInputContainer1: {
-            backgroundColor: '#dadee6',
-            padding: 7,
-            borderRadius: 10,
-
-          },
-          textInputContainer2: {
-            flex: 1,
-            backgroundColor: '#dadee6',
-            borderRadius: 10,
-            padding: 7,
-          },
+        property2: {
+          alignItems: 'center',
+          marginBottom: 10,
+        },
+        messageContainer: {
+          flex: 1,
+          flexDirection: 'column',
+          borderColor: '#25db55',
+          borderWidth: 3,
+          borderRadius: 15,
+          marginBottom: 3,
+          zIndex: 10,
+        },
+        headerText: {
+          fontSize: 30,
+          fontWeight: 'bold',
+        },
+        textStyle: {
+          fontSize: 15,
+          fontWeight: 'bold',
+          padding: 5,
+        },
    
   });

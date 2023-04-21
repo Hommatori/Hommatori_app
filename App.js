@@ -9,6 +9,7 @@ import Messages from './Pages/Messages';
 import Account from './Pages/Account';
 import AdAccount from './Pages/AdAccount';
 import ShowAd from './Pages/ShowAd';
+import WriteMessage from './Pages/WriteMessage';
 
 
 export default function App() {
@@ -18,7 +19,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator 
-        initialRouteName='MainPage'
+        initialRouteName='Messages'
           screenOptions={{
             headerShown: false,
             headerStyle: {
@@ -63,6 +64,11 @@ export default function App() {
             name="ShowAd" 
             component={ShowAd}
             options={{ headerTitle: 'ShowAd'}}
+            />
+            <Stack.Screen 
+            name="WriteMessage" 
+            component={WriteMessage}
+            options={{ headerTitle: 'WriteMessage'}}
             />
       </Stack.Navigator>
     </NavigationContainer>

@@ -1,36 +1,48 @@
 import React from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, ScrollView} from 'react-native';
 import MessageStyles from '../Styles/MessageStyles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import { StatusBar, hidden } from 'expo-status-bar';
+import TestMessages from '../json/TestMessages';
 
 export default function Messages({navigation}) {
 
-      // Tämä ei ole käytössä
+
     return (
     
     <View style={MessageStyles.container}>
       <StatusBar style="light" translucent={true}/>
       <Header></Header>
 
-        <View style={MessageStyles.property}>  
-            <Text>Lähetä viesti</Text>
-            <Text>...</Text>
-            <Text>Otsikko</Text>
-            <TextInput style={MessageStyles.textInputContainer1}></TextInput>
-            <Text>Kuvaus</Text>
-            <TextInput 
-              style={MessageStyles.textInputContainer2}
-              multiline={true}
-              textAlignVertical="top"
-              >
-            </TextInput>
+        <View style={MessageStyles.property}> 
+            <View style={MessageStyles.property2}>
+                <Text style={MessageStyles.headerText}>Viestit</Text>
+            </View>
+                <ScrollView >
+            {
+                Object.values(TestMessages).map((item, index) =>(
+                <View style={MessageStyles.messageContainer}>
+                    
+                    <Text style={MessageStyles.textStyle}>{item.header}</Text>
 
-            <Pressable style={ButtonStyles.button}>
-                <Text style={ButtonStyles.buttonText}>Lähetä</Text>
+                    <Text style={MessageStyles.textStyle}>{item.message}</Text>
+                </View>
+                ))
+                
+            }
+                </ScrollView>
+           
+
+
+
+            
+            <Pressable style={ButtonStyles.button}
+                onPress={() => navigation.navigate('WriteMessage')}
+                >
+                <Text style={ButtonStyles.buttonText}>Kirjoita viesti</Text>
               </Pressable>
 
         </View> 

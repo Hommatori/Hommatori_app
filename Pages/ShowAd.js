@@ -28,7 +28,7 @@ export default function ShowAd({navigation, route}) {
       setAd(results.data)
 
       } catch (error){
-        console.log("getAd error")
+        console.log("getAd error", error)
       }} 
  
 

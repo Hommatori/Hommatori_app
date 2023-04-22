@@ -10,6 +10,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DropdownStyles from '../Styles/DropdownStyles';
 import regions from '../json/regions';
 import Type from '../json/Type';
+import BASE_URL from '../json/BaseUrl';
 
 export default function MainPage({navigation}) {
 
@@ -24,23 +25,22 @@ export default function MainPage({navigation}) {
     const [types, setTypes] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [id, setId] = useState('')
-
+  
       // tämä hakee databasesta ilmoitukset.
       useEffect(() => {
         getData(); 
       }, [page]); 
-
+      
 
      const getData = async () => {
       try{
-      //console.log('region=',region, 'type=',type, 'searchtext=',searchText, 'page=',page)
-      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/withparams/get?type='+type+'&region='+region+'&order=&page='+page+'&query='+searchText+'')
+      const results = await axios.get(''+BASE_URL+'/ad/withparams/get?type='+type+'&region='+region+'&order=&page='+page+'&query='+searchText+'')
       setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       //console.log(ad)
 
       } catch (error){
-        console.log("getData error")
+        console.log("getData error ", BASE_URL)
       }} 
 
 

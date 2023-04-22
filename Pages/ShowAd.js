@@ -6,6 +6,7 @@ import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
+import BASE_URL from '../json/BaseUrl';
 
 export default function ShowAd({navigation, route}) {
 
@@ -22,11 +23,8 @@ export default function ShowAd({navigation, route}) {
       }, []); 
 
       const getData = async () => {
-      try{
-      //console.log('region=',region, 'type=',type, 'searchtext=',searchText, 'page=',page)
-      //http://hommatoriapi.azurewebsites.net/ tai http://localhost:8080/
-     
-      const results = await axios.get('http://hommatoriapi.azurewebsites.net/ad/'+route.params.adid+'')
+      try{   
+      const results = await axios.get(''+BASE_URL+'/ad/'+route.params.adid+'')
       setAd(results.data)
 
       } catch (error){

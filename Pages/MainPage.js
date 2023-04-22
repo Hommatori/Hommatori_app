@@ -40,7 +40,7 @@ export default function MainPage({navigation}) {
       //console.log(ad)
 
       } catch (error){
-        console.log("getData error ", BASE_URL)
+        console.log("getData error ", error)
       }} 
 
 

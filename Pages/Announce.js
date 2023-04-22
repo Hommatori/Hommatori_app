@@ -1,5 +1,5 @@
 import {React, useState, useEffect} from 'react';
-import {View, Text, Pressable, ScrollView} from 'react-native';
+import {View, Text, Pressable, Modal} from 'react-native';
 import AnnounceStyles from '../Styles/AnnounceStyles';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
@@ -10,21 +10,63 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DropdownStyles from '../Styles/DropdownStyles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import regions from '../json/regions.json';
+import BaseUrl from '../json/BaseUrl.json'
+import axios from 'axios';
 
 
 
 export default function Announce({navigation, }) {
 
-    const [test, setText] = useState(0)
 
     const [open, setOpen] = useState(false);
-    const [region, setRegion] = useState(null);
- //   const [regions, setRegions] = useState([]);
+    const [region, setRegion] = useState('');
+    const [type, setType] = useState('')
+    const [header, setHeader] = useState('')
+    const [description, setDescription] = useState('')
+    const [location, setLocation] = useState(0)
+    const [municipality, setMunicipality] = useState('')
+    const [price, setPrice] = useState('0')
+    const [userId, setUserId] = useState('2')  //käyttäjäid tämä syötetään vielä käsin
+    const [adid, setAdid] = useState('155') // id syötettävä vielä käsin
+    const [modalVisible, setModalVisible] = useState(false);
+
+    useEffect(() => {
+      
+    })
 
     const options = [
-      {label: 'Myyn', value: 1},
-      {label: 'Ostan', value: 2},
+      {label: 'Myyn', value: 'joboffer'},
+      {label: 'Ostan', value: 'jobseeker'},
     ] 
+
+      const newAd = async() => {     
+      try{                            
+        await axios.post(BaseUrl+'/ad', {   
+          adid: adid,
+          type: type,
+          header: header,
+          description: description,
+          location: location,
+          price: price,
+          userid: userId,
+          region: region,
+          municipality: municipality
+        })
+        console.log('newAd created successfully')
+        setModalVisible(true)
+          
+      } catch(e) {
+        console.log('newAd error', e)
+      }
+      } 
+
+      const close = () => {
+        setModalVisible(false);
+        // Force a render without state change...
+        this.forceUpdate();
+       
+      }
+
   
     return (
     
@@ -36,19 +78,46 @@ export default function Announce({navigation, }) {
             <Text>Jätä ilmoitus</Text>
             <Text>Myytkö Vai Ostatko?</Text>
               <View style={AnnounceStyles.radioButton}>
-                <RadioButton options={options} onPress={(value) => {setText(value)}} initialValue={1} />
+                <RadioButton options={options} onPress={(value) => {setType(value)}} initialValue={0} />
               </View>
             <Text>Otsikko</Text>
-            <TextInput style={AnnounceStyles.textInputContainer1}></TextInput>
+            <TextInput style={AnnounceStyles.textInputContainer1}
+              placeholder="Syötä otsikko"
+              onChangeText={(text => setHeader(text))}
+              returnKeyType='search'
+              >
+            </TextInput>
             <Text>Kuvaus</Text>
             <TextInput 
               style={AnnounceStyles.textInputContainer2}
               multiline={true}
               textAlignVertical="top"
+              placeholder="Syötä kuvaus"
+              onChangeText={(text => setDescription(text))}
+              returnKeyType='search'
               >
             </TextInput>
+            <Text>Kunta</Text>
+            <TextInput style={AnnounceStyles.textInputContainer1}
+              placeholder="Syötä kunta"
+              onChangeText={(text => setMunicipality(text))}
+              returnKeyType='search'
+            >
+            </TextInput>
+            <Text>Postinumero</Text>
+            <TextInput style={AnnounceStyles.textInputContainer1}
+              placeholder="Syötä postinumero"
+              onChangeText={(text => setLocation(text))}
+              returnKeyType='search'
+            >
+            </TextInput>
             <Text>Hinta</Text>
-            <TextInput style={AnnounceStyles.textInputContainer1}></TextInput>
+            <TextInput style={AnnounceStyles.textInputContainer1}
+              placeholder="Syötä Hinta"
+              onChangeText={(text => setPrice(text))}
+              returnKeyType='search'
+            >
+            </TextInput>
         
             <View style={DropdownStyles.dropDawnList2}>
                  <DropDownPicker
@@ -66,7 +135,7 @@ export default function Announce({navigation, }) {
                   setOpen={setOpen}
                   
                   items={Object.keys(regions).map((item,index) => ({
-                    value: index,
+                    value: item,
                     label: item
                   }))}
                   value={region}
@@ -75,14 +144,32 @@ export default function Announce({navigation, }) {
                        
               </View>
 
-              <Pressable style={ButtonStyles.button}>
+              <Pressable style={ButtonStyles.button}
+                onPress={() => setModalVisible(true)}
+              >
                 <Text style={ButtonStyles.buttonText}>Lisää kuva</Text>
               </Pressable>
 
-              <Pressable style={ButtonStyles.button}>
+              <Pressable style={ButtonStyles.button}
+                onPress={() => newAd()}
+                >
                 <Text style={ButtonStyles.buttonText}>Tallenna</Text>
               </Pressable>
-
+            
+              <Modal 
+                visible={modalVisible}
+                onRequestClose ={close}
+                >
+                  <View style={AnnounceStyles.modal}>
+                  <Text> Ilmoitus lisätty!</Text>
+                  <Pressable onPress={() => {
+                    setModalVisible(false);
+                  }}>
+                  <Text style={AnnounceStyles.close}>Takaisin</Text>
+                  </Pressable>
+                  </View>
+              </Modal>
+           
         </View> 
 
       <NavBar navigation={navigation}></NavBar>

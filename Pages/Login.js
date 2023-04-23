@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import {View, Text, Pressable, TextInput} from 'react-native';
+import {View, Text, Pressable, TextInput, AsyncStorage} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Buffer } from 'buffer';
 import NavBar from '../components/NavBar';
@@ -7,7 +7,7 @@ import Header from '../components/Header';
 import ButtonStyles from '../Styles/ButtonStyles';
 import LoginStyles from '../Styles/LoginStyles';
 import BaseUrl from '../json/BaseUrl';
-//import { CookieManager } from 'expo-cookie';
+
 
 
 
@@ -16,9 +16,9 @@ export default function Login({navigation}) {
 
 
     const login = async () => {
-        const userName = 'testi@ksag1';
+        const userName = 'testi@4ksag1';
         const password = 'Makkara1';
-        const token = Buffer.from('${userName}:$password').toString('base64');
+        const token = Buffer.from('${userName}:${password}').toString('base64');
         const response = await fetch(BaseUrl+'/login', {
             method: 'POST',
             headers: {
@@ -45,8 +45,8 @@ export default function Login({navigation}) {
             expires: new Date(Date.now() + data.sessionCookie.originalMaxAge),
         };
 
-        await CookieManager.set(sessionCookie);
-        await CookieManager.set(userCookie);
+        await AsyncStorage.set(sessionCookie);
+        await AsyncStorage.set(userCookie);
 
         console.log('Logged in');
     } else {

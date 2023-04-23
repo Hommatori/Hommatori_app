@@ -8,6 +8,7 @@ import { StatusBar, hidden } from 'expo-status-bar';
 import ButtonStyles from '../Styles/ButtonStyles';
 
 
+
 export default function Account({navigation}) {
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,7 +16,7 @@ export default function Account({navigation}) {
 
 
     //näyttää tilin tiedot ja mahdollistaa muokkauksen
-    if (online==(true)) {
+  
       return(
 
         <View style={AccountStyles.container}>
@@ -50,7 +51,7 @@ export default function Account({navigation}) {
                 <Pressable 
                   style={ButtonStyles.button}
                   onPress={() => {
-                  setOnline(false);
+                  navigation.navigate('Login')
                   }}>
                   <Text style={ButtonStyles.buttonText}>Kirjaudu ulos</Text>
                 </Pressable>
@@ -59,41 +60,5 @@ export default function Account({navigation}) {
             <NavBar navigation={navigation}></NavBar>
       </View>
   
-    )}
-
-    return (
-    
-      <View style={AccountStyles.container}>
-        <StatusBar style="light" translucent={true}/>
-          <Header></Header>
-          
-          <View style={AccountStyles.property}> 
-            <Text style={AccountStyles.headerText}>Kirjaudu sisään</Text>
-              <View>
-                <Text style={AccountStyles.itemText}>Käyttäjätunnus</Text>
-                  <TextInput style={AccountStyles.textInputContainer}></TextInput>
-                  <Text style={AccountStyles.itemText}>Salasana</Text>
-                  <TextInput style={AccountStyles.textInputContainer}></TextInput>
-                  <Pressable 
-                    style={ButtonStyles.button}
-                    onPress={() => setOnline(true)}
-                    >
-                    <Text style={ButtonStyles.buttonText}>Kirjaudu</Text>
-                  </Pressable>
-                </View>
-  
-          <Pressable 
-            style={ButtonStyles.button}
-            onPress={() => navigation.navigate('AdAccount')}
-            >
-            <Text style={ButtonStyles.buttonText}>Luo uusi tili</Text>
-          </Pressable>
-  
-        </View>   
-  
-        <NavBar navigation={navigation}></NavBar>
-  
-       </View>
-     
-      );
-  }
+    )
+  };

@@ -38,7 +38,7 @@ export default function AdAccount({navigation}) {
             </Pressable>
             <Pressable 
               style={ButtonStyles.button}
-              onPress={() => {navigation.navigate('Account')}}>
+              onPress={() => {navigation.navigate('Login')}}>
               <Text style={ButtonStyles.buttonText}>Peruuta</Text>
             </Pressable>
           </View>

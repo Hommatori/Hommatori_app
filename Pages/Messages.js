@@ -24,7 +24,7 @@ export default function Messages({navigation}) {
                 <ScrollView >
             {
                 Object.values(TestMessages).map((item, index) =>(
-                <View style={MessageStyles.messageContainer}>
+                <View style={MessageStyles.messageContainer} key={index}>
                     
                     <Text style={MessageStyles.textStyle}>{item.header}</Text>
 

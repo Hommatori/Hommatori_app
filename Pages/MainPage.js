@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {Text, TextInput, View, ScrollView, Image, Pressable } from 'react-native';
+import {Text, TextInput, View, ScrollView, Image, Pressable, Dimensions } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
 import Styles from '../Styles/Styles';
 import ButtonStyles from '../Styles/ButtonStyles';
@@ -77,6 +77,7 @@ export default function MainPage({navigation}) {
       navigation.navigate('ShowAd',{adid}) 
     }
    // console.log (ad)
+  
 
   return (
 
@@ -155,7 +156,7 @@ export default function MainPage({navigation}) {
           </View>
         </View>
         
-         <ScrollView >
+         <ScrollView style={Styles.scrollViewStyle}>
           {
             Object.values(ads).map((item, index) =>(
                 <View style={Styles.adContainer} key={index}>

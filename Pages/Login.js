@@ -1,7 +1,9 @@
 import {React, useState} from 'react';
-import {View, Text, Pressable, TextInput, AsyncStorage} from 'react-native';
+import {View, Text, Pressable, TextInput} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Buffer } from 'buffer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import ButtonStyles from '../Styles/ButtonStyles';
@@ -12,22 +14,27 @@ import BaseUrl from '../json/BaseUrl';
 
 
 
+
+
 export default function Login({navigation}) {
 
+    const [username, setUsername] = useState('testi@4ksagl')
+    const [password, setPassword] = useState('Makkara1')
+
+   
 
     const login = async () => {
-        const userName = 'testi@4ksag1';
-        const password = 'Makkara1';
-        const token = Buffer.from('${userName}:${password}').toString('base64');
+        const token = Buffer.from(username+':'+password).toString('base64');
         const response = await fetch(BaseUrl+'/login', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json',
-                'Authorization': 'Basic ${token}',
+                'Authorization': 'Basic '+token+'',
         },
     });
-    
+ 
     if (response.ok) {
+        const data = await response.json();
 
         const sessionCookie = {
             name: 'session',
@@ -44,11 +51,13 @@ export default function Login({navigation}) {
             path: data.sessionCookie.path,
             expires: new Date(Date.now() + data.sessionCookie.originalMaxAge),
         };
+       // console.log(sessionCookie);
+       //await SecureStore.setItemAsync(sessionCookie);
+       //await SecureStore.setItemAsync(userCookie); 
+       //await AsyncStorage.setItem(sessionCookie)
+       //await AsyncStorage.setItem(userCookie)
 
-        await AsyncStorage.set(sessionCookie);
-        await AsyncStorage.set(userCookie);
-
-        console.log('Logged in');
+        console.log('Logged in')
     } else {
         console.log('Unauthorized');
     }
@@ -66,9 +75,17 @@ export default function Login({navigation}) {
             <Text style={LoginStyles.headerText}>Kirjaudu sisään</Text>
               <View>
                 <Text style={LoginStyles.itemText}>Käyttäjätunnus</Text>
-                  <TextInput style={LoginStyles.textInputContainer}></TextInput>
+                  <TextInput style={LoginStyles.textInputContainer}
+                    placeholder="Syötä käyttäjätunnus"
+                    onChangeText={(text => setUsername(text))}
+                    >
+                    </TextInput>
                   <Text style={LoginStyles.itemText}>Salasana</Text>
-                  <TextInput style={LoginStyles.textInputContainer}></TextInput>
+                  <TextInput style={LoginStyles.textInputContainer}
+                    placeholder="Syötä salasana"
+                    onChangeText={(text => setPassword(text))}
+                    >
+                  </TextInput>
                   <Pressable 
                     style={ButtonStyles.button}
                     onPress={() => login()}

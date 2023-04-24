@@ -21,6 +21,13 @@ export default function Login({navigation}) {
     const [username, setUsername] = useState('testi@4ksagl')
     const [password, setPassword] = useState('Makkara1')
 
+    const getCookie = async () =>{
+      const userCookie = await AsyncStorage.getItem('user');
+      const sessionCookie = await AsyncStorage.getItem('session');
+      const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
+      console.log(cookieHeader);
+      }
+
     const login = async () => {
       try{
         const token = Buffer.from(username+':'+password).toString('base64');
@@ -46,12 +53,13 @@ export default function Login({navigation}) {
       await AsyncStorage.setItem('session', cookies['session']);
 
       Alert.alert('Logged in');
+      navigation.navigate('LoggedIn')
       console.log('Logged in')
 
-      const a = await AsyncStorage.getItem('user')
+/*       const a = await AsyncStorage.getItem('user')
       console.log(decodeURIComponent(a))
       const b = JSON.parse(decodeURIComponent(a))
-      console.log(b.id)
+      console.log(b.id) */
     } else {
       Alert.alert('Unauthorized');
       Console.log('Unauthorized');
@@ -60,7 +68,7 @@ export default function Login({navigation}) {
     console.error('Login error:', error);
   }
 };    
-  console.log(AsyncStorage.getItem('user'))
+ 
 
     //näyttää tilin tiedot ja mahdollistaa muokkauksen
 
@@ -95,7 +103,8 @@ export default function Login({navigation}) {
   
           <Pressable 
             style={ButtonStyles.button}
-            onPress={() => navigation.navigate('AdAccount')}
+            //onPress={() => navigation.navigate('AdAccount')}
+            onPress={() => getCookie()}
             >
             <Text style={ButtonStyles.buttonText}>Luo uusi tili</Text>
           </Pressable>

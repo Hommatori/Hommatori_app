@@ -42,9 +42,6 @@ export default function Announce({navigation, }) {
       data();
     }) */
 
-    const testi = async () => {
-      console.log(AsyncStorage.getItem('user'))
-    }
 
     const options = [
       {label: 'Myyn', value: 'joboffer'},
@@ -53,15 +50,14 @@ export default function Announce({navigation, }) {
 
       const newAd = async() => {     
       try{                 
-
         const userCookie = await AsyncStorage.getItem('user');
         const sessionCookie = await AsyncStorage.getItem('session');
         
-        if (!userCookie) {
-        // Handle the case when the user cookie is not available
-        // e.g., navigate to the login screen
-          console.log('cookie not found')
-         }
+          if (!userCookie) {
+          // Handle the case when the user cookie is not available
+          // e.g., navigate to the login screen
+            console.log('cookie not found')
+          }
         
         const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
         
@@ -80,7 +76,7 @@ export default function Announce({navigation, }) {
 
         console.log('newAd created successfully')
         Alert.alert('Ilmoitus luotu!');
-        console.log(cookieHeader)
+        //console.log(cookieHeader)
           
       } catch(e) {
         console.log('newAd error', e)
@@ -165,7 +161,7 @@ export default function Announce({navigation, }) {
               </View>
 
               <Pressable style={ButtonStyles.button}
-                onPress={() => testi()}
+               // onPress={() => testi()}
               >
                 <Text style={ButtonStyles.buttonText}>Lisää kuva</Text>
               </Pressable>

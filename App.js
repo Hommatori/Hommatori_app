@@ -11,6 +11,7 @@ import AdAccount from './Pages/AdAccount';
 import ShowAd from './Pages/ShowAd';
 import WriteMessage from './Pages/WriteMessage';
 import Login from './Pages/Login';
+import LoggedIn from './Pages/LoggedIn';
 
 
 export default function App() {
@@ -75,6 +76,11 @@ export default function App() {
             name="Login" 
             component={Login}
             options={{ headerTitle: 'Login'}}
+            />
+            <Stack.Screen 
+            name="LoggedIn" 
+            component={LoggedIn}
+            options={{ headerTitle: 'LoggedIn'}}
             />
       </Stack.Navigator>
     </NavigationContainer>

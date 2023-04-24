@@ -24,12 +24,20 @@ export default StyleSheet.create({
           },
           buttonSearch:{
             alignItems: 'center',
-         
             paddingVertical: 12,
             borderRadius: 5,
             elevation: 10,
             backgroundColor: '#25db55',
             width: 100
+          },
+          buttonDelete:{
+            alignItems: 'center',
+            paddingVertical: 12,
+            borderRadius: 5,
+            elevation: 10,
+            backgroundColor: '#25db55',
+            width: 100,
+            marginTop: 10,
           },
           infoText: {
             fontSize: 16,

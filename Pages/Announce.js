@@ -1,5 +1,6 @@
 import {React, useState, useEffect} from 'react';
-import {View, Text, Pressable, Modal} from 'react-native';
+import {View, Text, Pressable, Modal, Alert} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AnnounceStyles from '../Styles/AnnounceStyles';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
@@ -27,12 +28,20 @@ export default function Announce({navigation, }) {
     const [municipality, setMunicipality] = useState('')
     const [price, setPrice] = useState('0')
     const [userId, setUserId] = useState('2')  //käyttäjäid tämä syötetään vielä käsin
-    const [adid, setAdid] = useState('155') // id syötettävä vielä käsin
+    const [adid, setAdid] = useState('400') // id syötettävä vielä käsin
     const [modalVisible, setModalVisible] = useState(false);
 
-    useEffect(() => {
-      
-    })
+/*     useEffect(() => {
+
+      const data = async() => {
+      const a = await AsyncStorage.getItem('user')
+      console.log(decodeURIComponent(a))
+      const b = JSON.parse(decodeURIComponent(a))
+      console.log(b.id)
+      }
+      data();
+    }) */
+
 
     const options = [
       {label: 'Myyn', value: 'joboffer'},
@@ -40,9 +49,19 @@ export default function Announce({navigation, }) {
     ] 
 
       const newAd = async() => {     
-      try{                            
+      try{                 
+        const userCookie = await AsyncStorage.getItem('user');
+        const sessionCookie = await AsyncStorage.getItem('session');
+        
+          if (!userCookie) {
+          // Handle the case when the user cookie is not available
+          // e.g., navigate to the login screen
+            console.log('cookie not found')
+          }
+        
+        const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
+        
         await axios.post(BaseUrl+'/ad', {   
-          adid: adid,
           type: type,
           header: header,
           description: description,
@@ -51,21 +70,18 @@ export default function Announce({navigation, }) {
           userid: userId,
           region: region,
           municipality: municipality
+        }, {
+           headers: {Cookie: cookieHeader}
         })
+
         console.log('newAd created successfully')
-        setModalVisible(true)
+        Alert.alert('Ilmoitus luotu!');
+        //console.log(cookieHeader)
           
       } catch(e) {
         console.log('newAd error', e)
       }
       } 
-
-      const close = () => {
-        setModalVisible(false);
-        // Force a render without state change...
-        this.forceUpdate();
-       
-      }
 
   
     return (
@@ -145,7 +161,7 @@ export default function Announce({navigation, }) {
               </View>
 
               <Pressable style={ButtonStyles.button}
-                onPress={() => setModalVisible(true)}
+               // onPress={() => testi()}
               >
                 <Text style={ButtonStyles.buttonText}>Lisää kuva</Text>
               </Pressable>
@@ -156,19 +172,6 @@ export default function Announce({navigation, }) {
                 <Text style={ButtonStyles.buttonText}>Tallenna</Text>
               </Pressable>
             
-              <Modal 
-                visible={modalVisible}
-                onRequestClose ={close}
-                >
-                  <View style={AnnounceStyles.modal}>
-                  <Text> Ilmoitus lisätty!</Text>
-                  <Pressable onPress={() => {
-                    setModalVisible(false);
-                  }}>
-                  <Text style={AnnounceStyles.close}>Takaisin</Text>
-                  </Pressable>
-                  </View>
-              </Modal>
            
         </View> 
 

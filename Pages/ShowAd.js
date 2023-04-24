@@ -32,15 +32,14 @@ export default function ShowAd({navigation, route}) {
       }} 
 
       const deleteAd = async () => {
-       // const results = await axios.delete(BASE_URL+'/ad/'+route.params.adid)
-       /*  axios.delete(BASE_URL+'/ad/'+route.params.adid)
+         axios.delete(BASE_URL+'/ad/'+route.params.adid)
           .then(function (response) {
             console.log('ad removed sucesfully', response);
           })
           .catch(function (error) {
             console.log('error ocured in removing ad', error);
           });
- */
+ 
       }
 
  

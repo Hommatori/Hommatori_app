@@ -38,6 +38,7 @@ export default function MainPage({navigation}) {
       setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       //console.log(ad)
+  
 
       } catch (error){
         console.log("getData error ", error)

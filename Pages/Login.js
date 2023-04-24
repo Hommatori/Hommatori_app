@@ -1,5 +1,5 @@
 import {React, useState} from 'react';
-import {View, Text, Pressable, TextInput} from 'react-native';
+import {View, Text, Pressable, TextInput, Alert} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Buffer } from 'buffer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,9 +21,8 @@ export default function Login({navigation}) {
     const [username, setUsername] = useState('testi@4ksagl')
     const [password, setPassword] = useState('Makkara1')
 
-   
-
     const login = async () => {
+      try{
         const token = Buffer.from(username+':'+password).toString('base64');
         const response = await fetch(BaseUrl+'/login', {
             method: 'POST',
@@ -32,36 +31,36 @@ export default function Login({navigation}) {
                 'Authorization': 'Basic '+token+'',
         },
     });
- 
+
     if (response.ok) {
-        const data = await response.json();
+      const setCookieHeader = response.headers.get('set-cookie');
+      const cookiesArray = setCookieHeader.split(',').map((cookieStr) => cookieStr.trim());
+      const cookies = cookiesArray.reduce((acc, cookieStr) => {
+        const [name, value] = cookieStr.split(';')[0].split('=');
+        acc[name] = value;
+        return acc;
+      }, {});
 
-        const sessionCookie = {
-            name: 'session',
-            value: JSON.stringify(data.sessionCookie),
-            domain: 'localhost',
-            path: data.sessionCookie.path,
-            expires: new Date(Date.now() + data.sessionCookie.originalMaxAge),
-        };
+      // Save cookies to AsyncStorage
+      await AsyncStorage.setItem('user', cookies['user']);
+      await AsyncStorage.setItem('session', cookies['session']);
 
-        const userCookie = {
-            name: 'user',
-            value: JSON.stringify(data.user),
-            domain: 'localhost',
-            path: data.sessionCookie.path,
-            expires: new Date(Date.now() + data.sessionCookie.originalMaxAge),
-        };
-       // console.log(sessionCookie);
-       //await SecureStore.setItemAsync(sessionCookie);
-       //await SecureStore.setItemAsync(userCookie); 
-       //await AsyncStorage.setItem(sessionCookie)
-       //await AsyncStorage.setItem(userCookie)
+      Alert.alert('Logged in');
+      console.log('Logged in')
 
-        console.log('Logged in')
+      const a = await AsyncStorage.getItem('user')
+      console.log(decodeURIComponent(a))
+      const b = JSON.parse(decodeURIComponent(a))
+      console.log(b.id)
     } else {
-        console.log('Unauthorized');
+      Alert.alert('Unauthorized');
+      Console.log('Unauthorized');
     }
-}
+  } catch (error) {
+    console.error('Login error:', error);
+  }
+};    
+  console.log(AsyncStorage.getItem('user'))
 
     //näyttää tilin tiedot ja mahdollistaa muokkauksen
 

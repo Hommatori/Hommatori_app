@@ -80,6 +80,7 @@ export default function Announce({navigation, }) {
           
       } catch(e) {
         console.log('newAd error', e)
+        Alert.alert('Ilmoituksen luonti epäonnistui!')
       }
       } 
 

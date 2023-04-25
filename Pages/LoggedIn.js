@@ -11,20 +11,15 @@ import LoginStyles from '../Styles/LoginStyles';
 import BaseUrl from '../json/BaseUrl';
 
 
-
-
-
-
-
 export default function LoggedIn({navigation}) {
 
 
     const getCookie = async () =>{
-    const userCookie = await AsyncStorage.getItem('user');
-    const sessionCookie = await AsyncStorage.getItem('session');
-    const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
-    console.log(cookieHeader);
-    }
+      const userCookie = await AsyncStorage.getItem('user');
+      const sessionCookie = await AsyncStorage.getItem('session');
+      const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
+      console.log(cookieHeader);
+      }
 
 async function logout() {
         
@@ -50,7 +45,8 @@ async function logout() {
             navigation.navigate('Login');
             console.log('AsyncStorage cleared successfully.');
             Alert.alert('Kirjaudutu ulos!')
-            //console.log(await cookieHeader)
+            getCookie()
+            
         } catch (error) {
             console.log('Error clearing AsyncStorage: ', error.message);
         }

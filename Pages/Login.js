@@ -55,6 +55,7 @@ export default function Login({navigation}) {
       Alert.alert('Logged in');
       navigation.navigate('LoggedIn')
       console.log('Logged in')
+      getCookie()
 
 /*       const a = await AsyncStorage.getItem('user')
       console.log(decodeURIComponent(a))

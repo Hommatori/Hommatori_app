@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {Text, TextInput, View, ScrollView, Image, Pressable, Dimensions } from 'react-native';
+import {Text, TextInput, View, ScrollView, Image, Pressable, Alert } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
 import Styles from '../Styles/Styles';
 import ButtonStyles from '../Styles/ButtonStyles';
@@ -30,25 +30,27 @@ export default function MainPage({navigation}) {
       useEffect(() => {
         getData(); 
       }, [page]); 
-      
 
      const getData = async () => {
       try{
       const results = await axios.get(''+BASE_URL+'/ad/withparams/get?type='+type+'&region='+region+'&order=&page='+page+'&query='+searchText+'')
       setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
-      //console.log(ad)
+      console.log('getData success')
   
 
       } catch (error){
         console.log("getData error ", error)
+        Alert.alert('Haku epännostui!')
       }} 
 
-
       const search = async () => {
+        try {
         setPage(1)
         getData();
-      }
+        } catch (error) { 
+          Alert.alert('Haku epännostui!')
+      }}
  
     //tässä lisätään offsettia jotta saadaan seuraava sivu
     const nextAds = async () => {

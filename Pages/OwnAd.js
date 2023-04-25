@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import {Text, View, Image, Pressable, Alert, Linking } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
-import Styles from '../Styles/ShowAdStyles';
+import Styles from '../Styles/OwnAdStyles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
@@ -10,7 +10,7 @@ import BASE_URL from '../json/BaseUrl';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-export default function ShowAd({navigation, route}) {
+export default function OwnAd({navigation, route}) {
 
     const [ad, setAd] = useState([]);
     const [page, setPage] = useState(1);
@@ -125,14 +125,14 @@ export default function ShowAd({navigation, route}) {
               </View>
 
               <Pressable style={ButtonStyles.button}
-               onPress={() => handleEmailPress()}
+               //onPress={() => handleEmailPress()}
               >
-                <Text style={ButtonStyles.buttonText}>Lähetä sähköposti</Text>
+                <Text style={ButtonStyles.buttonText}>Muokkaa</Text>
               </Pressable>
               <Pressable style={ButtonStyles.button}
-               onPress={() => handlSmsPress()}
+               //onPress={() => handlSmsPress()}
               >
-                <Text style={ButtonStyles.buttonText}>Lähetä textiviesti</Text>
+                <Text style={ButtonStyles.buttonText}>Tallenna</Text>
               </Pressable>
     
 

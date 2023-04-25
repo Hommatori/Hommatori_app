@@ -12,6 +12,8 @@ import ShowAd from './Pages/ShowAd';
 import WriteMessage from './Pages/WriteMessage';
 import Login from './Pages/Login';
 import LoggedIn from './Pages/LoggedIn';
+import OwnAds from './Pages/OwnAds';
+import OwnAd from './Pages/OwnAd';
 
 
 export default function App() {
@@ -81,6 +83,16 @@ export default function App() {
             name="LoggedIn" 
             component={LoggedIn}
             options={{ headerTitle: 'LoggedIn'}}
+            />
+            <Stack.Screen 
+            name="OwnAds" 
+            component={OwnAds}
+            options={{ headerTitle: 'OwnAds'}}
+            />
+            <Stack.Screen 
+            name="OwnAd" 
+            component={OwnAd}
+            options={{ headerTitle: 'OwnAd'}}
             />
       </Stack.Navigator>
     </NavigationContainer>

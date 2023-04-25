@@ -33,7 +33,7 @@ export default function AdAccount({navigation}) {
             <TextInput style={AccountStyles.textInputContainer}></TextInput>
 
             <Pressable style={ButtonStyles.button}
-                onPress={() => {navigation.navigate('Account')}}>
+                onPress={() => {navigation.navigate('Login')}}>
               <Text style={ButtonStyles.buttonText}>Tallenna</Text>
             </Pressable>
             <Pressable 

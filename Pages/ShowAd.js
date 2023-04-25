@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import {Text, TextInput, View, ScrollView, Image, Pressable } from 'react-native';
+import {Text, TextInput, View, ScrollView, Image, Pressable, Alert } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
 import Styles from '../Styles/Styles';
 import ButtonStyles from '../Styles/ButtonStyles';
@@ -7,6 +7,8 @@ import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function ShowAd({navigation, route}) {
 
@@ -33,11 +35,26 @@ export default function ShowAd({navigation, route}) {
 
       const deleteAd = async () => {
         try{
-         axios.delete(BASE_URL+'/ad/'+route.params.adid)
+        const userCookie = await AsyncStorage.getItem('user');
+        const sessionCookie = await AsyncStorage.getItem('session');
+        
+          if (!userCookie) {
+          // Handle the case when the user cookie is not available
+          // e.g., navigate to the login screen
+            console.log('cookie not found')
+          }
+
+        const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
+        
+          await axios.delete(BASE_URL+'/ad/'+route.params.adid, {
+            headers: {Cookie: cookieHeader}
+          })
             console.log('ad removed sucesfully');
+            Alert.alert('Ilmoitus poistettu!')
 
          } catch(error) {
             console.log('error ocured in removing ad', error);
+            Alert.alert('Ilmoituksen poistaminen epäonnistui!')
           };
  
       }

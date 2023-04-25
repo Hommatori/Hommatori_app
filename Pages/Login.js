@@ -57,10 +57,10 @@ export default function Login({navigation}) {
       console.log('Logged in')
       getCookie()
 
-/*       const a = await AsyncStorage.getItem('user')
+      /* const a = await AsyncStorage.getItem('session')
       console.log(decodeURIComponent(a))
       const b = JSON.parse(decodeURIComponent(a))
-      console.log(b.id) */
+      console.log(b.id)  */
     } else {
       Alert.alert('Unauthorized');
       Console.log('Unauthorized');
@@ -105,14 +105,14 @@ export default function Login({navigation}) {
           <Pressable 
             style={ButtonStyles.button}
             //onPress={() => navigation.navigate('AdAccount')}
-            onPress={() => getCookie()}
+            onPress={() => navigation.navigate('AdAccount')}
             >
             <Text style={ButtonStyles.buttonText}>Luo uusi tili</Text>
           </Pressable>
   
         </View>   
   
-        <NavBar navigation={navigation}></NavBar>
+       {/*  <NavBar navigation={navigation}></NavBar> */}
   
        </View>
      

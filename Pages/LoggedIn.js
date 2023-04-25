@@ -65,10 +65,14 @@ async function logout() {
           <View style={LoginStyles.property}> 
             <Text style={LoginStyles.headerText}>Tilisivu</Text>
               <View>
+              <Pressable style={ButtonStyles.button}
+                onPress={() => {navigation.navigate('Account')}}>
+                <Text style={ButtonStyles.buttonText}>Muokkaa Tiliä</Text>
+              </Pressable>
                   <Pressable 
                     style={ButtonStyles.button}
                     //onPress={() => navigation.navigate('ShowAd')}
-                    onPress={() => getCookie()}
+                    onPress={() => navigation.navigate('OwnAds')}
                     >
                     <Text style={ButtonStyles.buttonText}>Omat ilmoitukset</Text>
                   </Pressable>

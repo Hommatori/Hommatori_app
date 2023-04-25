@@ -27,7 +27,7 @@ export default function NavBar({navigation}) {
             <Text style={NavBarStyles.buttonText}>Viestit</Text>
           </Pressable>
           <Pressable style={NavBarStyles.button}
-            onPress={() => navigation.navigate('Login')}
+            onPress={() => navigation.navigate('LoggedIn')}
             >
             <Text style={NavBarStyles.buttonText}>Tili</Text>
           </Pressable>

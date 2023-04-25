@@ -48,13 +48,6 @@ export default function Account({navigation}) {
                 <Pressable style={ButtonStyles.button}>
                   <Text style={ButtonStyles.buttonText}>Tallenna</Text>
                 </Pressable>
-                <Pressable 
-                  style={ButtonStyles.button}
-                  onPress={() => {
-                  navigation.navigate('Login')
-                  }}>
-                  <Text style={ButtonStyles.buttonText}>Kirjaudu ulos</Text>
-                </Pressable>
               </View>
           </View> 
             <NavBar navigation={navigation}></NavBar>

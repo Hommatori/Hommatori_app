@@ -27,13 +27,14 @@ export default function Login({navigation}) {
     const login = async () => {
       try{
         const token = Buffer.from(username+':'+password).toString('base64');
-        const response = await fetch(BaseUrl+'/login', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'Authorization': 'Basic '+token+'',
-        },
-    });
+        const response = await fetch(BaseUrl + '/login', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'Authorization': 'Basic ' + token + '',
+          },
+          body: JSON.stringify({mobileAppToken: process.env.MOBILE_TOKEN}),
+        });
           
     if (response.ok) {
       const setCookieHeader = response.headers.get('set-cookie');
@@ -42,24 +43,15 @@ export default function Login({navigation}) {
       
       // Get the decoded payload
       const decodedToken = jwtDecode(accessToken);
-  
-      if (!decodedToken.encryptedData) {
-        throw new Error('Encrypted data not found in the token');
-      }
 
-      const encryptedUserData = decodedToken.encryptedData;
-      const userData = decryptData(encryptedUserData);
+      const user = decodedToken;
       
-      if (!userData) {
-        throw new Error('Unable to decrypt user data');
-      }
-
-      console.log(userData)
-      console.log(accessToken)
+      console.log('user',user)
+      console.log('accestoken',accessToken)
 
       // Save cookies to 
-      await SecureStore.setItemAsync('userData', cookies['userData']);
-      await SecureStore.setItemAsync('accessToken', cookies['accesToken']);
+      //await SecureStore.setItemAsync('userData', cookies['userData']);
+      //await SecureStore.setItemAsync('accessToken', cookies['accesToken']);
 
       Alert.alert('Logged in');
       navigation.navigate('LoggedIn')

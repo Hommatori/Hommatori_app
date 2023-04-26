@@ -8,6 +8,8 @@ import Header from '../components/Header';
 import ButtonStyles from '../Styles/ButtonStyles';
 import LoginStyles from '../Styles/LoginStyles';
 import BaseUrl from '../json/BaseUrl';
+import jwtDecode from 'jwt-decode'
+import { decryptData } from '../components/Crypto-js'
 
 
 export default function Login({navigation}) {
@@ -32,19 +34,32 @@ export default function Login({navigation}) {
                 'Authorization': 'Basic '+token+'',
         },
     });
-
+          
     if (response.ok) {
       const setCookieHeader = response.headers.get('set-cookie');
-      const cookiesArray = setCookieHeader.split(',').map((cookieStr) => cookieStr.trim());
-      const cookies = cookiesArray.reduce((acc, cookieStr) => {
-        const [name, value] = cookieStr.split(';')[0].split('=');
-        acc[name] = value;
-        return acc;
-      }, {});
+      const accessToken = setCookieHeader.split('=')[1].split(';')[0];
+
+      
+      // Get the decoded payload
+      const decodedToken = jwtDecode(accessToken);
+  
+      if (!decodedToken.encryptedData) {
+        throw new Error('Encrypted data not found in the token');
+      }
+
+      const encryptedUserData = decodedToken.encryptedData;
+      const userData = decryptData(encryptedUserData);
+      
+      if (!userData) {
+        throw new Error('Unable to decrypt user data');
+      }
+
+      console.log(userData)
+      console.log(accessToken)
 
       // Save cookies to 
-      await SecureStore.setItemAsync('user', cookies['user']);
-      await SecureStore.setItemAsync('session', cookies['session']);
+      await SecureStore.setItemAsync('userData', cookies['userData']);
+      await SecureStore.setItemAsync('accessToken', cookies['accesToken']);
 
       Alert.alert('Logged in');
       navigation.navigate('LoggedIn')
@@ -57,7 +72,7 @@ export default function Login({navigation}) {
       console.log(b.id)  */
     } else {
       Alert.alert('Unauthorized');
-      Console.log('Unauthorized');
+      console.log('Unauthorized');
     }
   } catch (error) {
     console.error('Login error:', error);

@@ -2,7 +2,6 @@ import {React, useState} from 'react';
 import {View, Text, Pressable, TextInput, Alert} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Buffer } from 'buffer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
@@ -11,19 +10,14 @@ import LoginStyles from '../Styles/LoginStyles';
 import BaseUrl from '../json/BaseUrl';
 
 
-
-
-
-
-
 export default function Login({navigation}) {
 
     const [username, setUsername] = useState('testi@4ksagl')
     const [password, setPassword] = useState('Makkara1')
 
     const getCookie = async () =>{
-      const userCookie = await AsyncStorage.getItem('user');
-      const sessionCookie = await AsyncStorage.getItem('session');
+      const userCookie = await SecureStore.getItemAsync('user');
+      const sessionCookie = await SecureStore.getItemAsync('session');
       const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
       console.log(cookieHeader);
       }
@@ -48,14 +42,14 @@ export default function Login({navigation}) {
         return acc;
       }, {});
 
-      // Save cookies to AsyncStorage
-      await AsyncStorage.setItem('user', cookies['user']);
-      await AsyncStorage.setItem('session', cookies['session']);
+      // Save cookies to 
+      await SecureStore.setItemAsync('user', cookies['user']);
+      await SecureStore.setItemAsync('session', cookies['session']);
 
       Alert.alert('Logged in');
       navigation.navigate('LoggedIn')
       console.log('Logged in')
-      getCookie()
+      //getCookie()
 
       /* const a = await AsyncStorage.getItem('session')
       console.log(decodeURIComponent(a))

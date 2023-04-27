@@ -9,7 +9,6 @@ import ButtonStyles from '../Styles/ButtonStyles';
 import LoginStyles from '../Styles/LoginStyles';
 import BaseUrl from '../json/BaseUrl';
 import jwtDecode from 'jwt-decode'
-import { decryptData } from '../components/Crypto-js'
 
 
 export default function Login({navigation}) {
@@ -26,6 +25,10 @@ export default function Login({navigation}) {
 
     const login = async () => {
       try{
+        const requestBody = {
+          encryptedKey: 'U2FsdGVkX180hbT1O9fI+moG6iuNQ6RvZw1Hfr7D0XrQf7qahFR/JPwHjIGuUbQ5jwsSfRiSNOlxINdWp+DTUw=='
+        };
+
         const token = Buffer.from(username+':'+password).toString('base64');
         const response = await fetch(BaseUrl+'/login', {
             method: 'POST',
@@ -33,33 +36,23 @@ export default function Login({navigation}) {
                 'content-type': 'application/json',
                 'Authorization': 'Basic '+token+'',
         },
+        body: JSON.stringify(requestBody)        
     });
           
     if (response.ok) {
       const setCookieHeader = response.headers.get('set-cookie');
       const accessToken = setCookieHeader.split('=')[1].split(';')[0];
-
       
       // Get the decoded payload
       const decodedToken = jwtDecode(accessToken);
   
-      if (!decodedToken.encryptedData) {
+      if (!decodedToken.token) {
         throw new Error('Encrypted data not found in the token');
-      }
-
-      const encryptedUserData = decodedToken.encryptedData;
-      const userData = decryptData(encryptedUserData);
-      
-      if (!userData) {
-        throw new Error('Unable to decrypt user data');
-      }
-
-      console.log(userData)
-      console.log(accessToken)
+      }      
 
       // Save cookies to 
-      await SecureStore.setItemAsync('userData', cookies['userData']);
-      await SecureStore.setItemAsync('accessToken', cookies['accesToken']);
+      await SecureStore.setItemAsync('userData', JSON.stringify(decodedToken.token));
+      await SecureStore.setItemAsync('accessToken', accessToken);
 
       Alert.alert('Logged in');
       navigation.navigate('LoggedIn')

@@ -7,7 +7,7 @@ import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 
 export default function OwnAd({navigation, route}) {
@@ -36,8 +36,8 @@ export default function OwnAd({navigation, route}) {
 
       const deleteAd = async () => {
         try{
-        const userCookie = await AsyncStorage.getItem('user');
-        const sessionCookie = await AsyncStorage.getItem('session');
+          const userCookie = await SecureStore.getItemAsync('user');
+          const sessionCookie = await SecureStore.getItemAsync('session');
         
           if (!userCookie) {
           // Handle the case when the user cookie is not available
@@ -59,25 +59,6 @@ export default function OwnAd({navigation, route}) {
           };
  
       }
-
-      const handleEmailPress = () => {
-        const email = 'example@example.com';
-        try{
-        Linking.openURL(`mailto:${email}`);
-        }catch(e){
-          console.log(e)
-        }
-      }
-      const handlSmsPress = () => {
-        const number = '040123123';
-        try{
-        Linking.openURL(`sms:${number}`);
-        }catch(e){
-          console.log(e)
-        }
-      }
-
-// Then you can use the handleEmailPress function as an onPress handler in your component
 
 
   return (
@@ -123,7 +104,11 @@ export default function OwnAd({navigation, route}) {
                   </View>
                 </View>  
               </View>
-
+              <Pressable style={ButtonStyles.button}
+                onPress={() => deleteAd()}
+              >
+                <Text style={ButtonStyles.buttonText}>Poista</Text>
+              </Pressable>
               <Pressable style={ButtonStyles.button}
                //onPress={() => handleEmailPress()}
               >

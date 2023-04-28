@@ -40,8 +40,8 @@ export default StyleSheet.create({
           },
           image: {
             marginTop: 5,
-            height: 270,
-            width: 270,
+            height: 200,
+            width: 200,
             backgroundColor: '#25db55',
             borderRadius: 15,
           },

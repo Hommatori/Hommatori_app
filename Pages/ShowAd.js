@@ -7,58 +7,47 @@ import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import ViewAd from '../components/ViewAd';
 
 
 export default function ShowAd({navigation, route}) {
 
     const [ad, setAd] = useState([]);
+    const [publisher, setPublisher] = useState([]);
     const [page, setPage] = useState(1);
     const [total_rows, setTota_rows] = useState(0)
+    const [userId, setUserId] = useState('14')
 
 
       // tämä hakee databasesta ilmoitukset.
 
 
       useEffect(() => { 
-        getData(); 
+      //  getData(); 
+      //  getPublisher();
       }, []); 
 
       const getData = async () => {
-      try{   
-      const results = await axios.get(BASE_URL+'/ad/'+route.params.adid)
-      setAd(results.data)
-      //console.log(results)
-
-      } catch (error){
-        console.log("getAd error", error)
-      }} 
-
-      const deleteAd = async () => {
-        try{
-        const userCookie = await AsyncStorage.getItem('user');
-        const sessionCookie = await AsyncStorage.getItem('session');
         
-          if (!userCookie) {
-          // Handle the case when the user cookie is not available
-          // e.g., navigate to the login screen
-            console.log('cookie not found')
-          }
+        try{   
+        const results = await axios.get(BASE_URL+'/ad/'+route.params.adid)
+        setAd(results.data)
+       // console.log(results)
 
-        const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
-        
-          await axios.delete(BASE_URL+'/ad/'+route.params.adid, {
-            headers: {Cookie: cookieHeader}
-          })
-            console.log('ad removed sucesfully');
-            Alert.alert('Ilmoitus poistettu!')
+        } catch (error){
+          console.log("getAd error", error)
+        }} 
 
-         } catch(error) {
-            console.log('error ocured in removing ad', error);
-            Alert.alert('Ilmoituksen poistaminen epäonnistui!')
-          };
- 
-      }
+      const getPublisher = async () => {
+        try{   
+          const results = await axios.get(BASE_URL+'/userr/ad/'+userId)
+          setPublisher(results.data)
+          //console.log(results.data)
+    
+        } catch (error){
+            console.log("getAd error", error)
+        }} 
+
 
       const handleEmailPress = () => {
         const email = 'example@example.com';
@@ -87,43 +76,9 @@ export default function ShowAd({navigation, route}) {
       <StatusBar style="light" translucent={true}/>
            <Header></Header>
       <View style={Styles.container2}>
-                <View style={Styles.adContainer}>
-                  <View style={{alignItems: 'center'}}>
-                    <Image 
-                    style ={Styles.image}
-                    source={ ad.image && ad.image != '' ? { uri: ad.image } : null }        
-                    /> 
-                    {/* <Pressable style={ButtonStyles.buttonDelete}
-                      onPress={() => deleteAd()}
-                    >
-                      <Text>Poista</Text>
-                    </Pressable> */}
-                  </View>
-                <View style={Styles.descriptionContainer1}>
-                  <View style={Styles.descriptionContainer2}>
-       
-                      <Text style={Styles.AdHeaderTextStyle}>{ad.header} </Text>
 
-                    <View style={Styles.descriptionContainer3}>
-                      <Text style={Styles.textStyle}>Nimi</Text>   
-                      <Text style={Styles.textStyle}>Puhelinumero</Text>  
-                      <Text style={Styles.textStyle}>Sähköposti</Text>    
-                    </View>
-                    <View style={Styles.descriptionContainer3}>
-                      <Text style={Styles.textStyle}>{ad.region}</Text>
-                      <Text style={Styles.textStyle}>{ad.municipality} </Text>
-                    </View>
-                    <View style={Styles.descriptionContainer3}>
-                      <Text style={Styles.textStyle}>{ad.type}€</Text>
-                      <Text style={Styles.textStyle}>Hinta {ad.price}€</Text>
-                    </View>
-                    <View style={Styles.descriptionContainer3}>
-                      <Text>{ad.description}</Text>
-                    </View>
-                  </View>
-                </View>  
-              </View>
 
+              <ViewAd />
               <Pressable style={ButtonStyles.button}
                onPress={() => handleEmailPress()}
               >

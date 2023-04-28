@@ -1,6 +1,5 @@
 import {React, useState, useEffect} from 'react';
 import {View, Text, Pressable, Modal, Alert} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import AnnounceStyles from '../Styles/AnnounceStyles';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
@@ -13,6 +12,7 @@ import ButtonStyles from '../Styles/ButtonStyles';
 import regions from '../json/regions.json';
 import BaseUrl from '../json/BaseUrl.json'
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
 
 
@@ -50,8 +50,8 @@ export default function Announce({navigation, }) {
 
       const newAd = async() => {     
       try{                 
-        const userCookie = await AsyncStorage.getItem('user');
-        const sessionCookie = await AsyncStorage.getItem('session');
+        const userCookie = await SecureStore.getItemAsync('user');
+        const sessionCookie = await SecureStore.getItemAsync('session');
         
           if (!userCookie) {
           // Handle the case when the user cookie is not available

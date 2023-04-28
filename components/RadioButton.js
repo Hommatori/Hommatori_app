@@ -11,7 +11,6 @@ export default function RadioButton({options, onPress, initialValue}) {
         onPress(selectedValue)
     }
 
-
   return (
     <>
     {

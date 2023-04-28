@@ -2,18 +2,14 @@ import {React, useState} from 'react';
 import {View, Text, Pressable, TextInput, Alert} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Buffer } from 'buffer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import ButtonStyles from '../Styles/ButtonStyles';
 import LoginStyles from '../Styles/LoginStyles';
 import BaseUrl from '../json/BaseUrl';
-
-
-
-
-
+import jwtDecode from 'jwt-decode'
+import { decryptData } from '../components/Crypto-js'
 
 
 export default function Login({navigation}) {
@@ -22,8 +18,8 @@ export default function Login({navigation}) {
     const [password, setPassword] = useState('Makkara1')
 
     const getCookie = async () =>{
-      const userCookie = await AsyncStorage.getItem('user');
-      const sessionCookie = await AsyncStorage.getItem('session');
+      const userCookie = await SecureStore.getItemAsync('user');
+      const sessionCookie = await SecureStore.getItemAsync('session');
       const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
       console.log(cookieHeader);
       }
@@ -31,31 +27,36 @@ export default function Login({navigation}) {
     const login = async () => {
       try{
         const token = Buffer.from(username+':'+password).toString('base64');
-        const response = await fetch(BaseUrl+'/login', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'Authorization': 'Basic '+token+'',
-        },
-    });
-
+        const response = await fetch(BaseUrl + '/login', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json',
+            'Authorization': 'Basic ' + token + '',
+          },
+          body: JSON.stringify({mobileAppToken: process.env.MOBILE_TOKEN}),
+        });
+          
     if (response.ok) {
       const setCookieHeader = response.headers.get('set-cookie');
-      const cookiesArray = setCookieHeader.split(',').map((cookieStr) => cookieStr.trim());
-      const cookies = cookiesArray.reduce((acc, cookieStr) => {
-        const [name, value] = cookieStr.split(';')[0].split('=');
-        acc[name] = value;
-        return acc;
-      }, {});
+      const accessToken = setCookieHeader.split('=')[1].split(';')[0];
 
-      // Save cookies to AsyncStorage
-      await AsyncStorage.setItem('user', cookies['user']);
-      await AsyncStorage.setItem('session', cookies['session']);
+      
+      // Get the decoded payload
+      const decodedToken = jwtDecode(accessToken);
+
+      const user = decodedToken;
+      
+      console.log('user',user)
+      console.log('accestoken',accessToken)
+
+      // Save cookies to 
+      //await SecureStore.setItemAsync('userData', cookies['userData']);
+      //await SecureStore.setItemAsync('accessToken', cookies['accesToken']);
 
       Alert.alert('Logged in');
       navigation.navigate('LoggedIn')
       console.log('Logged in')
-      getCookie()
+      //getCookie()
 
       /* const a = await AsyncStorage.getItem('session')
       console.log(decodeURIComponent(a))
@@ -63,7 +64,7 @@ export default function Login({navigation}) {
       console.log(b.id)  */
     } else {
       Alert.alert('Unauthorized');
-      Console.log('Unauthorized');
+      console.log('Unauthorized');
     }
   } catch (error) {
     console.error('Login error:', error);

@@ -1,7 +1,7 @@
 import {React} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View, Text, StyleSheet, Image} from 'react-native';
 
-export default function ViewAd({}) {
+export default function ViewAd({ad}) {
 
    // console.log(publisher)
 
@@ -11,13 +11,13 @@ export default function ViewAd({}) {
         <Text>kuhan jotain</Text>
 
 
-  {/*         <View style={{alignItems: 'center'}}>
+     <View style={{alignItems: 'center'}}>
                     <Image 
-                    style ={Styles.image}
+                    style ={styles.image}
                     source={ ad.image && ad.image != '' ? { uri: ad.image } : null }        
                     /> 
-                  </View> */}
-{/*         <Text style={styles.AdHeaderTextStyle}>{ad.header} </Text>
+                  </View> 
+        <Text style={styles.AdHeaderTextStyle}>{} </Text>
 
         <View style={styles.descriptionContainer3}>
         <Text style={styles.textStyle}>Nimi</Text>   
@@ -34,7 +34,7 @@ export default function ViewAd({}) {
         </View>
         <View style={styles.descriptionContainer3}>
         <Text>{}</Text>
-        </View> */}
+        </View> 
     </View>
      
       );

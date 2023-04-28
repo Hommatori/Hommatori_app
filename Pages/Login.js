@@ -23,54 +23,54 @@ export default function Login({navigation}) {
       console.log(cookieHeader);
       }
 
-    const login = async () => {
-      try{
-        const requestBody = {
-          encryptedKey: 'U2FsdGVkX180hbT1O9fI+moG6iuNQ6RvZw1Hfr7D0XrQf7qahFR/JPwHjIGuUbQ5jwsSfRiSNOlxINdWp+DTUw=='
-        };
-
-        const token = Buffer.from(username+':'+password).toString('base64');
-        const response = await fetch(BaseUrl+'/login', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-                'Authorization': 'Basic '+token+'',
-        },
-        body: JSON.stringify(requestBody)        
-    });
-          
-    if (response.ok) {
-      const setCookieHeader = response.headers.get('set-cookie');
-      const accessToken = setCookieHeader.split('=')[1].split(';')[0];
-      
-      // Get the decoded payload
-      const decodedToken = jwtDecode(accessToken);
+      const login = async () => {
+        try{
+          const requestBody = {
+            encryptedKey: 'U2FsdGVkX180hbT1O9fI+moG6iuNQ6RvZw1Hfr7D0XrQf7qahFR/JPwHjIGuUbQ5jwsSfRiSNOlxINdWp+DTUw=='
+          };
   
-      if (!decodedToken.token) {
-        throw new Error('Encrypted data not found in the token');
-      }      
-
-      // Save cookies to 
-      await SecureStore.setItemAsync('userData', JSON.stringify(decodedToken.token));
-      await SecureStore.setItemAsync('accessToken', accessToken);
-
-      Alert.alert('Logged in');
-      navigation.navigate('LoggedIn')
-      console.log('Logged in')
-      //getCookie()
-
-      /* const a = await AsyncStorage.getItem('session')
-      console.log(decodeURIComponent(a))
-      const b = JSON.parse(decodeURIComponent(a))
-      console.log(b.id)  */
-    } else {
-      Alert.alert('Unauthorized');
-      console.log('Unauthorized');
+          const token = Buffer.from(username+':'+password).toString('base64');
+          const response = await fetch(BaseUrl+'/login', {
+              method: 'POST',
+              headers: {
+                  'content-type': 'application/json',
+                  'Authorization': 'Basic '+token+'',
+          },
+          body: JSON.stringify(requestBody)        
+      });
+            
+      if (response.ok) {
+        const setCookieHeader = response.headers.get('set-cookie');
+        const accessToken = setCookieHeader.split('=')[1].split(';')[0];
+        
+        // Get the decoded payload
+        const decodedToken = jwtDecode(accessToken);
+    
+        if (!decodedToken.token) {
+          throw new Error('Encrypted data not found in the token');
+        }      
+  
+        // Save cookies to 
+        await SecureStore.setItemAsync('userData', JSON.stringify(decodedToken.token));
+        await SecureStore.setItemAsync('accessToken', accessToken);
+  
+        Alert.alert('Logged in');
+        navigation.navigate('LoggedIn')
+        console.log('Logged in')
+        //getCookie()
+  
+        /* const a = await AsyncStorage.getItem('session')
+        console.log(decodeURIComponent(a))
+        const b = JSON.parse(decodeURIComponent(a))
+        console.log(b.id)  */
+      } else {
+        Alert.alert('Unauthorized');
+        console.log('Unauthorized');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
     }
-  } catch (error) {
-    console.error('Login error:', error);
-  }
-};    
+  };    
  
 
     //näyttää tilin tiedot ja mahdollistaa muokkauksen

@@ -18,9 +18,15 @@ export default function LoggedIn({navigation}) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const accessToken = await SecureStore.getItemAsync('accessToken');
         const user = await SecureStore.getItemAsync('userData');
         const userObject = JSON.parse(user);
-        const response = await axios.get(`${BASE_URL}/userr/${userObject.id}`);
+        const config = {
+          headers: {
+            Authorization: `Basic ${accessToken}`
+          }
+        };
+        const response = await axios.get(`${BASE_URL}/userr/getprivatedata/${userObject.id}`, config);
         setUserData(response.data);
       } catch (error) {
         console.error(error);

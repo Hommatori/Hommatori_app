@@ -36,19 +36,12 @@ export default function OwnAd({navigation, route}) {
 
       const deleteAd = async () => {
         try{
-          const userCookie = await SecureStore.getItemAsync('user');
-          const sessionCookie = await SecureStore.getItemAsync('session');
-        
-          if (!userCookie) {
-          // Handle the case when the user cookie is not available
-          // e.g., navigate to the login screen
-            console.log('cookie not found')
-          }
 
-        const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
-        
+          // hae jwt autentikointia vaativia APIreittejä varten
+          const accessToken = await SecureStore.getItemAsync('accessToken');
+
           await axios.delete(BASE_URL+'/ad/'+route.params.adid, {
-            headers: {Cookie: cookieHeader}
+            headers: {Cookie: 'accessToken='+ accessToken}
           })
             console.log('ad removed sucesfully');
             Alert.alert('Ilmoitus poistettu!')

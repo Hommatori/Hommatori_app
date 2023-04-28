@@ -24,7 +24,7 @@ export default function OwnAd({navigation, route}) {
         getData(); 
       }, []); 
 
-      const getData = async () => {
+      const getData = async () => { 
       try{   
       const results = await axios.get(BASE_URL+'/ad/'+route.params.adid)
       setAd(results.data)
@@ -35,23 +35,18 @@ export default function OwnAd({navigation, route}) {
       }} 
 
       const deleteAd = async () => {
-        try{
-
-          // hae jwt autentikointia vaativia APIreittejä varten
+        try {
           const accessToken = await SecureStore.getItemAsync('accessToken');
-
-          await axios.delete(BASE_URL+'/ad/'+route.params.adid, {
-            headers: {Cookie: 'accessToken='+ accessToken}
-          })
-            console.log('ad removed sucesfully');
-            Alert.alert('Ilmoitus poistettu!')
-
-         } catch(error) {
-            console.log('error ocured in removing ad', error);
-            Alert.alert('Ilmoituksen poistaminen epäonnistui!')
-          };
- 
-      }
+          await axios.delete(BASE_URL + '/ad/' + route.params.adid, {
+            headers: { Authorization: 'Bearer ' + accessToken }
+          });
+          console.log('ad removed successfully');
+          Alert.alert('Ilmoitus poistettu!');
+        } catch (error) {
+          console.log('error occurred in removing ad', error);
+          Alert.alert('Ilmoituksen poistaminen epäonnistui!');
+        }
+      };
 
 
   return (

@@ -78,7 +78,7 @@ export default function ShowAd({navigation, route}) {
       <View style={Styles.container2}>
 
 
-              <ViewAd />
+              <ViewAd ad={ad}/>
               <Pressable style={ButtonStyles.button}
                onPress={() => handleEmailPress()}
               >

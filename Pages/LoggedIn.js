@@ -20,6 +20,7 @@ export default function LoggedIn({navigation}) {
       try {
         const accessToken = await SecureStore.getItemAsync('accessToken');
         const user = await SecureStore.getItemAsync('userData');
+        console.log(accessToken)
         const userObject = JSON.parse(user);
         const config = {
           headers: {
@@ -37,19 +38,21 @@ export default function LoggedIn({navigation}) {
     fetchData();
   },[]);
 
-    async function logout() {
-      try {
-          await SecureStore.deleteItemAsync('userData');
-          await SecureStore.deleteItemAsync('accessToken');
-          navigation.navigate('Login');
-          console.log('logged out');
-          Alert.alert('Kirjaudutu ulos!')
-          //getCookie()
-          
-      } catch (error) {
-          console.log('Error clearing SecureStore: ', error.message);
-      }
+  async function logout() {
+    try {
+      fetch(BASE_URL+'/logout', {
+        method: 'POST',
+        credentials: 'include'
+      })
+      await SecureStore.deleteItemAsync('userData');
+      await SecureStore.deleteItemAsync('accessToken');
+      navigation.navigate('Login');
+      console.log('logged out');
+      Alert.alert('Kirjaudutu ulos!');
+    } catch (error) {
+      console.log('Error clearing SecureStore: ', error.message);
     }
+  }
 
     const ownAdsClicket = (id) => {    
       navigation.navigate('OwnAds', { id }) 

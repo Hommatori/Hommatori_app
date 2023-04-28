@@ -17,16 +17,14 @@ export default function Login({navigation}) {
     const [password, setPassword] = useState('Makkara1')
 
     const getCookie = async () =>{
-      const userCookie = await SecureStore.getItemAsync('user');
-      const sessionCookie = await SecureStore.getItemAsync('session');
-      const cookieHeader = `user=${userCookie}; session=${sessionCookie}`;
-      console.log(cookieHeader);
-      }
+      const accessToken = await SecureStore.getItemAsync('accessToken');
+      console.log(accessToken)
+    }
 
       const login = async () => {
         try{
           const requestBody = {
-            encryptedKey: 'U2FsdGVkX180hbT1O9fI+moG6iuNQ6RvZw1Hfr7D0XrQf7qahFR/JPwHjIGuUbQ5jwsSfRiSNOlxINdWp+DTUw=='
+            usingMobile: true
           };
   
           const token = Buffer.from(username+':'+password).toString('base64');
@@ -46,18 +44,13 @@ export default function Login({navigation}) {
         // Get the decoded payload
         const decodedToken = jwtDecode(accessToken);
     
-        if (!decodedToken.token) {
-          throw new Error('Encrypted data not found in the token');
-        }      
-  
         // Save cookies to 
-        await SecureStore.setItemAsync('userData', JSON.stringify(decodedToken.token));
+        await SecureStore.setItemAsync('userData', JSON.stringify(decodedToken.user));
         await SecureStore.setItemAsync('accessToken', accessToken);
   
         Alert.alert('Logged in');
         navigation.navigate('LoggedIn')
         console.log('Logged in')
-        //getCookie()
   
         /* const a = await AsyncStorage.getItem('session')
         console.log(decodeURIComponent(a))
@@ -106,8 +99,8 @@ export default function Login({navigation}) {
   
           <Pressable 
             style={ButtonStyles.button}
-            //onPress={() => navigation.navigate('AdAccount')}
             onPress={() => navigation.navigate('AdAccount')}
+            //onPress={() => getCookie()}
             >
             <Text style={ButtonStyles.buttonText}>Luo uusi tili</Text>
           </Pressable>

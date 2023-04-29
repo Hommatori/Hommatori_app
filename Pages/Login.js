@@ -13,8 +13,8 @@ import jwtDecode from 'jwt-decode'
 
 export default function Login({navigation}) {
 
-    const [username, setUsername] = useState('testi@4ksagl')
-    const [password, setPassword] = useState('Makkara1')
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
 
     const getCookie = async () =>{
       const accessToken = await SecureStore.getItemAsync('accessToken');
@@ -48,7 +48,7 @@ export default function Login({navigation}) {
         await SecureStore.setItemAsync('userData', JSON.stringify(decodedToken.user));
         await SecureStore.setItemAsync('accessToken', accessToken);
   
-        Alert.alert('Logged in');
+        Alert.alert('Kirjauduttu sisään!');
         navigation.navigate('LoggedIn')
         console.log('Logged in')
   
@@ -57,7 +57,7 @@ export default function Login({navigation}) {
         const b = JSON.parse(decodeURIComponent(a))
         console.log(b.id)  */
       } else {
-        Alert.alert('Unauthorized');
+        Alert.alert('Syötä tunnistautumistiedot!');
         console.log('Unauthorized');
       }
     } catch (error) {

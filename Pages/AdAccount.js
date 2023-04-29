@@ -43,7 +43,7 @@ export default function AdAccount({navigation}) {
             </Pressable>
           </View>
       </View> 
-      <NavBar navigation={navigation}></NavBar>
+     {/*  <NavBar navigation={navigation}></NavBar> */}
    </View>
 
   )}

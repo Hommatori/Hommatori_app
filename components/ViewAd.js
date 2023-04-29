@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 export default function ViewAd({ ad, publisher }) {
 
     //console.log(ad)
-    //console.log(publisher)
+    console.log(publisher)
 
     return (
 
@@ -17,6 +17,9 @@ export default function ViewAd({ ad, publisher }) {
                 />
             </View>
             <View style={styles.descriptionContainer}>
+                <View style={styles.textContainer}>
+                    <Text>{ad.header}</Text>
+                </View>
                 <View style={styles.textContainer}>
                     <View style={styles.row}>
                         <Text>Käyttäjänimi: </Text>

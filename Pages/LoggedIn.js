@@ -1,5 +1,5 @@
-import {React, useEffect, useState} from 'react';
-import {View, Text, Pressable, TextInput, Alert} from 'react-native';
+import { React, useEffect, useState } from 'react';
+import { View, Text, Pressable, TextInput, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as SecureStore from 'expo-secure-store';
 import NavBar from '../components/NavBar';
@@ -11,7 +11,7 @@ import UserDetails from '../components/UserDetails'
 import axios from 'axios';
 
 
-export default function LoggedIn({navigation}) {
+export default function LoggedIn({ navigation }) {
 
   const [userData, setUserData] = useState('')
 
@@ -36,11 +36,11 @@ export default function LoggedIn({navigation}) {
     };
 
     fetchData();
-  },[]);
+  }, []);
 
   async function logout() {
     try {
-      fetch(BASE_URL+'/logout', {
+      fetch(BASE_URL + '/logout', {
         method: 'POST',
         credentials: 'include'
       })
@@ -54,49 +54,49 @@ export default function LoggedIn({navigation}) {
     }
   }
 
-    const ownAdsClicket = (id) => {    
-      navigation.navigate('OwnAds', { id }) 
-    }
-
-    
-
-    return (
-    
-      <View style={Styles.container}>
-        <StatusBar style="light" translucent={true}/>
-          <Header></Header>
-         <View style={Styles.container2}>
-            <View style={Styles.headerContainer}>
-              <Text style={Styles.headerText}>Omasivu</Text>
-            </View>
-
-            <View style={Styles.userDataContainer}>
-              <UserDetails user={userData}/>   
-            </View> 
-
-            <View>  
-              <Pressable style={ButtonStyles.button}
-                onPress={() => {navigation.navigate('Account')}}>
-                <Text style={ButtonStyles.buttonText}>Muokkaa Tiliä</Text>
-              </Pressable>
-
-              <Pressable 
-                style={ButtonStyles.button}
-                onPress={() => ownAdsClicket(userData.userid)}>
-                <Text style={ButtonStyles.buttonText}>Omat ilmoitukset</Text>
-              </Pressable>
-
-              <Pressable 
-                style={ButtonStyles.button}
-                onPress={() => logout()}>
-                <Text style={ButtonStyles.buttonText}>Kirjaudu ulos</Text>
-              </Pressable> 
-          </View>
-        </View>   
-  
-        <NavBar navigation={navigation}></NavBar>
-  
-       </View>
-     
-      );
+  const ownAdsClicket = (id) => {
+    navigation.navigate('OwnAds', { id })
   }
+
+
+
+  return (
+
+    <View style={Styles.container}>
+      <StatusBar style="light" translucent={true} />
+      <Header></Header>
+      <View style={Styles.container2}>
+        <View style={Styles.headerContainer}>
+          <Text style={Styles.headerText}>Omasivu</Text>
+        </View>
+
+        <View style={Styles.userDataContainer}>
+          <UserDetails user={userData} />
+        </View>
+
+        <View>
+          <Pressable style={ButtonStyles.button}
+            onPress={() => { navigation.navigate('Account') }}>
+            <Text style={ButtonStyles.buttonText}>Muokkaa Tiliä</Text>
+          </Pressable>
+
+          <Pressable
+            style={ButtonStyles.button}
+            onPress={() => ownAdsClicket(userData.userid)}>
+            <Text style={ButtonStyles.buttonText}>Omat ilmoitukset</Text>
+          </Pressable>
+
+          <Pressable
+            style={ButtonStyles.button}
+            onPress={() => logout()}>
+            <Text style={ButtonStyles.buttonText}>Kirjaudu ulos</Text>
+          </Pressable>
+        </View>
+      </View>
+
+      <NavBar navigation={navigation}></NavBar>
+
+    </View>
+
+  );
+}

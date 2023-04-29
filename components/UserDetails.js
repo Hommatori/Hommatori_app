@@ -31,9 +31,7 @@ export default function LoggedIn({user}) {
   }
 
   const styles = StyleSheet.create({
-    container:{
-       
-    },
+
     header:{
         fontSize: 30,
         fontWeight: 'bold',

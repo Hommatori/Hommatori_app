@@ -1,69 +1,90 @@
-import {React} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import { React } from 'react';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
-export default function ViewAd({ad}) {
+export default function ViewAd({ ad, publisher }) {
 
-   // console.log(publisher)
+    //console.log(ad)
+    //console.log(publisher)
 
     return (
-    
-    <View style={styles.container}>
-        <Text>kuhan jotain</Text>
 
 
-     <View style={{alignItems: 'center'}}>
-                    <Image 
-                    style ={styles.image}
-                    source={ ad.image && ad.image != '' ? { uri: ad.image } : null }        
-                    /> 
-                  </View> 
-        <Text style={styles.AdHeaderTextStyle}>{} </Text>
-
-        <View style={styles.descriptionContainer3}>
-        <Text style={styles.textStyle}>Nimi</Text>   
-        <Text style={styles.textStyle}>Puhelinumero</Text>  
-        <Text style={styles.textStyle}>Sähköposti</Text>    
+        <View style={styles.adContainer}>
+            <View style={{ alignItems: 'center' }}>
+                <Image
+                    style={styles.image}
+                    source={ad.image && ad.image != '' ? { uri: ad.image } : null}
+                />
+            </View>
+            <View style={styles.descriptionContainer}>
+                <View style={styles.textContainer}>
+                    <View style={styles.row}>
+                        <Text>Käyttäjänimi: </Text>
+                        <Text>{publisher.username}</Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text>Puhelinnumero: </Text>
+                        <Text>{publisher.phonenumber}</Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text>Sähköposti: </Text>
+                        <Text>{publisher.email}</Text>
+                    </View>
+                </View>
+                <View style={styles.textContainer}>
+                    <View style={styles.row}>
+                        <Text>Alue: </Text>
+                        <Text>{ad.region}</Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text>Paikkakunta: </Text>
+                        <Text>{ad.municipality} </Text>
+                    </View>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text>{ad.type}€</Text>
+                    <Text>Hinta: {ad.price}€</Text>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text>{ad.description}</Text>
+                </View>
+            </View>
         </View>
-        <View style={styles.descriptionContainer3}>
-        <Text style={styles.textStyle}>{}</Text>
-        <Text style={styles.textStyle}>{} </Text>
-        </View>
-        <View style={styles.descriptionContainer3}>
-        <Text style={styles.textStyle}>{}€</Text>
-        <Text style={styles.textStyle}>Hinta {}€</Text>
-        </View>
-        <View style={styles.descriptionContainer3}>
-        <Text>{}</Text>
-        </View> 
-    </View>
-     
-      );
-  }
 
-  const styles = StyleSheet.create({
-    container:{
-        flex: 1,
-       
-    },
-    header:{
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    row:{
+    );
+}
+
+const styles = StyleSheet.create({
+    row: {
         flexDirection: 'row',
-        
     },
-
-    text: {
-        marginRight: 5,
-        marginBottom: 10,
-        fontSize: 20,
-        fontWeight: 'bold',
+    textContainer: {
+        margin: 5,
     },
-    text2: {
-        marginRight: 5,
-        marginBottom: 10,
-        fontSize: 20,
+    image: {
+        height: 150,
+        width: 150,
+        backgroundColor: '#25db55',
+        borderRadius: 15,
+        marginTop: 5,
     },
-  });
+    adContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        borderColor: '#25db55',
+        borderWidth: 3,
+        borderRadius: 15,
+        marginBottom: 3,
+        zIndex: 10,
+    },
+    descriptionContainer: {
+        flex: 1,
+        margin: 5,
+        flexDirection: 'column',
+        borderColor: '#25db55',
+        borderWidth: 3,
+        borderRadius: 15,
+        marginBottom: 3,
+        zIndex: 10,
+    },
+});

@@ -59,6 +59,10 @@ export default function LoggedIn({ navigation }) {
     navigation.navigate('OwnAds', { userId })
   }
 
+  const ediAccountClicket = (userData) => {
+    navigation.navigate('Account', { userData })
+  }
+
 
 
   return (
@@ -77,7 +81,7 @@ export default function LoggedIn({ navigation }) {
 
         <View>
           <Pressable style={ButtonStyles.button}
-            onPress={() => { navigation.navigate('Account') }}>
+            onPress={() => ediAccountClicket(userData)}>
             <Text style={ButtonStyles.buttonText}>Muokkaa Tiliä</Text>
           </Pressable>
 

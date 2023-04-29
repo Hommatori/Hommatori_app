@@ -1,6 +1,5 @@
 import { React, useState } from 'react';
-import { View, Text, Pressable, Alert } from 'react-native';
-import AccountStyles from '../Styles/AccountStyles';
+import { View, Text, Pressable, Alert, StyleSheet } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
@@ -28,7 +27,7 @@ export default function AdAccount({ navigation }) {
     const accessToken = await SecureStore.getItemAsync('accessToken');
 
     try {
-      await axios.post(BASE_URL+'/signup', {
+      await axios.post(BASE_URL + '/signup', {
         fname: fname,
         lname: lname,
         username: userName,
@@ -52,41 +51,41 @@ export default function AdAccount({ navigation }) {
 
   return (
 
-    <View style={AccountStyles.container}>
+    <View style={styles.container}>
       <StatusBar style="light" translucent={true} />
       <Header></Header>
-      <View style={AccountStyles.property}>
-        <Text style={AccountStyles.headerText}>Luo tili</Text>
+      <View style={styles.property}>
+        <Text style={styles.headerText}>Luo tili</Text>
         <View>
-          <Text style={AccountStyles.itemText}>Etunimi</Text>
-          <TextInput style={AccountStyles.textInputContainer}
+          <Text style={styles.itemText}>Etunimi</Text>
+          <TextInput style={styles.textInputContainer}
             onChangeText={(text => setFname(text))}
           >
           </TextInput>
-          <Text style={AccountStyles.itemText}>Sukunimi</Text>
-          <TextInput style={AccountStyles.textInputContainer}
+          <Text style={styles.itemText}>Sukunimi</Text>
+          <TextInput style={styles.textInputContainer}
             onChangeText={(text => setLname(text))}
           >
           </TextInput>
-          <Text style={AccountStyles.itemText}>Käyttäjätunnus</Text>
-          <TextInput style={AccountStyles.textInputContainer}
+          <Text style={styles.itemText}>Käyttäjätunnus</Text>
+          <TextInput style={styles.textInputContainer}
             onChangeText={(text => setUserName(text))}
           >
           </TextInput>
-          <Text style={AccountStyles.itemText}>Sähköposti</Text>
-          <TextInput style={AccountStyles.textInputContainer}
+          <Text style={styles.itemText}>Sähköposti</Text>
+          <TextInput style={styles.textInputContainer}
             onChangeText={(text => setEmail(text))}
             keyboardType='email-address'
           >
           </TextInput>
-          <Text style={AccountStyles.itemText}>Puhelinumero</Text>
-          <TextInput style={AccountStyles.textInputContainer}
+          <Text style={styles.itemText}>Puhelinumero</Text>
+          <TextInput style={styles.textInputContainer}
             onChangeText={(text => setPhonenumber(text))}
             keyboardType='numeric'
           >
           </TextInput>
-          <Text style={AccountStyles.itemText}>Salasana</Text>
-          <TextInput style={AccountStyles.textInputContainer}
+          <Text style={styles.itemText}>Salasana</Text>
+          <TextInput style={styles.textInputContainer}
             onChangeText={(text => setPassword(text))}
           >
           </TextInput>
@@ -107,3 +106,31 @@ export default function AdAccount({ navigation }) {
 
   )
 }
+
+const styles = StyleSheet.create({
+
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  property: {
+    flex: 1,
+    justifyContent: 'center',
+    margin: 10,
+  },
+  headerText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  itemText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  textInputContainer: {
+    backgroundColor: '#dadee6',
+    padding: 7,
+    borderRadius: 10,
+  }
+
+
+});

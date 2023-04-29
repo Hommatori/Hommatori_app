@@ -49,6 +49,20 @@ export default function OwnAd({ navigation, route }) {
     }
   };
 
+  const date = new Date(ad.date);
+  const formattedDate = date.toLocaleString('en-GB', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
+    timeZone: 'UTC'
+  }).replace(',', '');
+  console.log(formattedDate); // Outputs: "04/29/2023 12:02:11"
+  console.log(ad)
+
 
   return (
 
@@ -71,9 +85,10 @@ export default function OwnAd({ navigation, route }) {
           </View>
           <View style={Styles.descriptionContainer1}>
             <View style={Styles.descriptionContainer2}>
-
               <Text style={Styles.AdHeaderTextStyle}>{ad.header} </Text>
-
+              <View style={Styles.descriptionContainer3}>
+                <Text>Ilmoitus luotu: {formattedDate}</Text>
+              </View>
               <View style={Styles.descriptionContainer3}>
                 <Text style={Styles.textStyle}>Nimi</Text>
                 <Text style={Styles.textStyle}>Puhelinumero</Text>
@@ -98,7 +113,7 @@ export default function OwnAd({ navigation, route }) {
         >
           <Text style={ButtonStyles.buttonText}>Poista</Text>
         </Pressable>
-       {/*  <Pressable style={ButtonStyles.button}>
+        {/*  <Pressable style={ButtonStyles.button}>
           <Text style={ButtonStyles.buttonText}>Muokkaa</Text>
         </Pressable>
         <Pressable style={ButtonStyles.button} >

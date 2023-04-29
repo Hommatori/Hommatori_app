@@ -64,7 +64,7 @@ export default function Announce({ navigation }) {
     const accessToken = await SecureStore.getItemAsync('accessToken');
 
     try {
-      await axios.post(BASE_URL + '/ad', {
+      await axios.post(BASE_URL +'/ad', {
         type: type,
         header: header,
         description: description,

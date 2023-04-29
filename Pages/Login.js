@@ -27,7 +27,7 @@ export default function Login({navigation}) {
             usingMobile: true
           };
   
-          const token = Buffer.from(username+':'+password).toString('base64');
+          const token = Buffer.from(username.toLowerCase()+':'+password).toString('base64');
           const response = await fetch(BaseUrl+'/login', {
               method: 'POST',
               headers: {
@@ -77,16 +77,18 @@ export default function Login({navigation}) {
           <View style={LoginStyles.property}> 
             <Text style={LoginStyles.headerText}>Kirjaudu sisään</Text>
               <View>
-                <Text style={LoginStyles.itemText}>Käyttäjätunnus</Text>
+                <Text style={LoginStyles.itemText}>Sähköpostiosoite</Text>
                   <TextInput style={LoginStyles.textInputContainer}
                     placeholder="Syötä käyttäjätunnus"
                     onChangeText={(text => setUsername(text))}
+                    keyboardType='email-address'
                     >
                     </TextInput>
                   <Text style={LoginStyles.itemText}>Salasana</Text>
                   <TextInput style={LoginStyles.textInputContainer}
                     placeholder="Syötä salasana"
                     onChangeText={(text => setPassword(text))}
+                    secureTextEntry={true}
                     >
                   </TextInput>
                   <Pressable 

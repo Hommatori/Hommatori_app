@@ -29,6 +29,7 @@ export default function LoggedIn({ navigation }) {
         };
         const response = await axios.get(`${BASE_URL}/userr/getprivatedata/${userObject.id}`, config);
         setUserData(response.data);
+        //console.log(response.data)
       } catch (error) {
         console.error(error);
         Alert.alert('Error fetching data');
@@ -54,8 +55,8 @@ export default function LoggedIn({ navigation }) {
     }
   }
 
-  const ownAdsClicket = (id) => {
-    navigation.navigate('OwnAds', { id })
+  const ownAdsClicket = (userId) => {
+    navigation.navigate('OwnAds', { userId })
   }
 
 

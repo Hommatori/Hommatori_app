@@ -43,7 +43,7 @@ export default function ViewAd({ ad, publisher }) {
                 </View>
                 <View style={styles.textContainer}>
                     <Text>{ad.type}€</Text>
-                    <Text>Hinta {ad.price}€</Text>
+                    <Text>Hinta: {ad.price}€</Text>
                 </View>
                 <View style={styles.textContainer}>
                     <Text>{ad.description}</Text>

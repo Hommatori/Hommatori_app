@@ -75,7 +75,6 @@ export default function Announce({ navigation, }) {
     }
   }
 
-
   return (
 
     <View style={AnnounceStyles.container}>

@@ -12,7 +12,7 @@ import regions from '../json/regions';
 import Type from '../json/Type';
 import BASE_URL from '../json/BaseUrl';
 
-export default function OwnAds({ navigation }) {
+export default function OwnAds({ navigation, route }) {
 
   const [open, setOpen] = useState(false);
   const [openAnother, setOpenAnother] = useState(false);
@@ -29,6 +29,7 @@ export default function OwnAds({ navigation }) {
 
   useEffect(() => {
     getData();
+    console.log(route.params.userId)
   }, [page]);
 
   // tämä hakee databasesta ilmoitukset.
@@ -64,7 +65,6 @@ export default function OwnAds({ navigation }) {
   const handleButtonAdClicket = (adid) => {
     navigation.navigate('OwnAd', { adid })
   }
-
 
   return (
     <View style={Styles.container}>

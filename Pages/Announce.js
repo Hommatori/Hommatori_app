@@ -10,13 +10,13 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DropdownStyles from '../Styles/DropdownStyles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import regions from '../json/regions.json';
-import BaseUrl from '../json/BaseUrl.json'
+import BASE_URL from '../json/BaseUrl.json'
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
 
 
-export default function Announce({ navigation, }) {
+export default function Announce({ navigation }) {
 
 
   const [open, setOpen] = useState(false);
@@ -27,21 +27,33 @@ export default function Announce({ navigation, }) {
   const [location, setLocation] = useState(0)
   const [municipality, setMunicipality] = useState('')
   const [price, setPrice] = useState('0')
-  const [userId, setUserId] = useState('2')  //käyttäjäid tämä syötetään vielä käsin
   const [adid, setAdid] = useState('400') // id syötettävä vielä käsin
   const [modalVisible, setModalVisible] = useState(false);
+  const [userData, setUserData] = useState('');
 
-  /*     useEffect(() => {
-  
-        const data = async() => {
-        const a = await AsyncStorage.getItem('user')
-        console.log(decodeURIComponent(a))
-        const b = JSON.parse(decodeURIComponent(a))
-        console.log(b.id)
-        }
-        data();
-      }) */
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accessToken = await SecureStore.getItemAsync('accessToken');
+        const user = await SecureStore.getItemAsync('userData');
+        const userObject = JSON.parse(user);
+        const config = {
+          headers: {
+            Authorization: `Basic ${accessToken}`
+          }
+        };
+        const response = await axios.get(`${BASE_URL}/userr/getprivatedata/${userObject.id}`, config);
+        setUserData(response.data);
+        //setUserId(response.data.userid)
+        console.log(response.data.userid.toString())
+      } catch (error) {
+        console.error(error);
+        Alert.alert('Error fetching data');
+      }
+    };
 
+    fetchData();
+  }, []);
 
   const options = [
     { label: 'Myyn', value: 'joboffer' },
@@ -49,16 +61,17 @@ export default function Announce({ navigation, }) {
   ]
 
   const newAd = async () => {
-    try {
-      const accessToken = await SecureStore.getItemAsync('accessToken');
 
-      await axios.post(BaseUrl + '/ad', {
+    const accessToken = await SecureStore.getItemAsync('accessToken');
+
+    try {
+      await axios.post(BASE_URL + '/ad', {
         type: type,
         header: header,
         description: description,
         location: location,
         price: price,
-        userid: userId,
+        userid: userData.userid.toString(),
         region: region,
         municipality: municipality
       }, {
@@ -151,11 +164,9 @@ export default function Announce({ navigation, }) {
 
         </View>
 
-        <Pressable style={ButtonStyles.button}
-        // onPress={() => testi()}
-        >
+        {/* <Pressable style={ButtonStyles.button} >
           <Text style={ButtonStyles.buttonText}>Lisää kuva</Text>
-        </Pressable>
+        </Pressable> */}
 
         <Pressable style={ButtonStyles.button}
           onPress={() => newAd()}

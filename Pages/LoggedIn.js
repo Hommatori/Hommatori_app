@@ -20,7 +20,7 @@ export default function LoggedIn({ navigation }) {
       try {
         const accessToken = await SecureStore.getItemAsync('accessToken');
         const user = await SecureStore.getItemAsync('userData');
-        console.log(accessToken)
+        //console.log(accessToken)
         const userObject = JSON.parse(user);
         const config = {
           headers: {

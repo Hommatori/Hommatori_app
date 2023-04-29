@@ -98,15 +98,16 @@ export default function OwnAd({ navigation, route }) {
         >
           <Text style={ButtonStyles.buttonText}>Poista</Text>
         </Pressable>
-        <Pressable style={ButtonStyles.button}
-        //onPress={() => handleEmailPress()}
-        >
+       {/*  <Pressable style={ButtonStyles.button}>
           <Text style={ButtonStyles.buttonText}>Muokkaa</Text>
         </Pressable>
-        <Pressable style={ButtonStyles.button}
-        //onPress={() => handlSmsPress()}
-        >
+        <Pressable style={ButtonStyles.button} >
           <Text style={ButtonStyles.buttonText}>Tallenna</Text>
+        </Pressable> */}
+        <Pressable style={ButtonStyles.button}
+          onPress={() => navigation.navigate('OwnAds')}
+        >
+          <Text style={ButtonStyles.buttonText}>Takaisin</Text>
         </Pressable>
 
 

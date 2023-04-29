@@ -33,7 +33,7 @@ export default function MainPage({ navigation }) {
 
   const getData = async () => {
     try {
-      const results = await axios.get('' + BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=&page=' + page + '&query=' + searchText + '')
+      const results = await axios.get(BASE_URL+ '/ad/withparams/get?type=' + type + '&region=' + region + '&order=&page=' + page + '&query=' + searchText + '')
       setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       console.log('getData success')

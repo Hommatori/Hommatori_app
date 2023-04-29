@@ -28,21 +28,22 @@ export default function OwnAds({ navigation, route }) {
 
 
   useEffect(() => {
-    getData();
+    getDataByUserId()
     console.log(route.params.userId)
   }, [page]);
 
   // tämä hakee databasesta ilmoitukset.
-  const getData = async () => {
+  const getDataByUserId = async () => {
     try {
-      const results = await axios.get('' + BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=&page=' + page + '&query=' + searchText + '')
-      setAds(Object.values(results.data.data))
+      const results = await axios.get(BASE_URL+'/ad/withuserid/get/?userid='+route.params.userId)
+      setAds(Object.values(results.data))
       setTota_rows(results.data.total_rows)
       console.log('getData success')
+      //console.log(results.data)
 
     } catch (error) {
       console.log("getData error ", error)
-      Alert.alert('Haku epännostui!')
+      Alert.alert('Sinulla ei ole ilmoituksia!')
     }
   }
 
@@ -99,19 +100,11 @@ export default function OwnAds({ navigation, route }) {
             ))
           }
         </ScrollView>
-        <View style={ButtonStyles.nextContainer}>
+        <View style={ButtonStyles.button}>
           <Pressable style={ButtonStyles.buttonSearch}
-            onPress={() => previousAds()}
+            onPress={() => navigation.navigate('LoggedIn')}
           >
             <Text style={ButtonStyles.buttonText}>Takaisin</Text>
-          </Pressable>
-          <View style={ButtonStyles.infoContainer}>
-            <Text style={ButtonStyles.infoText}>Sivu {page}/{Math.ceil(total_rows / 10)}   osumia {total_rows}</Text>
-          </View>
-          <Pressable style={ButtonStyles.buttonSearch}
-            onPress={() => nextAds()}
-          >
-            <Text style={ButtonStyles.buttonText}>Seuraava</Text>
           </Pressable>
         </View>
       </View>

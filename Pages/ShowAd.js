@@ -15,10 +15,6 @@ export default function ShowAd({ navigation, route }) {
   const [publisher, setPublisher] = useState([]);
   const [page, setPage] = useState(1);
   const [total_rows, setTota_rows] = useState(0)
-  const [userId, setUserId] = useState('14')
-
-
-  // tämä hakee databasesta ilmoitukset.
 
 
   useEffect(() => {
@@ -40,15 +36,13 @@ export default function ShowAd({ navigation, route }) {
 
   const getPublisher = async () => {
     try {
-      const results = await axios.get(BASE_URL + '/userr/ad/' + userId)
+      const results = await axios.get(BASE_URL + '/userr/ad/' + route.params.userid)
       setPublisher(results.data)
       //console.log(results.data)
-
     } catch (error) {
-      console.log("getAd error", error)
+      console.log("get publisher error", error)
     }
   }
-
 
   const handleEmailPress = () => {
     const email = publisher.email;
@@ -103,14 +97,5 @@ const styles = StyleSheet.create({
   container2: {
     flex: 1,
     margin: 10,
-  },
-  adContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    borderColor: '#25db55',
-    borderWidth: 3,
-    borderRadius: 15,
-    marginBottom: 3,
-    zIndex: 10,
   },
 });

@@ -29,8 +29,7 @@ export default function OwnAds({ navigation, route }) {
 
   useEffect(() => {
     getDataByUserId()
-    console.log(route.params.userId)
-  }, [page]);
+  }, []);
 
   // tämä hakee databasesta ilmoitukset.
   const getDataByUserId = async () => {
@@ -39,8 +38,7 @@ export default function OwnAds({ navigation, route }) {
       setAds(Object.values(results.data))
       setTota_rows(results.data.total_rows)
       console.log('getData success')
-      //console.log(results.data)
-
+      
     } catch (error) {
       console.log("getData error ", error)
       Alert.alert('Sinulla ei ole ilmoituksia!')
@@ -63,8 +61,8 @@ export default function OwnAds({ navigation, route }) {
     }
   }
 
-  const handleButtonAdClicket = (adid) => {
-    navigation.navigate('OwnAd', { adid })
+  const handleButtonAdClicket = (adid, userid) => {
+    navigation.navigate('OwnAd', { adid, userid })
   }
 
   return (
@@ -77,7 +75,7 @@ export default function OwnAds({ navigation, route }) {
         <ScrollView style={Styles.scrollViewStyle}>
           {
             Object.values(ads).map((item, index) => (
-              <Pressable key={index} onPress={(() => handleButtonAdClicket(item.adid))}>
+              <Pressable key={index} onPress={(() => handleButtonAdClicket(item.adid, item.userid))}>
                 <View style={Styles.adContainer}>
                   <Image
                     style={Styles.image}

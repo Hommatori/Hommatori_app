@@ -45,13 +45,12 @@ export default function Announce({ navigation }) {
         const response = await axios.get(`${BASE_URL}/userr/getprivatedata/${userObject.id}`, config);
         setUserData(response.data);
         //setUserId(response.data.userid)
-        console.log(response.data.userid.toString())
+        //console.log(response.data.userid.toString())
       } catch (error) {
         console.error(error);
         Alert.alert('Error fetching data');
       }
     };
-
     fetchData();
   }, []);
 
@@ -88,6 +87,11 @@ export default function Announce({ navigation }) {
     }
   }
 
+  const handelSaveClicked = () => {
+    newAd()
+    navigation.navigate('LoggedIn')
+  }
+
   return (
 
     <View style={AnnounceStyles.container}>
@@ -104,7 +108,6 @@ export default function Announce({ navigation }) {
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä otsikko"
           onChangeText={(text => setHeader(text))}
-          returnKeyType='search'
         >
         </TextInput>
         <Text>Kuvaus</Text>
@@ -114,7 +117,6 @@ export default function Announce({ navigation }) {
           textAlignVertical="top"
           placeholder="Syötä kuvaus"
           onChangeText={(text => setDescription(text))}
-          returnKeyType='search'
         >
         </TextInput>
         <Text>Kunta</Text>
@@ -128,14 +130,14 @@ export default function Announce({ navigation }) {
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä postinumero"
           onChangeText={(text => setLocation(text))}
-          returnKeyType='search'
+          keyboardType='numeric'
         >
         </TextInput>
         <Text>Hinta</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä Hinta"
           onChangeText={(text => setPrice(text))}
-          returnKeyType='search'
+          keyboardType='numeric'
         >
         </TextInput>
 
@@ -169,7 +171,7 @@ export default function Announce({ navigation }) {
         </Pressable> */}
 
         <Pressable style={ButtonStyles.button}
-          onPress={() => newAd()}
+          onPress={() => handelSaveClicked()}
         >
           <Text style={ButtonStyles.buttonText}>Tallenna</Text>
         </Pressable>

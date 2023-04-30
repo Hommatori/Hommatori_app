@@ -4,7 +4,21 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 export default function ViewAd({ ad, publisher }) {
 
     //console.log(ad)
-    //console.log(publisher)
+    //console.log(ad)
+
+
+    const date = new Date(ad.date);
+    const formattedDate = date.toLocaleString('en-GB', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+        timeZone: 'UTC'
+    }).replace(',', '');
+    //console.log(formattedDate); // Outputs: "04/29/2023 12:02:11"
 
     return (
 
@@ -17,6 +31,12 @@ export default function ViewAd({ ad, publisher }) {
                 />
             </View>
             <View style={styles.descriptionContainer}>
+                <View style={styles.textContainer}>
+                    <Text>{ad.header}</Text>
+                </View>
+                <View style={styles.textContainer}>
+                    <Text>ilmoitus luotu: {formattedDate}</Text>
+                </View>
                 <View style={styles.textContainer}>
                     <View style={styles.row}>
                         <Text>Käyttäjänimi: </Text>

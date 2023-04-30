@@ -78,8 +78,8 @@ export default function MainPage({ navigation }) {
     setOpen(false);
   }, []);
 
-  const handleButtonAdClicket = (adid) => {
-    navigation.navigate('ShowAd', { adid })
+  const handleButtonAdClicket = (adid, userid) => {
+    navigation.navigate('ShowAd', { adid, userid })
   }
   // console.log (ad)
 
@@ -164,7 +164,7 @@ export default function MainPage({ navigation }) {
         <ScrollView style={Styles.scrollViewStyle}>
           {
             Object.values(ads).map((item, index) => (
-              <Pressable key={index} onPress={(() => handleButtonAdClicket(item.adid))}>
+              <Pressable key={index} onPress={(() => handleButtonAdClicket(item.adid, item.userid))}>
                 <View style={Styles.adContainer}>
                   <Image
                     style={Styles.image}

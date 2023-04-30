@@ -22,15 +22,8 @@ export default function EditAd({ navigation, route }) {
   const [open, setOpen] = useState(false);
   const [region, setRegion] = useState('');
   const [type, setType] = useState('')
-  const [header, setHeader] = useState('')
-  const [description, setDescription] = useState('')
-  const [location, setLocation] = useState(0)
-  const [municipality, setMunicipality] = useState('')
-  const [price, setPrice] = useState('')
-  const [adid, setAdid] = useState('')
-  const [userData, setUserData] = useState('');
   const [ad, setAd] = useState('')
-  const [publisher, setPublisher] = useState('')
+  
 
   useEffect(() => {
     getData();
@@ -68,13 +61,13 @@ export default function EditAd({ navigation, route }) {
     console.log(ad.header)
     try {
       await axios.put(BASE_URL + '/ad/' + route.params.adid, {
-        type: ad.type,
+        type: type,
         header: ad.header,
         description: ad.description,
         location: ad.location,
         price: ad.price,
         userid: route.params.userid.toString(),
-        region: ad.region,
+        region: region,
         municipality: ad.municipality
       }, {
         headers: { Authorization: 'Bearer' + accessToken }
@@ -92,7 +85,7 @@ export default function EditAd({ navigation, route }) {
 
   const handelSaveClicked = () => {
     updateAd()
-    // navigation.navigate('LoggedIn')
+    navigation.navigate('LoggedIn')
   }
 
   return (
@@ -180,7 +173,7 @@ export default function EditAd({ navigation, route }) {
               value: item,
               label: item
             }))}
-            value={ad.region}
+            value={region}
             setValue={setRegion}
           />
 

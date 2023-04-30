@@ -10,13 +10,8 @@ export default function UserDetails({ user }) {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
         timeZone: 'Europe/Helsinki'
-    }).replace(',', '');
-    //console.log(formattedDate); // Outputs: "04/29/2023 12:02:11"
+    }).replace(/(\d+)\/(\d+)\/(\d+)/, '$1.$2.$3');
 
     return (
 
@@ -38,7 +33,7 @@ export default function UserDetails({ user }) {
                 <Text style={styles.text2}>Puhelinumero:</Text>
                 <Text style={styles.text}>{user.phonenumber}</Text>
             </View>
-            <View >
+            <View style={styles.row}>
                 <Text style={styles.text2}>Käyttäjätili luotu:</Text>
                 <Text style={styles.text}>{formattedDate}</Text>
             </View>
@@ -49,16 +44,9 @@ export default function UserDetails({ user }) {
 
 const styles = StyleSheet.create({
 
-    header: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
     row: {
         flexDirection: 'row',
-
     },
-
     text: {
         marginRight: 5,
         marginBottom: 10,

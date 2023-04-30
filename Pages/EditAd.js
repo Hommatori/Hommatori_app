@@ -16,7 +16,7 @@ import * as SecureStore from 'expo-secure-store';
 
 
 
-export default function EditAd({ navigation,route }) {
+export default function EditAd({ navigation, route }) {
 
 
   const [open, setOpen] = useState(false);
@@ -27,33 +27,12 @@ export default function EditAd({ navigation,route }) {
   const [location, setLocation] = useState(0)
   const [municipality, setMunicipality] = useState('')
   const [price, setPrice] = useState('')
-  const [adid, setAdid] = useState('') 
+  const [adid, setAdid] = useState('')
   const [userData, setUserData] = useState('');
   const [ad, setAd] = useState('')
-
- 
+  const [publisher, setPublisher] = useState('')
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const accessToken = await SecureStore.getItemAsync('accessToken');
-        const user = await SecureStore.getItemAsync('userData');
-        const userObject = JSON.parse(user);
-        const config = {
-          headers: {
-            Authorization: `Basic ${accessToken}`
-          }
-        };
-        const response = await axios.get(`${BASE_URL}/userr/getprivatedata/${userObject.id}`, config);
-        setUserData(response.data);
-        //setUserId(response.data.userid)
-        //console.log(response.data.userid.toString())
-      } catch (error) {
-        console.error(error);
-        Alert.alert('Error fetching data');
-      }
-    };
-    fetchData();
     getData();
   }, []);
 
@@ -74,37 +53,46 @@ export default function EditAd({ navigation,route }) {
     }
   }
 
-  const newAd = async () => {
+  const getPublisher = async () => {
+    try {
+      const results = await axios.get(BASE_URL + '/userr/ad/' + route.params.userid)
+      setPublisher(results.data)
+    } catch (error) {
+      console.log("get publisher error", error)
+    }
+  }
+
+  const updateAd = async () => {
 
     const accessToken = await SecureStore.getItemAsync('accessToken');
-
+    console.log(ad.header)
     try {
-      await axios.post(BASE_URL + '/ad', {
-        type: type,
-        header: header,
-        description: description,
-        location: location,
-        price: price,
-        userid: userData.userid.toString(),
-        region: region,
-        municipality: municipality
+      await axios.put(BASE_URL + '/ad/' + route.params.adid, {
+        type: ad.type,
+        header: ad.header,
+        description: ad.description,
+        location: ad.location,
+        price: ad.price,
+        userid: route.params.userid.toString(),
+        region: ad.region,
+        municipality: ad.municipality
       }, {
         headers: { Authorization: 'Bearer' + accessToken }
       })
 
-      console.log('newAd created successfully')
-      Alert.alert('Ilmoitus luotu!');
+      console.log('Ad updated successfully')
+      Alert.alert('ilmoitus Päivitetty!');
       //console.log(cookieHeader)
 
     } catch (e) {
-      console.log('newAd error', e)
-      Alert.alert('Ilmoituksen luonti epäonnistui!')
+      console.log('update ad error', e)
+      Alert.alert('Ilmoituksen päivitys epäonnistui!')
     }
   }
 
   const handelSaveClicked = () => {
-   // newAd()
-   // navigation.navigate('LoggedIn')
+    updateAd()
+    // navigation.navigate('LoggedIn')
   }
 
   return (
@@ -114,18 +102,22 @@ export default function EditAd({ navigation,route }) {
       <Header></Header>
 
       <View style={AnnounceStyles.property}>
-        <Text>Jätä ilmoitus</Text>
+        <Text>Muokkaa ilmoitusta</Text>
         <Text>Myytkö Vai Ostatko?</Text>
         <View style={AnnounceStyles.radioButton}>
-          <RadioButton  options={options} onPress={(value) => { setType(value) }} initialValue={ad.type} />
+          <RadioButton options={options} onPress={(value) => { setType(value) }} initialValue={ad.type} />
         </View>
+
         <Text>Otsikko</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä otsikko"
           value={ad.header}
-          onChangeText={(text => setHeader(text))}
+          onChangeText={(text) => {
+            setAd({ ...ad, header: text }); // update the ad object
+          }}
         >
         </TextInput>
+
         <Text>Kuvaus</Text>
         <TextInput
           style={AnnounceStyles.textInputContainer2}
@@ -133,14 +125,18 @@ export default function EditAd({ navigation,route }) {
           textAlignVertical="top"
           placeholder="Syötä kuvaus"
           value={ad.description}
-          onChangeText={(text => setDescription(text))}
+          onChangeText={(text) => {
+            setAd({ ...ad, description: text });
+          }}
         >
         </TextInput>
         <Text>Kunta</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä kunta"
           value={ad.municipality}
-          onChangeText={(text => setMunicipality(text))}
+          onChangeText={(text) => {
+            setAd({ ...ad, municipality: text });
+          }}
           returnKeyType='search'
         >
         </TextInput>
@@ -148,7 +144,9 @@ export default function EditAd({ navigation,route }) {
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä postinumero"
           value={ad.location}
-          onChangeText={(text => setLocation(text))}
+          onChangeText={(text) => {
+            setAd({ ...ad, location: text });
+          }}
           keyboardType='numeric'
         >
         </TextInput>
@@ -156,7 +154,9 @@ export default function EditAd({ navigation,route }) {
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä Hinta"
           value={ad.price}
-          onChangeText={(text => setPrice(text))}
+          onChangeText={(text) => {
+            setAd({ ...ad, price: text });
+          }}
           keyboardType='numeric'
         >
         </TextInput>

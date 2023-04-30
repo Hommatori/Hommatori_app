@@ -59,8 +59,8 @@ export default function OwnAd({ navigation, route }) {
     navigation.navigate('LoggedIn')
   }
 
-  const handleEditAdClicked = (adid) => {
-    navigation.navigate('EditAd',{adid})
+  const handleEditAdClicked = (adid, userid) => {
+    navigation.navigate('EditAd',{adid, userid})
     //console.log(adid)
   }
 
@@ -74,7 +74,7 @@ export default function OwnAd({ navigation, route }) {
       <View style={styles.container2}>
         <ViewAd ad={ad} publisher={publisher} />
         <Pressable style={ButtonStyles.button}
-          onPress={(() => handleEditAdClicked(route.params.adid))} >
+          onPress={(() => handleEditAdClicked(route.params.adid, route.params.userid))} >
           <Text style={ButtonStyles.buttonText}>Muokkaa ilmoitusta</Text>
         </Pressable>
         

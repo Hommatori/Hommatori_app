@@ -16,7 +16,7 @@ import * as SecureStore from 'expo-secure-store';
 
 
 
-export default function Announce({ navigation }) {
+export default function EditAd({ navigation,route }) {
 
 
   const [open, setOpen] = useState(false);
@@ -27,8 +27,11 @@ export default function Announce({ navigation }) {
   const [location, setLocation] = useState(0)
   const [municipality, setMunicipality] = useState('')
   const [price, setPrice] = useState('')
-  const [adid, setAdid] = useState('') // id syötettävä vielä käsin
+  const [adid, setAdid] = useState('') 
   const [userData, setUserData] = useState('');
+  const [ad, setAd] = useState('')
+
+ 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -51,12 +54,25 @@ export default function Announce({ navigation }) {
       }
     };
     fetchData();
+    getData();
   }, []);
 
   const options = [
     { label: 'Myyn', value: 'joboffer' },
     { label: 'Ostan', value: 'jobseeker' },
   ]
+
+
+  const getData = async () => {
+    try {
+      const results = await axios.get(BASE_URL + '/ad/' + route.params.adid)
+      setAd(results.data)
+      //console.log(results.data)
+
+    } catch (error) {
+      console.log("getAd error", error)
+    }
+  }
 
   const newAd = async () => {
 
@@ -87,8 +103,8 @@ export default function Announce({ navigation }) {
   }
 
   const handelSaveClicked = () => {
-    newAd()
-    navigation.navigate('LoggedIn')
+   // newAd()
+   // navigation.navigate('LoggedIn')
   }
 
   return (
@@ -101,11 +117,12 @@ export default function Announce({ navigation }) {
         <Text>Jätä ilmoitus</Text>
         <Text>Myytkö Vai Ostatko?</Text>
         <View style={AnnounceStyles.radioButton}>
-          <RadioButton options={options} onPress={(value) => { setType(value) }} initialValue={0} />
+          <RadioButton  options={options} onPress={(value) => { setType(value) }} initialValue={ad.type} />
         </View>
         <Text>Otsikko</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä otsikko"
+          value={ad.header}
           onChangeText={(text => setHeader(text))}
         >
         </TextInput>
@@ -115,12 +132,14 @@ export default function Announce({ navigation }) {
           multiline={true}
           textAlignVertical="top"
           placeholder="Syötä kuvaus"
+          value={ad.description}
           onChangeText={(text => setDescription(text))}
         >
         </TextInput>
         <Text>Kunta</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä kunta"
+          value={ad.municipality}
           onChangeText={(text => setMunicipality(text))}
           returnKeyType='search'
         >
@@ -128,6 +147,7 @@ export default function Announce({ navigation }) {
         <Text>Postinumero</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä postinumero"
+          value={ad.location}
           onChangeText={(text => setLocation(text))}
           keyboardType='numeric'
         >
@@ -135,6 +155,7 @@ export default function Announce({ navigation }) {
         <Text>Hinta</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä Hinta"
+          value={ad.price}
           onChangeText={(text => setPrice(text))}
           keyboardType='numeric'
         >
@@ -159,7 +180,7 @@ export default function Announce({ navigation }) {
               value: item,
               label: item
             }))}
-            value={region}
+            value={ad.region}
             setValue={setRegion}
           />
 
@@ -170,9 +191,13 @@ export default function Announce({ navigation }) {
         </Pressable> */}
 
         <Pressable style={ButtonStyles.button}
-          onPress={() => handelSaveClicked()}
-        >
+          onPress={() => handelSaveClicked()} >
           <Text style={ButtonStyles.buttonText}>Tallenna</Text>
+        </Pressable>
+
+        <Pressable style={ButtonStyles.button}
+          onPress={() => navigation.goBack()} >
+          <Text style={ButtonStyles.buttonText}>Peruuta</Text>
         </Pressable>
 
 

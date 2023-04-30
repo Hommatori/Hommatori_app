@@ -14,6 +14,7 @@ import Login from './Pages/Login';
 import LoggedIn from './Pages/LoggedIn';
 import OwnAds from './Pages/OwnAds';
 import OwnAd from './Pages/OwnAd';
+import EditAd from './Pages/EditAd';
 
 
 export default function App() {
@@ -93,6 +94,11 @@ export default function App() {
             name="OwnAd" 
             component={OwnAd}
             options={{ headerTitle: 'OwnAd'}}
+            />
+                        <Stack.Screen 
+            name="EditAd" 
+            component={EditAd}
+            options={{ headerTitle: 'EditAd'}}
             />
       </Stack.Navigator>
     </NavigationContainer>

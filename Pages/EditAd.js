@@ -16,41 +16,17 @@ import * as SecureStore from 'expo-secure-store';
 
 
 
-export default function Announce({ navigation }) {
+export default function EditAd({ navigation, route }) {
 
 
   const [open, setOpen] = useState(false);
   const [region, setRegion] = useState('');
   const [type, setType] = useState('')
-  const [header, setHeader] = useState('')
-  const [description, setDescription] = useState('')
-  const [location, setLocation] = useState(0)
-  const [municipality, setMunicipality] = useState('')
-  const [price, setPrice] = useState('')
-  const [adid, setAdid] = useState('') // id syötettävä vielä käsin
-  const [userData, setUserData] = useState('');
+  const [ad, setAd] = useState('')
+  
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const accessToken = await SecureStore.getItemAsync('accessToken');
-        const user = await SecureStore.getItemAsync('userData');
-        const userObject = JSON.parse(user);
-        const config = {
-          headers: {
-            Authorization: `Basic ${accessToken}`
-          }
-        };
-        const response = await axios.get(`${BASE_URL}/userr/getprivatedata/${userObject.id}`, config);
-        setUserData(response.data);
-        //setUserId(response.data.userid)
-        //console.log(response.data.userid.toString())
-      } catch (error) {
-        console.error(error);
-        Alert.alert('Error fetching data');
-      }
-    };
-    fetchData();
+    getData();
   }, []);
 
   const options = [
@@ -58,36 +34,57 @@ export default function Announce({ navigation }) {
     { label: 'Ostan', value: 'jobseeker' },
   ]
 
-  const newAd = async () => {
+
+  const getData = async () => {
+    try {
+      const results = await axios.get(BASE_URL + '/ad/' + route.params.adid)
+      setAd(results.data)
+      //console.log(results.data)
+
+    } catch (error) {
+      console.log("getAd error", error)
+    }
+  }
+
+  const getPublisher = async () => {
+    try {
+      const results = await axios.get(BASE_URL + '/userr/ad/' + route.params.userid)
+      setPublisher(results.data)
+    } catch (error) {
+      console.log("get publisher error", error)
+    }
+  }
+
+  const updateAd = async () => {
 
     const accessToken = await SecureStore.getItemAsync('accessToken');
-
+    console.log(ad.header)
     try {
-      await axios.post(BASE_URL + '/ad', {
+      await axios.put(BASE_URL + '/ad/' + route.params.adid, {
         type: type,
-        header: header,
-        description: description,
-        location: location,
-        price: price,
-        userid: userData.userid.toString(),
+        header: ad.header,
+        description: ad.description,
+        location: ad.location,
+        price: ad.price,
+        userid: route.params.userid.toString(),
         region: region,
-        municipality: municipality
+        municipality: ad.municipality
       }, {
         headers: { Authorization: 'Bearer' + accessToken }
       })
 
-      console.log('newAd created successfully')
-      Alert.alert('Ilmoitus luotu!');
+      console.log('Ad updated successfully')
+      Alert.alert('ilmoitus Päivitetty!');
       //console.log(cookieHeader)
 
     } catch (e) {
-      console.log('newAd error', e)
-      Alert.alert('Ilmoituksen luonti epäonnistui!')
+      console.log('update ad error', e)
+      Alert.alert('Ilmoituksen päivitys epäonnistui!')
     }
   }
 
   const handelSaveClicked = () => {
-    newAd()
+    updateAd()
     navigation.navigate('LoggedIn')
   }
 
@@ -98,44 +95,61 @@ export default function Announce({ navigation }) {
       <Header></Header>
 
       <View style={AnnounceStyles.property}>
-        <Text>Jätä ilmoitus</Text>
+        <Text>Muokkaa ilmoitusta</Text>
         <Text>Myytkö Vai Ostatko?</Text>
         <View style={AnnounceStyles.radioButton}>
-          <RadioButton options={options} onPress={(value) => { setType(value) }} initialValue={0} />
+          <RadioButton options={options} onPress={(value) => { setType(value) }} initialValue={ad.type} />
         </View>
+
         <Text>Otsikko</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä otsikko"
-          onChangeText={(text => setHeader(text))}
+          value={ad.header}
+          onChangeText={(text) => {
+            setAd({ ...ad, header: text }); // update the ad object
+          }}
         >
         </TextInput>
+
         <Text>Kuvaus</Text>
         <TextInput
           style={AnnounceStyles.textInputContainer2}
           multiline={true}
           textAlignVertical="top"
           placeholder="Syötä kuvaus"
-          onChangeText={(text => setDescription(text))}
+          value={ad.description}
+          onChangeText={(text) => {
+            setAd({ ...ad, description: text });
+          }}
         >
         </TextInput>
         <Text>Kunta</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä kunta"
-          onChangeText={(text => setMunicipality(text))}
+          value={ad.municipality}
+          onChangeText={(text) => {
+            setAd({ ...ad, municipality: text });
+          }}
           returnKeyType='search'
         >
         </TextInput>
         <Text>Postinumero</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä postinumero"
-          onChangeText={(text => setLocation(text))}
+          value={ad.location}
+          onChangeText={(text) => {
+            setAd({ ...ad, location: text });
+          }}
           keyboardType='numeric'
         >
         </TextInput>
         <Text>Hinta</Text>
         <TextInput style={AnnounceStyles.textInputContainer1}
           placeholder="Syötä Hinta"
-          onChangeText={(text => setPrice(text))}
+          value={ad.price}
+          onChangeText={(text) => {
+            setAd({ ...ad, price: text });
+          }}
           keyboardType='numeric'
         >
         </TextInput>
@@ -170,9 +184,13 @@ export default function Announce({ navigation }) {
         </Pressable> */}
 
         <Pressable style={ButtonStyles.button}
-          onPress={() => handelSaveClicked()}
-        >
+          onPress={() => handelSaveClicked()} >
           <Text style={ButtonStyles.buttonText}>Tallenna</Text>
+        </Pressable>
+
+        <Pressable style={ButtonStyles.button}
+          onPress={() => navigation.goBack()} >
+          <Text style={ButtonStyles.buttonText}>Peruuta</Text>
         </Pressable>
 
 

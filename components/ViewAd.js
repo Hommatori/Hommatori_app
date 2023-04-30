@@ -12,16 +12,10 @@ export default function ViewAd({ ad, publisher }) {
         year: 'numeric',
         month: '2-digit',
         day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit',
-        hour12: false,
-        timeZone: 'UTC'
-    }).replace(',', '');
-    //console.log(formattedDate); // Outputs: "04/29/2023 12:02:11"
+        timeZone: 'Europe/Helsinki'
+    }).replace(/(\d+)\/(\d+)\/(\d+)/, '$1.$2.$3');
 
     return (
-
 
         <View style={styles.adContainer}>
             <View style={{ alignItems: 'center' }}>
@@ -32,38 +26,47 @@ export default function ViewAd({ ad, publisher }) {
             </View>
             <View style={styles.descriptionContainer}>
                 <View style={styles.textContainer}>
-                    <Text>{ad.header}</Text>
-                </View>
-                <View style={styles.textContainer}>
-                    <Text>ilmoitus luotu: {formattedDate}</Text>
+                    <Text style={styles.header}>{ad.header}</Text>
                 </View>
                 <View style={styles.textContainer}>
                     <View style={styles.row}>
-                        <Text>Käyttäjänimi: </Text>
-                        <Text>{publisher.username}</Text>
+                        <Text style={styles.text2}>Ilmoituksen tyyppi: </Text>
+                        <Text style={styles.text}>{ad.type}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text>Puhelinnumero: </Text>
-                        <Text>{publisher.phonenumber}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Text>Sähköposti: </Text>
-                        <Text>{publisher.email}</Text>
+                        <Text style={styles.text2}>ilmoitus luotu: </Text>
+                        <Text style={styles.text}>{formattedDate}</Text>
                     </View>
                 </View>
                 <View style={styles.textContainer}>
                     <View style={styles.row}>
-                        <Text>Alue: </Text>
-                        <Text>{ad.region}</Text>
+                        <Text style={styles.text2}>Käyttäjänimi: </Text>
+                        <Text style={styles.text}>{publisher.username}</Text>
                     </View>
                     <View style={styles.row}>
-                        <Text>Paikkakunta: </Text>
-                        <Text>{ad.municipality} </Text>
+                        <Text style={styles.text2}>Puhelinnumero: </Text>
+                        <Text style={styles.text}>{publisher.phonenumber}</Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.text2}>Sähköposti: </Text>
+                        <Text style={styles.text}>{publisher.email}</Text>
                     </View>
                 </View>
                 <View style={styles.textContainer}>
-                    <Text>{ad.type}€</Text>
-                    <Text>Hinta: {ad.price}€</Text>
+                    <View style={styles.row}>
+                        <Text style={styles.text2}>Alue: </Text>
+                        <Text style={styles.text}>{ad.region}</Text>
+                    </View>
+                    <View style={styles.row}>
+                        <Text style={styles.text2}>Paikkakunta: </Text>
+                        <Text style={styles.text}>{ad.municipality} </Text>
+                    </View>
+                </View>
+                <View style={styles.textContainer}>
+                    <View style={styles.row}>
+                        <Text style={styles.text2}>Hinta:</Text>
+                        <Text style={styles.text}>{ad.price}€</Text>
+                    </View>
                 </View>
                 <View style={styles.textContainer}>
                     <Text>{ad.description}</Text>
@@ -107,4 +110,15 @@ const styles = StyleSheet.create({
         marginBottom: 3,
         zIndex: 10,
     },
+    text: {
+        fontSize: 15,
+        fontWeight: 'bold',
+    },
+    text2: {
+        fontSize: 15,
+    },
+    header: {
+        fontSize: 20,
+        fontWeight: 'bold',
+    }
 });

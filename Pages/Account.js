@@ -12,15 +12,21 @@ import BASE_URL from '../json/BaseUrl';
 
 export default function Account({ navigation, route }) {
 
+  const [fname, setFname] = useState('')
+  const [lname, setLname] = useState('')
+  const [userName, setUserName] = useState('')
+  const [email, setEmail] = useState('')
+  const [phonenumber, setPhonenumber] = useState('')
+  const [password, setPassword] = useState('')
+
   const userdata = route.params.userData
-  
 
   const deleteUser = async () => {
     try {
       const accessToken = await SecureStore.getItemAsync('accessToken');
       //console.log(accessToken)
       //console.log(userdata.userid)
-      await axios.delete(BASE_URL+'/userr/'+userdata.userid, {
+      await axios.delete(BASE_URL + '/userr/' + userdata.userid, {
         headers: { Authorization: 'Bearer ' + accessToken }
       });
       console.log('user removed successfully');
@@ -46,11 +52,37 @@ export default function Account({ navigation, route }) {
     }
   }
 
+  const upadeUser = async () => {
+    const accessToken = await SecureStore.getItemAsync('accessToken');
+    try {
+      await axios.put(BASE_URL + '/userr/' + userdata.userid, {
+        fname: fname,
+        lname: lname,
+        username: userName,
+        email: email.toLowerCase(),
+        phonenumber: phonenumber,
+        password: password,
+      }, {
+        headers: { Authorization: 'Bearer' + accessToken }
+      })
+
+      console.log('User updated successfully')
+      Alert.alert('Käyttäjä päivetty!');
+      navigation.navigate('LoggedIn')
+
+    } catch (e) {
+      console.log('update user error', e)
+      Alert.alert('Käyttäjän päivitys epäonnistui!')
+    }
+  }
+
+
   const handleDeleteUserClicket = () => {
     deleteUser()
     logout()
     navigation.navigate('Login');
   }
+
 
   return (
 
@@ -62,39 +94,51 @@ export default function Account({ navigation, route }) {
         <View>
           <Text style={styles.itemText}>Etunimi</Text>
           <Text style={styles.itemText2}>{userdata.fname}</Text>
-          <TextInput style={styles.textInputContainer}></TextInput>
+          <TextInput style={styles.textInputContainer}
+            onChangeText={(text => setFname(text))} >
+          </TextInput>
 
           <Text style={styles.itemText}>Sukunimi</Text>
           <Text style={styles.itemText2}>{userdata.lname}</Text>
-          <TextInput style={styles.textInputContainer}></TextInput>
+          <TextInput style={styles.textInputContainer}
+            onChangeText={(text => setLname(text))}>
+          </TextInput>
 
           <Text style={styles.itemText}>Sähköposti</Text>
           <Text style={styles.itemText2}>{userdata.email}</Text>
-          <TextInput style={styles.textInputContainer}></TextInput>
+          <TextInput style={styles.textInputContainer}
+            onChangeText={(text => setEmail(text))}>
+          </TextInput>
 
           <Text style={styles.itemText}>Käyttäjänimi</Text>
           <Text style={styles.itemText2}>{userdata.username}</Text>
-          <TextInput style={styles.textInputContainer}></TextInput>
+          <TextInput style={styles.textInputContainer}
+            onChangeText={(text => setUserName(text))} >
+          </TextInput>
 
           <Text style={styles.itemText}>Puhelinumero</Text>
           <Text style={styles.itemText2}>{userdata.phonenumber}</Text>
-          <TextInput style={styles.textInputContainer}></TextInput>
+          <TextInput style={styles.textInputContainer}
+            onChangeText={(text => setPhonenumber(text))}>
+          </TextInput>
 
-          {/* <Text style={styles.itemText}>Salasana</Text>
-          <Text style={styles.itemText2}>Tässä tietoa</Text>
-          <TextInput style={styles.textInputContainer}></TextInput> */}
+          <Text style={styles.itemText}>Uusi salasana</Text>
+          <TextInput style={styles.textInputContainer}
+            onChangeText={(text => setPassword(text))}>
+          </TextInput>
 
-          <Pressable style={ButtonStyles.button}>
+          <Pressable style={ButtonStyles.button}
+            onPress={() => upadeUser()}>
             <Text style={ButtonStyles.buttonText}>Tallenna</Text>
           </Pressable>
+
           <Pressable style={ButtonStyles.button}
-            onPress={() => handleDeleteUserClicket()}
-          >
+            onPress={() => handleDeleteUserClicket()}>
             <Text style={ButtonStyles.buttonText}>Poista</Text>
           </Pressable>
+
           <Pressable style={ButtonStyles.button}
-            onPress={() => { navigation.navigate('LoggedIn') }}
-          >
+            onPress={() => { navigation.navigate('LoggedIn') }}>
             <Text style={ButtonStyles.buttonText}>Peruuta</Text>
           </Pressable>
         </View>

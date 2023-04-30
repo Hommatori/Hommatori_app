@@ -13,8 +13,8 @@ import jwtDecode from 'jwt-decode'
 
 export default function Login({navigation}) {
 
-    const [username, setUsername] = useState('satu90@ggmail.com')
-    const [password, setPassword] = useState('Salasana1')
+    const [username, setUsername] = useState('a90@ggmail.com')
+    const [password, setPassword] = useState('Salasana')
 
     const getCookie = async () =>{
       const accessToken = await SecureStore.getItemAsync('accessToken');

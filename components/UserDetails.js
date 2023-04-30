@@ -16,7 +16,7 @@ export default function UserDetails({ user }) {
         hour12: false,
         timeZone: 'Europe/Helsinki'
     }).replace(',', '');
-    console.log(formattedDate); // Outputs: "04/29/2023 12:02:11"
+    //console.log(formattedDate); // Outputs: "04/29/2023 12:02:11"
 
     return (
 

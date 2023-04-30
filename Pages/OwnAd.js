@@ -54,6 +54,11 @@ export default function OwnAd({ navigation, route }) {
     }
   };
 
+  const handleDeleteClicked = () => {
+    deleteAd()
+    navigation.navigate('LoggedIn')
+  }
+
 
   return (
 
@@ -69,7 +74,7 @@ export default function OwnAd({ navigation, route }) {
           <Text style={ButtonStyles.buttonText}>Muokkaa ilmoitusta</Text>
         </Pressable>
         <Pressable style={ButtonStyles.button}
-          onPress={() => deleteAd()}
+          onPress={() => handleDeleteClicked()}
         >
           <Text style={ButtonStyles.buttonText}> Poista</Text>
         </Pressable>

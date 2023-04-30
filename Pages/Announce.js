@@ -64,7 +64,7 @@ export default function Announce({ navigation }) {
     const accessToken = await SecureStore.getItemAsync('accessToken');
 
     try {
-      await axios.post(BASE_URL +'/ad', {
+      await axios.post(BASE_URL + '/ad', {
         type: type,
         header: header,
         description: description,
@@ -85,6 +85,11 @@ export default function Announce({ navigation }) {
       console.log('newAd error', e)
       Alert.alert('Ilmoituksen luonti epäonnistui!')
     }
+  }
+
+  const handelSaveClicked = () => {
+    newAd()
+    navigation.navigate('LoggedIn')
   }
 
   return (
@@ -166,7 +171,7 @@ export default function Announce({ navigation }) {
         </Pressable> */}
 
         <Pressable style={ButtonStyles.button}
-          onPress={() => newAd()}
+          onPress={() => handelSaveClicked()}
         >
           <Text style={ButtonStyles.buttonText}>Tallenna</Text>
         </Pressable>

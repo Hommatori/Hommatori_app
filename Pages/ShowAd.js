@@ -98,13 +98,4 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
   },
-  adContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    borderColor: '#25db55',
-    borderWidth: 3,
-    borderRadius: 15,
-    marginBottom: 3,
-    zIndex: 10,
-  },
 });

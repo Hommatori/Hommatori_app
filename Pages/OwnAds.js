@@ -63,8 +63,8 @@ export default function OwnAds({ navigation, route }) {
     }
   }
 
-  const handleButtonAdClicket = (adid) => {
-    navigation.navigate('OwnAd', { adid })
+  const handleButtonAdClicket = (adid, userid) => {
+    navigation.navigate('OwnAd', { adid, userid })
   }
 
   return (
@@ -77,7 +77,7 @@ export default function OwnAds({ navigation, route }) {
         <ScrollView style={Styles.scrollViewStyle}>
           {
             Object.values(ads).map((item, index) => (
-              <Pressable key={index} onPress={(() => handleButtonAdClicket(item.adid))}>
+              <Pressable key={index} onPress={(() => handleButtonAdClicket(item.adid, item.userid))}>
                 <View style={Styles.adContainer}>
                   <Image
                     style={Styles.image}

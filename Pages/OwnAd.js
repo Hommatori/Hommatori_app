@@ -1,37 +1,42 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, View, Image, Pressable, Alert, Linking } from 'react-native';
+import { Text, View, Image, Pressable, Alert, StyleSheet } from 'react-native';
 import { StatusBar, hidden } from 'expo-status-bar';
-import Styles from '../Styles/OwnAdStyles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
 import * as SecureStore from 'expo-secure-store';
+import ViewAd from '../components/ViewAd';
 
 
 export default function OwnAd({ navigation, route }) {
 
   const [ad, setAd] = useState([]);
-  const [page, setPage] = useState(1);
-  const [total_rows, setTota_rows] = useState(0)
-
-
-  // tämä hakee databasesta ilmoitukset.
-
+  const [publisher, setPublisher] = useState('')
 
   useEffect(() => {
     getData();
+    getPublisher();
   }, []);
 
   const getData = async () => {
     try {
       const results = await axios.get(BASE_URL + '/ad/' + route.params.adid)
       setAd(results.data)
-      //console.log(results)
+      //console.log(results.data)
 
     } catch (error) {
       console.log("getAd error", error)
+    }
+  }
+
+  const getPublisher = async () => {
+    try {
+      const results = await axios.get(BASE_URL + '/userr/ad/' + route.params.userid)
+      setPublisher(results.data)
+    } catch (error) {
+      console.log("get publisher error", error)
     }
   }
 
@@ -49,86 +54,43 @@ export default function OwnAd({ navigation, route }) {
     }
   };
 
-  const date = new Date(ad.date);
-  const formattedDate = date.toLocaleString('en-GB', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit',
-    hour12: false,
-    timeZone: 'UTC'
-  }).replace(',', '');
-  console.log(formattedDate); // Outputs: "04/29/2023 12:02:11"
-  console.log(ad)
-
 
   return (
 
 
-    <View style={Styles.container}>
+    <View style={styles.container}>
       <StatusBar style="light" translucent={true} />
       <Header></Header>
-      <View style={Styles.container2}>
-        <View style={Styles.adContainer}>
-          <View style={{ alignItems: 'center' }}>
-            <Image
-              style={Styles.image}
-              source={ad.image && ad.image != '' ? { uri: ad.image } : null}
-            />
-            {/* <Pressable style={ButtonStyles.buttonDelete}
-                      onPress={() => deleteAd()}
-                    >
-                      <Text>Poista</Text>
-                    </Pressable> */}
-          </View>
-          <View style={Styles.descriptionContainer1}>
-            <View style={Styles.descriptionContainer2}>
-              <Text style={Styles.AdHeaderTextStyle}>{ad.header} </Text>
-              <View style={Styles.descriptionContainer3}>
-                <Text>Ilmoitus luotu: {formattedDate}</Text>
-              </View>
-              <View style={Styles.descriptionContainer3}>
-                <Text style={Styles.textStyle}>Nimi</Text>
-                <Text style={Styles.textStyle}>Puhelinumero</Text>
-                <Text style={Styles.textStyle}>Sähköposti</Text>
-              </View>
-              <View style={Styles.descriptionContainer3}>
-                <Text style={Styles.textStyle}>{ad.region}</Text>
-                <Text style={Styles.textStyle}>{ad.municipality} </Text>
-              </View>
-              <View style={Styles.descriptionContainer3}>
-                <Text style={Styles.textStyle}>{ad.type}€</Text>
-                <Text style={Styles.textStyle}>Hinta {ad.price}€</Text>
-              </View>
-              <View style={Styles.descriptionContainer3}>
-                <Text>{ad.description}</Text>
-              </View>
-            </View>
-          </View>
-        </View>
+      <View style={styles.container2}>
+        <ViewAd ad={ad} publisher={publisher} />
+        <Pressable style={ButtonStyles.button}
+          onPress={() => { }}
+        >
+          <Text style={ButtonStyles.buttonText}>Muokkaa ilmoitusta</Text>
+        </Pressable>
         <Pressable style={ButtonStyles.button}
           onPress={() => deleteAd()}
         >
-          <Text style={ButtonStyles.buttonText}>Poista</Text>
+          <Text style={ButtonStyles.buttonText}> Poista</Text>
         </Pressable>
-        {/*  <Pressable style={ButtonStyles.button}>
-          <Text style={ButtonStyles.buttonText}>Muokkaa</Text>
-        </Pressable>
-        <Pressable style={ButtonStyles.button} >
-          <Text style={ButtonStyles.buttonText}>Tallenna</Text>
-        </Pressable> */}
         <Pressable style={ButtonStyles.button}
-          onPress={() => navigation.navigate('OwnAds')}
+          onPress={() => navigation.navigate("OwnAds")}
         >
-          <Text style={ButtonStyles.buttonText}>Takaisin</Text>
+          <Text style={ButtonStyles.buttonText}> Takaisin</Text>
         </Pressable>
-
-
       </View>
       <NavBar navigation={navigation}></NavBar>
     </View>
 
   );
 }
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  container2: {
+    flex: 1,
+    margin: 10,
+  },
+});

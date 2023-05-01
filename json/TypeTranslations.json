@@ -9,8 +9,8 @@
     "fi": {
         "type": {
             "all": "Kaikki",
-            "jobseeker": "Työnhakija",
-            "joboffer": "Työntarjoaja"
+            "jobseeker": "Haetaan työntekijää",
+            "joboffer": "Tarjotaan työsuorite"
         }
     }
 }

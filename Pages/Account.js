@@ -23,9 +23,10 @@ export default function Account({ navigation, route }) {
 
 
   const deleteUser = async () => {      //poisetaan käyttäjä, käyttäjän kaikki ilmoitukset ja kirjaudutaan ulos
+    console.log(ad.userid)
     try {
       const accessToken = await SecureStore.getItemAsync('accessToken');
-      await axios.delete(BASE_URL + '/userr/' + userdata.userid, {
+      await axios.delete(BASE_URL + '/userr/' + ad.userid, {
         headers: { Authorization: 'Bearer ' + accessToken }
       });
       console.log('user removed successfully');

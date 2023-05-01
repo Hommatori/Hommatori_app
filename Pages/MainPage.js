@@ -24,14 +24,14 @@ export default function MainPage({ navigation }) {
     getData(type, region, filter, page, searchText);
   }, [page]);
 
-  const getData = async (type, region, filter, page, searchText) => {       //haetaan parametrien mukaiset ilmoitukset 10kpl
+  const getData = async (type, region, filter, page, searchText) => { 
+     //haetaan parametrien mukaiset ilmoitukset 10kpl
     console.log('getdata', region)
     try {
       const results = await axios.get(BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=' + filter + '&page=' + page + '&query=' + searchText + '')
       setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       console.log('getData success')
-
 
     } catch (error) {
       console.log("getData error ", error)

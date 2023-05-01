@@ -117,7 +117,7 @@ export default function MainPage({ navigation }) {
 
                   <DropDownPicker
                     style={DropdownStyles.dropDawn}
-                    placeholder="Kokosuomi"
+                    placeholder="Alue"
                     listMode="MODAL"
                     searchable={true}
                     dropDownDirection="AUTO"

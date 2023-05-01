@@ -32,6 +32,14 @@ export default function OwnAds({ navigation, route }) {
     navigation.navigate('OwnAd', { adid, userid })
   }
 
+  const translateRegion = (region) => {
+    if (region === 'all') {
+      return 'Kokosuomi'
+    } else {
+      return region
+    }
+  }
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={Styles.container}>
@@ -54,7 +62,7 @@ export default function OwnAds({ navigation, route }) {
                         <View style={Styles.descriptionContainer3}>
                           <Text style={Styles.textStyle}>{item.header} </Text>
                           <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
-                          <Text style={Styles.textStyle}>{item.region}</Text>
+                          <Text style={Styles.textStyle}>{translateRegion(item.region)}</Text>
                         </View>
                       </View>
                       <View style={Styles.descriptionContainer3}>

@@ -10,7 +10,6 @@ export default StyleSheet.create({
           dropDawnList2: {
             flex: 1,
             marginTop: 10,
-          /*   zIndex:9999,  */
             width: '50%',
           },
           dropDawn: {

@@ -1,9 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { SafeAreaView, StyleSheet, Text, TextInput, View, ScrollView, Image, Modal, Pressable, Button, } from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
-import { Feather } from '@expo/vector-icons';
-import NavBarStyles from '../Styles/NavBarStyles';
+import { StyleSheet, Text, View, Pressable, } from 'react-native';
 
 export default function NavBar({ navigation, userId }) {
 
@@ -21,18 +16,33 @@ export default function NavBar({ navigation, userId }) {
       >
         <Text style={NavBarStyles.buttonText}>Ilmoita</Text>
       </Pressable>
-      {/*   <Pressable style={NavBarStyles.button}
-        onPress={() => navigation.navigate('Messages')}
-      >
-        <Text style={NavBarStyles.buttonText}>Viestit</Text>
-      </Pressable> */}
       <Pressable style={NavBarStyles.button}
         onPress={() => navigation.navigate('LoggedIn')}
       >
         <Text style={NavBarStyles.buttonText}>Tili</Text>
       </Pressable>
     </View>
-
-
   );
 }
+
+const NavBarStyles = StyleSheet.create({
+
+  buttonContainer: {
+    flexDirection: 'row',
+    paddingTop: 5,
+  },
+  button: {
+    alignItems: 'center',
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 5,
+    elevation: 10,
+    backgroundColor: '#25db55',
+  },
+  buttonText: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+  },
+});

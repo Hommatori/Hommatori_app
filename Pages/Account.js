@@ -1,9 +1,9 @@
 import { React, useState } from 'react';
-import { View, Text, Pressable, StyleSheet, Alert } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
-import { StatusBar, hidden } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import ButtonStyles from '../Styles/ButtonStyles';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
@@ -65,7 +65,6 @@ export default function Account({ navigation, route }) {
       }, {
         headers: { Authorization: 'Bearer' + accessToken }
       })
-
       console.log('User updated successfully')
       Alert.alert('Käyttäjä päivetty!');
       navigation.navigate('LoggedIn')
@@ -76,79 +75,76 @@ export default function Account({ navigation, route }) {
     }
   }
 
-
   const handleDeleteUserClicket = () => {
     deleteUser()
     logout()
     navigation.navigate('Login');
   }
 
-
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <StatusBar style="light" translucent={true} />
+        <Header></Header>
+        <View style={styles.property}>
+          <Text style={styles.headerText}>Muokkaa tiliä</Text>
+          <View>
+            <Text style={styles.itemText}>Etunimi</Text>
+            <Text style={styles.itemText2}>{userdata.fname}</Text>
+            <TextInput style={styles.textInputContainer}
+              onChangeText={(text => setFname(text))} >
+            </TextInput>
 
-    <View style={styles.container}>
-      <StatusBar style="light" translucent={true} />
-      <Header></Header>
-      <View style={styles.property}>
-        <Text style={styles.headerText}>Muokkaa tiliä</Text>
-        <View>
-          <Text style={styles.itemText}>Etunimi</Text>
-          <Text style={styles.itemText2}>{userdata.fname}</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setFname(text))} >
-          </TextInput>
+            <Text style={styles.itemText}>Sukunimi</Text>
+            <Text style={styles.itemText2}>{userdata.lname}</Text>
+            <TextInput style={styles.textInputContainer}
+              onChangeText={(text => setLname(text))}>
+            </TextInput>
 
-          <Text style={styles.itemText}>Sukunimi</Text>
-          <Text style={styles.itemText2}>{userdata.lname}</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setLname(text))}>
-          </TextInput>
+            <Text style={styles.itemText}>Sähköposti</Text>
+            <Text style={styles.itemText2}>{userdata.email}</Text>
+            <TextInput style={styles.textInputContainer}
+              onChangeText={(text => setEmail(text))}>
+            </TextInput>
 
-          <Text style={styles.itemText}>Sähköposti</Text>
-          <Text style={styles.itemText2}>{userdata.email}</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setEmail(text))}>
-          </TextInput>
+            <Text style={styles.itemText}>Käyttäjänimi</Text>
+            <Text style={styles.itemText2}>{userdata.username}</Text>
+            <TextInput style={styles.textInputContainer}
+              onChangeText={(text => setUserName(text))} >
+            </TextInput>
 
-          <Text style={styles.itemText}>Käyttäjänimi</Text>
-          <Text style={styles.itemText2}>{userdata.username}</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setUserName(text))} >
-          </TextInput>
+            <Text style={styles.itemText}>Puhelinumero</Text>
+            <Text style={styles.itemText2}>{userdata.phonenumber}</Text>
+            <TextInput style={styles.textInputContainer}
+              onChangeText={(text => setPhonenumber(text))}>
+            </TextInput>
 
-          <Text style={styles.itemText}>Puhelinumero</Text>
-          <Text style={styles.itemText2}>{userdata.phonenumber}</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setPhonenumber(text))}>
-          </TextInput>
+            <Text style={styles.itemText}>Uusi salasana</Text>
+            <TextInput style={styles.textInputContainer}
+              onChangeText={(text => setPassword(text))}>
+            </TextInput>
 
-          <Text style={styles.itemText}>Uusi salasana</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setPassword(text))}>
-          </TextInput>
+            <Pressable style={ButtonStyles.button}
+              onPress={() => upadeUser()}>
+              <Text style={ButtonStyles.buttonText}>Tallenna</Text>
+            </Pressable>
 
-          <Pressable style={ButtonStyles.button}
-            onPress={() => upadeUser()}>
-            <Text style={ButtonStyles.buttonText}>Tallenna</Text>
-          </Pressable>
+            <Pressable style={ButtonStyles.button}
+              onPress={() => handleDeleteUserClicket()}>
+              <Text style={ButtonStyles.buttonText}>Poista</Text>
+            </Pressable>
 
-          <Pressable style={ButtonStyles.button}
-            onPress={() => handleDeleteUserClicket()}>
-            <Text style={ButtonStyles.buttonText}>Poista</Text>
-          </Pressable>
-
-          <Pressable style={ButtonStyles.button}
-            onPress={() => { navigation.navigate('LoggedIn') }}>
-            <Text style={ButtonStyles.buttonText}>Peruuta</Text>
-          </Pressable>
+            <Pressable style={ButtonStyles.button}
+              onPress={() => { navigation.navigate('LoggedIn') }}>
+              <Text style={ButtonStyles.buttonText}>Peruuta</Text>
+            </Pressable>
+          </View>
         </View>
+        <NavBar navigation={navigation}></NavBar>
       </View>
-      <NavBar navigation={navigation}></NavBar>
-    </View>
-
+    </TouchableWithoutFeedback>
   )
 };
-
 
 const styles = StyleSheet.create({
 

@@ -3,10 +3,6 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 
 export default function ViewAd({ ad, publisher }) {
 
-    //console.log(ad)
-    //console.log(ad)
-
-
     const date = new Date(ad.date);
     const formattedDate = date.toLocaleString('en-GB', {
         year: 'numeric',

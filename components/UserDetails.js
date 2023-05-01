@@ -3,8 +3,6 @@ import { View, Text, StyleSheet } from 'react-native';
 
 export default function UserDetails({ user }) {
 
-    //console.log(user)
-
     const date = new Date(user.creation_time);
     const formattedDate = date.toLocaleString('en-GB', {
         year: 'numeric',
@@ -38,7 +36,6 @@ export default function UserDetails({ user }) {
                 <Text style={styles.text}>{formattedDate}</Text>
             </View>
         </View>
-
     );
 }
 

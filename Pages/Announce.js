@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { View, Text, Pressable, Modal, Alert } from 'react-native';
+import { View, Text, Pressable, Keyboard, TouchableWithoutFeedback, Alert } from 'react-native';
 import AnnounceStyles from '../Styles/AnnounceStyles';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
@@ -14,10 +14,7 @@ import BASE_URL from '../json/BaseUrl.json'
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-
-
 export default function Announce({ navigation }) {
-
 
   const [open, setOpen] = useState(false);
   const [region, setRegion] = useState('');
@@ -27,7 +24,6 @@ export default function Announce({ navigation }) {
   const [location, setLocation] = useState(0)
   const [municipality, setMunicipality] = useState('')
   const [price, setPrice] = useState('')
-  const [adid, setAdid] = useState('') // id syötettävä vielä käsin
   const [userData, setUserData] = useState('');
 
   useEffect(() => {
@@ -43,8 +39,6 @@ export default function Announce({ navigation }) {
         };
         const response = await axios.get(`${BASE_URL}/userr/getprivatedata/${userObject.id}`, config);
         setUserData(response.data);
-        //setUserId(response.data.userid)
-        //console.log(response.data.userid.toString())
       } catch (error) {
         console.error(error);
         Alert.alert('Error fetching data');
@@ -92,95 +86,82 @@ export default function Announce({ navigation }) {
   }
 
   return (
-
-    <View style={AnnounceStyles.container}>
-      <StatusBar style="light" translucent={true} />
-      <Header></Header>
-
-      <View style={AnnounceStyles.property}>
-        <Text>Jätä ilmoitus</Text>
-        <Text>Myytkö Vai Ostatko?</Text>
-        <View style={AnnounceStyles.radioButton}>
-          <RadioButton options={options} onPress={(value) => { setType(value) }} initialValue={0} />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={AnnounceStyles.container}>
+        <StatusBar style="light" translucent={true} />
+        <Header></Header>
+        <View style={AnnounceStyles.property}>
+          <Text>Jätä ilmoitus</Text>
+          <Text>Myytkö Vai Ostatko?</Text>
+          <View style={AnnounceStyles.radioButton}>
+            <RadioButton options={options} onPress={(value) => { setType(value) }} initialValue={0} />
+          </View>
+          <Text>Otsikko</Text>
+          <TextInput style={AnnounceStyles.textInputContainer1}
+            placeholder="Syötä otsikko"
+            onChangeText={(text => setHeader(text))}
+          >
+          </TextInput>
+          <Text>Kuvaus</Text>
+          <TextInput
+            style={AnnounceStyles.textInputContainer2}
+            multiline={true}
+            textAlignVertical="top"
+            placeholder="Syötä kuvaus"
+            onChangeText={(text => setDescription(text))}
+          >
+          </TextInput>
+          <Text>Kunta</Text>
+          <TextInput style={AnnounceStyles.textInputContainer1}
+            placeholder="Syötä kunta"
+            onChangeText={(text => setMunicipality(text))}
+            returnKeyType='search'
+          >
+          </TextInput>
+          <Text>Postinumero</Text>
+          <TextInput style={AnnounceStyles.textInputContainer1}
+            placeholder="Syötä postinumero"
+            onChangeText={(text => setLocation(text))}
+            keyboardType='numeric'
+          >
+          </TextInput>
+          <Text>Hinta</Text>
+          <TextInput style={AnnounceStyles.textInputContainer1}
+            placeholder="Syötä Hinta"
+            onChangeText={(text => setPrice(text))}
+            keyboardType='numeric'
+          >
+          </TextInput>
+          <View style={DropdownStyles.dropDawnList2}>
+            <DropDownPicker
+              style={DropdownStyles.dropDawn}
+              placeholder="Paikkakunta"
+              listMode="MODAL"
+              //   aukeaa modalinakoska en saanut scrollaamaan, kaikki vaihtoehto uupuu
+              dropDownDirection="TOP"
+              dropDownContainerStyle={{
+                backgroundColor: "#dfdfdf",
+                borderColor: '#25db55',
+                borderRadius: 12,
+              }}
+              open={open}
+              setOpen={setOpen}
+              items={Object.keys(regions).map((item, index) => ({
+                value: item,
+                label: item
+              }))}
+              value={region}
+              setValue={setRegion}
+            />
+          </View>
+          <Pressable style={ButtonStyles.button}
+            onPress={() => handelSaveClicked()}
+          >
+            <Text style={ButtonStyles.buttonText}>Tallenna</Text>
+          </Pressable>
         </View>
-        <Text>Otsikko</Text>
-        <TextInput style={AnnounceStyles.textInputContainer1}
-          placeholder="Syötä otsikko"
-          onChangeText={(text => setHeader(text))}
-        >
-        </TextInput>
-        <Text>Kuvaus</Text>
-        <TextInput
-          style={AnnounceStyles.textInputContainer2}
-          multiline={true}
-          textAlignVertical="top"
-          placeholder="Syötä kuvaus"
-          onChangeText={(text => setDescription(text))}
-        >
-        </TextInput>
-        <Text>Kunta</Text>
-        <TextInput style={AnnounceStyles.textInputContainer1}
-          placeholder="Syötä kunta"
-          onChangeText={(text => setMunicipality(text))}
-          returnKeyType='search'
-        >
-        </TextInput>
-        <Text>Postinumero</Text>
-        <TextInput style={AnnounceStyles.textInputContainer1}
-          placeholder="Syötä postinumero"
-          onChangeText={(text => setLocation(text))}
-          keyboardType='numeric'
-        >
-        </TextInput>
-        <Text>Hinta</Text>
-        <TextInput style={AnnounceStyles.textInputContainer1}
-          placeholder="Syötä Hinta"
-          onChangeText={(text => setPrice(text))}
-          keyboardType='numeric'
-        >
-        </TextInput>
-
-        <View style={DropdownStyles.dropDawnList2}>
-          <DropDownPicker
-            style={DropdownStyles.dropDawn}
-            placeholder="Paikkakunta"
-            listMode="MODAL"
-            //   aukeaa modalinakoska en saanut scrollaamaan, kaikki vaihtoehto uupuu
-            dropDownDirection="TOP"
-            dropDownContainerStyle={{
-              backgroundColor: "#dfdfdf",
-              borderColor: '#25db55',
-              borderRadius: 12,
-            }}
-            open={open}
-            setOpen={setOpen}
-
-            items={Object.keys(regions).map((item, index) => ({
-              value: item,
-              label: item
-            }))}
-            value={region}
-            setValue={setRegion}
-          />
-
-        </View>
-
-        {/* <Pressable style={ButtonStyles.button} >
-          <Text style={ButtonStyles.buttonText}>Lisää kuva</Text>
-        </Pressable> */}
-
-        <Pressable style={ButtonStyles.button}
-          onPress={() => handelSaveClicked()}
-        >
-          <Text style={ButtonStyles.buttonText}>Tallenna</Text>
-        </Pressable>
-
-
+        <NavBar navigation={navigation}></NavBar>
       </View>
-
-      <NavBar navigation={navigation}></NavBar>
-
-    </View>
-
+    </TouchableWithoutFeedback>
   );
 }

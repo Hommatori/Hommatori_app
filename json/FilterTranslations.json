@@ -9,10 +9,10 @@
     },
     "fi": {
         "filter": {
-            "1": "Järjestä uusin ensin",
-            "2": "Järjestä vanhin ensin",
-            "3": "Järjestä kallein ensin",
-            "4": "järjestä halvin ensin"
+            "1": "Uusin ensin",
+            "2": "Vanhin ensin",
+            "3": "Kallein ensin",
+            "4": "Halvin ensin"
         }
     }
 }

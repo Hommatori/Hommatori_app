@@ -1,5 +1,8 @@
 import { React, useState } from 'react';
-import { View, Text, Pressable, Alert, Keyboard, TouchableWithoutFeedback, StyleSheet } from 'react-native';
+import {
+  View, Text, Pressable, Alert, Keyboard, TouchableWithoutFeedback, StyleSheet,
+  Platform, KeyboardAvoidingView
+} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import Header from '../components/Header';
 import { StatusBar } from 'expo-status-bar';
@@ -47,51 +50,59 @@ export default function AdAccount({ navigation }) {
       <View style={styles.container}>
         <StatusBar style="light" translucent={true} />
         <Header></Header>
-        <View style={styles.property}>
+        <View style={styles.property} >
           <Text style={styles.headerText}>Luo tili</Text>
-          <View>
-            <Text style={styles.itemText}>Etunimi</Text>
-            <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setFname(text))}
+          <View style={styles.content}>
+            <KeyboardAvoidingView
+              style={styles.content}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
-            </TextInput>
-            <Text style={styles.itemText}>Sukunimi</Text>
-            <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setLname(text))}
-            >
-            </TextInput>
-            <Text style={styles.itemText}>Käyttäjätunnus</Text>
-            <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setUserName(text))}
-            >
-            </TextInput>
-            <Text style={styles.itemText}>Sähköposti</Text>
-            <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setEmail(text))}
-              keyboardType='email-address'
-            >
-            </TextInput>
-            <Text style={styles.itemText}>Puhelinumero</Text>
-            <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setPhonenumber(text))}
-              keyboardType='numeric'
-            >
-            </TextInput>
-            <Text style={styles.itemText}>Salasana</Text>
-            <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setPassword(text))}
-            >
-            </TextInput>
-
-            <Pressable style={ButtonStyles.button}
-              onPress={() => newUser()}>
-              <Text style={ButtonStyles.buttonText}>Tallenna</Text>
-            </Pressable>
-            <Pressable
-              style={ButtonStyles.button}
-              onPress={() => { navigation.navigate('Login') }}>
-              <Text style={ButtonStyles.buttonText}>Peruuta</Text>
-            </Pressable>
+              <View style={styles.content2}>
+                <Text style={styles.itemText}>Etunimi</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setFname(text))}
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Sukunimi</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setLname(text))}
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Käyttäjätunnus</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setUserName(text))}
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Sähköposti</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setEmail(text))}
+                  keyboardType='email-address'
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Puhelinumero</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setPhonenumber(text))}
+                  keyboardType='numeric'
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Salasana</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setPassword(text))}
+                >
+                </TextInput>
+              </View>
+            </KeyboardAvoidingView>
+            <View>
+              <Pressable style={ButtonStyles.button}
+                onPress={() => newUser()}>
+                <Text style={ButtonStyles.buttonText}>Tallenna</Text>
+              </Pressable>
+              <Pressable
+                style={ButtonStyles.button}
+                onPress={() => { navigation.navigate('Login') }}>
+                <Text style={ButtonStyles.buttonText}>Peruuta</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
         {/*  <NavBar navigation={navigation}></NavBar> */}
@@ -108,8 +119,16 @@ const styles = StyleSheet.create({
   },
   property: {
     flex: 1,
-    justifyContent: 'center',
     margin: 10,
+    marginBottom: 20,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  content2: {
+    flex: 1,
+    justifyContent: 'center',
   },
   headerText: {
     fontSize: 30,

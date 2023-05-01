@@ -12,7 +12,7 @@ import jwtDecode from 'jwt-decode'
 
 export default function Login({ navigation }) {
 
-  const [username, setUsername] = useState('a90@ggmail.com')
+  const [username, setUsername] = useState('Petteri91@gmail.com')
   const [password, setPassword] = useState('Salasana')
 
   const login = async () => {

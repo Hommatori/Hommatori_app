@@ -1,5 +1,7 @@
-import { React, useState } from 'react';
-import { View, Text, Pressable, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
+import { React, useEffect, useState } from 'react';
+import {
+  View, Text, Pressable, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback
+} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
@@ -12,14 +14,12 @@ import BASE_URL from '../json/BaseUrl';
 
 export default function Account({ navigation, route }) {
 
-  const [fname, setFname] = useState('')
-  const [lname, setLname] = useState('')
-  const [userName, setUserName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phonenumber, setPhonenumber] = useState('')
-  const [password, setPassword] = useState('')
+  const [ad, setAd] = useState('')
 
-  const userdata = route.params.userData
+  useEffect(() => {
+    setAd(route.params.userData)
+  }, []);
+
 
   const deleteUser = async () => {
     try {
@@ -31,6 +31,8 @@ export default function Account({ navigation, route }) {
       });
       console.log('user removed successfully');
       Alert.alert('Käyttäjätunnus poistettu!');
+      logout()
+      navigation.navigate('Login')
     } catch (error) {
       console.log('error occurred in removing User', error);
       Alert.alert('Käyttäjän poistaminen epäonnistui!');
@@ -54,20 +56,22 @@ export default function Account({ navigation, route }) {
 
   const upadeUser = async () => {
     const accessToken = await SecureStore.getItemAsync('accessToken');
+    console.log(ad.username)
     try {
-      await axios.put(BASE_URL + '/userr/' + userdata.userid, {
-        fname: fname,
-        lname: lname,
-        username: userName,
-        email: email.toLowerCase(),
-        phonenumber: phonenumber,
-        password: password,
+      await axios.put(BASE_URL + '/userr/' + ad.userid, {
+        fname: ad.fname,
+        lname: ad.lname,
+        username: ad.username,
+        email: ad.email.toLowerCase(),
+        phonenumber: ad.phonenumber,
+        password: ad.password,
       }, {
         headers: { Authorization: 'Bearer' + accessToken }
       })
       console.log('User updated successfully')
       Alert.alert('Käyttäjä päivetty!');
-      navigation.navigate('LoggedIn')
+      logout()
+      navigation.navigate('Login')
 
     } catch (e) {
       console.log('update user error', e)
@@ -76,54 +80,78 @@ export default function Account({ navigation, route }) {
   }
 
   const handleDeleteUserClicket = () => {
-    deleteUser()
-    logout()
-    navigation.navigate('Login');
+    Alert.alert(
+      "Oletko varma?",
+      "Tätä ei voi enää perua.",
+      [
+        { text: "Peruuta", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
+        { text: "Hyväksy", onPress: () => deleteUser() }
+      ]
+    );
   }
 
+
+
+
   return (
+
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <StatusBar style="light" translucent={true} />
         <Header></Header>
         <View style={styles.property}>
+
           <Text style={styles.headerText}>Muokkaa tiliä</Text>
-          <View>
+          <View style={styles.content2}>
             <Text style={styles.itemText}>Etunimi</Text>
-            <Text style={styles.itemText2}>{userdata.fname}</Text>
             <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setFname(text))} >
+              value={ad.fname}
+              onChangeText={(text) => {
+                setAd({ ...ad, fname: text }); // update the ad object
+              }}
+            >
             </TextInput>
-
             <Text style={styles.itemText}>Sukunimi</Text>
-            <Text style={styles.itemText2}>{userdata.lname}</Text>
             <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setLname(text))}>
+              value={ad.lname}
+              onChangeText={(text) => {
+                setAd({ ...ad, lname: text }); // update the ad object
+              }}
+            >
             </TextInput>
-
             <Text style={styles.itemText}>Sähköposti</Text>
-            <Text style={styles.itemText2}>{userdata.email}</Text>
             <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setEmail(text))}>
+              value={ad.email}
+              onChangeText={(text) => {
+                setAd({ ...ad, email: text }); // update the ad object
+              }}
+            >
             </TextInput>
-
             <Text style={styles.itemText}>Käyttäjänimi</Text>
-            <Text style={styles.itemText2}>{userdata.username}</Text>
             <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setUserName(text))} >
+              value={ad.username}
+              onChangeText={(text) => {
+                setAd({ ...ad, username: text }); // update the ad object
+              }}
+            >
             </TextInput>
-
             <Text style={styles.itemText}>Puhelinumero</Text>
-            <Text style={styles.itemText2}>{userdata.phonenumber}</Text>
             <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setPhonenumber(text))}>
+              value={ad.phonenumber}
+              onChangeText={(text) => {
+                setAd({ ...ad, phonenumber: text }); // update the ad object
+              }}
+            >
             </TextInput>
-
             <Text style={styles.itemText}>Uusi salasana</Text>
             <TextInput style={styles.textInputContainer}
-              onChangeText={(text => setPassword(text))}>
+              onChangeText={(text) => {
+                setAd({ ...ad, password: text }); // update the ad object
+              }}
+            >
             </TextInput>
-
+          </View>
+          <View>
             <Pressable style={ButtonStyles.button}
               onPress={() => upadeUser()}>
               <Text style={ButtonStyles.buttonText}>Tallenna</Text>
@@ -154,8 +182,16 @@ const styles = StyleSheet.create({
   },
   property: {
     flex: 1,
-    justifyContent: 'center',
     margin: 10,
+    justifyContent: 'space-between',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  content2: {
+    flex: 1,
+    justifyContent: 'center',
   },
   headerText: {
     fontSize: 30,

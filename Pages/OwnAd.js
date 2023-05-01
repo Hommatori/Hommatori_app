@@ -47,6 +47,7 @@ export default function OwnAd({ navigation, route }) {
       });
       console.log('ad removed successfully');
       Alert.alert('Ilmoitus poistettu!');
+      navigation.navigate('LoggedIn')
     } catch (error) {
       console.log('error occurred in removing ad', error);
       Alert.alert('Ilmoituksen poistaminen epäonnistui!');
@@ -54,8 +55,14 @@ export default function OwnAd({ navigation, route }) {
   };
 
   const handleDeleteClicked = () => {
-    deleteAd()
-    navigation.navigate('LoggedIn')
+    Alert.alert(
+      "Oletko varma?",
+      "Tätä ei voi enää perua.",
+      [
+        { text: "Peruuta", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
+        { text: "Hyväksy", onPress: () => deleteAd()}
+      ]
+    );
   }
 
   const handleEditAdClicked = (adid, userid) => {

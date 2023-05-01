@@ -35,7 +35,6 @@ export default function ViewAd({ ad, publisher }) {
             <View style={{ alignItems: 'center' }}>
                 <Image                                                                //tässä piirrettäisiin kuva mutta se jäi tekemättä
                     style={styles.image}
-                    source={ad.image && ad.image != '' ? { uri: ad.image } : null}
                 />
             </View>
             <View style={styles.descriptionContainer}>
@@ -87,7 +86,6 @@ export default function ViewAd({ ad, publisher }) {
                 </View>
             </View>
         </View>
-
     );
 }
 

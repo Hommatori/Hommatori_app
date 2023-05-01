@@ -11,7 +11,7 @@ import Login from './Pages/Login';
 import LoggedIn from './Pages/LoggedIn';
 import OwnAds from './Pages/OwnAds';
 import OwnAd from './Pages/OwnAd';
-import EditAd from './Pages/editAd';
+import EditAd from './Pages/EditAd';
 
 
 export default function App() {

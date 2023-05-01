@@ -13,8 +13,8 @@ import jwtDecode from 'jwt-decode'
 //Kirjaudu sisään sivu
 export default function Login({ navigation }) {
 
-  const [username, setUsername] = useState('Petteri91@ggmail.com')
-  const [password, setPassword] = useState('Salasana')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const login = async () => {             //funktio jolla lähetetään palvelimelle kirjautumis pyyntö
     try {

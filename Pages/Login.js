@@ -42,7 +42,6 @@ export default function Login({ navigation }) {
         await SecureStore.setItemAsync('userData', JSON.stringify(decodedToken.user));
         await SecureStore.setItemAsync('accessToken', accessToken);
 
-        Alert.alert('Kirjauduttu sisään!');
         navigation.navigate('LoggedIn')
         console.log('Logged in')
 

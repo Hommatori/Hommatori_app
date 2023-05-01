@@ -11,7 +11,6 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
 
-
 export default function Account({ navigation, route }) {
 
   const [ad, setAd] = useState('')

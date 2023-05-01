@@ -87,6 +87,7 @@ export default function MainPage({ navigation }) {
   };
 
 
+
   return (
 
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -116,7 +117,7 @@ export default function MainPage({ navigation }) {
 
                   <DropDownPicker
                     style={DropdownStyles.dropDawn}
-                    placeholder="Maakunta"
+                    placeholder="Kokosuomi"
                     listMode="MODAL"
                     searchable={true}
                     dropDownDirection="AUTO"
@@ -128,10 +129,16 @@ export default function MainPage({ navigation }) {
                     open={open}
                     onOpen={onOpen}
                     setOpen={setOpen}
-                    items={Object.keys(regions).map((item, index) => ({
-                      value: item,
-                      label: item,
-                    }))}
+                    items={[
+                      {
+                        value: "all",
+                        label: "Kokosuomi",
+                      },
+                      ...Object.keys(regions).map((item, index) => ({
+                        value: item,
+                        label: item,
+                      })),
+                    ]}
                     value={region}
                     setValue={setRegion}
                   />

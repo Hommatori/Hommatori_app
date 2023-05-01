@@ -135,7 +135,7 @@ export default function Announce({ navigation }) {
           <View style={DropdownStyles.dropDawnList2}>
             <DropDownPicker
               style={DropdownStyles.dropDawn}
-              placeholder="Paikkakunta"
+              placeholder="Kokosuomi"
               listMode="MODAL"
               //   aukeaa modalinakoska en saanut scrollaamaan, kaikki vaihtoehto uupuu
               dropDownDirection="TOP"
@@ -146,10 +146,16 @@ export default function Announce({ navigation }) {
               }}
               open={open}
               setOpen={setOpen}
-              items={Object.keys(regions).map((item, index) => ({
-                value: item,
-                label: item,
-              }))}
+              items={[
+                {
+                  value: "all",
+                  label: "Koko Suomi"
+                }, // add kokosuomi option
+                ...Object.keys(regions).map((item, index) => ({
+                  value: item,
+                  label: item,
+                })),
+              ]}
               value={region}
               setValue={setRegion}
             />

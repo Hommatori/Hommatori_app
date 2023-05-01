@@ -124,7 +124,7 @@ export default function SearchBox({ navigation, getData }) {
                         }))}
                     />
                 </View>
-                <View style={Styles.dropDawnList}>
+                <View style={DropdownStyles.dropDawnList}>
                     <DropDownPicker
                         style={DropdownStyles.dropDawn}
                         placeholder={getTranslatedFilter("1", "fi")} // example usage of translation function
@@ -175,13 +175,5 @@ const Styles = StyleSheet.create({
     },
     searchButtonContainer: {
         flexDirection: 'row',
-    },
-    dropDawnList: {
-        flex: 1,
-        margin: 10,
-    },
-    dropDawn: {
-        borderRadius: 12,
-        borderColor: 'white',
     },
 });

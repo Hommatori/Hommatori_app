@@ -1,3 +1,4 @@
+
 import { React, useEffect, useState } from 'react';
 import {
   View, Text, Pressable, StyleSheet, Alert, Keyboard, TouchableWithoutFeedback
@@ -11,6 +12,7 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
 
+// tämä funktio mahdollistaa käyttäjätunnuksen muokkaamisen ja poistamisen
 export default function Account({ navigation, route }) {
 
   const [ad, setAd] = useState('')
@@ -20,11 +22,9 @@ export default function Account({ navigation, route }) {
   }, []);
 
 
-  const deleteUser = async () => {
+  const deleteUser = async () => {      //poisetaan käyttäjä, käyttäjän kaikki ilmoitukset ja kirjaudutaan ulos
     try {
       const accessToken = await SecureStore.getItemAsync('accessToken');
-      //console.log(accessToken)
-      //console.log(userdata.userid)
       await axios.delete(BASE_URL + '/userr/' + userdata.userid, {
         headers: { Authorization: 'Bearer ' + accessToken }
       });
@@ -38,7 +38,7 @@ export default function Account({ navigation, route }) {
     }
   };
 
-  async function logout() {
+  async function logout() {         //kirjaudutaan ulos kun on poistettu tai päivitetty käyttäjä
     try {
       fetch(BASE_URL + '/logout', {
         method: 'POST',
@@ -53,7 +53,7 @@ export default function Account({ navigation, route }) {
     }
   }
 
-  const upadeUser = async () => {
+  const upadeUser = async () => {       //päivitetään käyttäjätiedot ja kirjaudutaan ulos
     const accessToken = await SecureStore.getItemAsync('accessToken');
     console.log(ad.username)
     try {
@@ -78,7 +78,7 @@ export default function Account({ navigation, route }) {
     }
   }
 
-  const handleDeleteUserClicket = () => {
+  const handleDeleteUserClicket = () => {         //määritellään poistokäsky ja varotetaan käyttäjää
     Alert.alert(
       "Oletko varma?",
       "Tätä ei voi enää perua.",

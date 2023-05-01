@@ -1,0 +1,18 @@
+{
+    "en": {
+        "filter": {
+            "1": "Order by date desc",
+            "2": "order by date asc",
+            "3": "order by price desc",
+            "4": "order by price asc"
+        }
+    },
+    "fi": {
+        "filter": {
+            "1": "Uusin ensin",
+            "2": "Vanhin ensin",
+            "3": "Kallein ensin",
+            "4": "Halvin ensin"
+        }
+    }
+}

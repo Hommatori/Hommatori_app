@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Text, View, Pressable, Alert, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -9,6 +10,7 @@ import BASE_URL from '../json/BaseUrl';
 import * as SecureStore from 'expo-secure-store';
 import ViewAd from '../components/ViewAd';
 
+//Näytetään oma ilmoitus
 export default function OwnAd({ navigation, route }) {
 
   const [ad, setAd] = useState([]);
@@ -19,7 +21,7 @@ export default function OwnAd({ navigation, route }) {
     getPublisher();
   }, []);
 
-  const getData = async () => {
+  const getData = async () => {                                                 //haetaan oma ilmoitus id.n perusteella
     try {
       const results = await axios.get(BASE_URL + '/ad/' + route.params.adid)
       setAd(results.data)
@@ -30,7 +32,7 @@ export default function OwnAd({ navigation, route }) {
     }
   }
 
-  const getPublisher = async () => {
+  const getPublisher = async () => {                                            //haetaan käyttäjätiedot id.n perusteella
     try {
       const results = await axios.get(BASE_URL + '/userr/ad/' + route.params.userid)
       setPublisher(results.data)
@@ -39,7 +41,7 @@ export default function OwnAd({ navigation, route }) {
     }
   }
 
-  const deleteAd = async () => {
+  const deleteAd = async () => {                                                //poistetaan ilmoitus ja siirrytään tilisivulle
     try {
       const accessToken = await SecureStore.getItemAsync('accessToken');
       await axios.delete(BASE_URL + '/ad/' + route.params.adid, {
@@ -54,7 +56,7 @@ export default function OwnAd({ navigation, route }) {
     }
   };
 
-  const handleDeleteClicked = () => {
+  const handleDeleteClicked = () => {                                           //käsitellään poista painettu ja varmistetaan tämä käyttäjältä
     Alert.alert(
       "Oletko varma?",
       "Tätä ei voi enää perua.",
@@ -65,14 +67,11 @@ export default function OwnAd({ navigation, route }) {
     );
   }
 
-  const handleEditAdClicked = (adid, userid) => {
+  const handleEditAdClicked = (adid, userid) => {                              //aukaistaan muokkaa ilmoitusta sivu
     navigation.navigate('EditAd', { adid, userid })
-    //console.log(adid)
   }
 
-
   return (
-
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <StatusBar style="light" translucent={true} />
@@ -83,12 +82,10 @@ export default function OwnAd({ navigation, route }) {
             onPress={(() => handleEditAdClicked(route.params.adid, route.params.userid))} >
             <Text style={ButtonStyles.buttonText}>Muokkaa ilmoitusta</Text>
           </Pressable>
-
           <Pressable style={ButtonStyles.button}
             onPress={() => handleDeleteClicked()}>
             <Text style={ButtonStyles.buttonText}> Poista</Text>
           </Pressable>
-
           <Pressable style={ButtonStyles.button}
             onPress={() => navigation.navigate("OwnAds")} >
             <Text style={ButtonStyles.buttonText}> Takaisin</Text>

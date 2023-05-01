@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Text, View, Pressable, Linking, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -8,7 +9,7 @@ import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
 import ViewAd from '../components/ViewAd';
 
-
+// Näytetään yksittäinen haettu ilmoitus
 export default function ShowAd({ navigation, route }) {
 
   const [ad, setAd] = useState([]);
@@ -19,7 +20,7 @@ export default function ShowAd({ navigation, route }) {
     getPublisher();
   }, []);
 
-  const getData = async () => {
+  const getData = async () => {                 //haetaan ilmoitus id.n perusteella
 
     try {
       const results = await axios.get(BASE_URL + '/ad/' + route.params.adid)
@@ -31,7 +32,7 @@ export default function ShowAd({ navigation, route }) {
     }
   }
 
-  const getPublisher = async () => {
+  const getPublisher = async () => {          //haetaan käyttäjätiedot
     try {
       const results = await axios.get(BASE_URL + '/userr/ad/' + route.params.userid)
       setPublisher(results.data)
@@ -41,7 +42,7 @@ export default function ShowAd({ navigation, route }) {
     }
   }
 
-  const handleEmailPress = () => {
+  const handleEmailPress = () => {          //avataan puhelimen mail äppi ja syötetään osoite valmiiksi (ei toimi emulaattorissa)
     const email = publisher.email;
     try {
       Linking.openURL(`mailto:${email}`);
@@ -49,7 +50,7 @@ export default function ShowAd({ navigation, route }) {
       console.log(e)
     }
   }
-  const handlSmsPress = () => {
+  const handlSmsPress = () => {           //avataan puhelimen viestisovellus ja syötetään numero valmiiksi (ei tomi emulaattorissa)
     const number = publisher.phonenumber;
     try {
       Linking.openURL(`sms:${number}`);
@@ -59,7 +60,6 @@ export default function ShowAd({ navigation, route }) {
   }
 
   return (
-
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
         <StatusBar style="light" translucent={true} />

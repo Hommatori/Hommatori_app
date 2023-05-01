@@ -1,5 +1,4 @@
-import {StyleSheet, Platform} from 'react-native';
-import Constants from 'expo-constants';
+import {StyleSheet} from 'react-native';
 
 export default StyleSheet.create({
         container: {
@@ -10,40 +9,8 @@ export default StyleSheet.create({
             flex: 1,
             margin: 10,          
         },
-        searchBoxContainer1: {
-            zIndex:9999,
-          },
-          searchBoxContainer2: {  
-            marginTop: 10,
-            marginBottom: 10,
-            backgroundColor: '#25db55',        
-            borderRadius: 12,
-            elevation: 10,
-      
-          },
-          searchBoxContainer3: {  
-            flexDirection: 'row',
-            justifyContent: 'center',
-            margin: 10,
-
-          },
-          textInputContainer1: {
-            flex: 1,
-            backgroundColor: '#FFFFFF',
-            borderRadius: 12,   
-            padding:5,       
-            marginRight: 10,
-          },
           searchButtonContainer:{  
             flexDirection: 'row',
-          },
-          dropDawnList: {
-            flex: 1,
-            margin: 10,
-          },
-          dropDawn: {
-            borderRadius: 12,
-            borderColor: 'white',
           },
           adContainer: {
             flex: 1,
@@ -72,8 +39,5 @@ export default StyleSheet.create({
             fontSize: 15,
             fontWeight: 'bold',
           },
-          scrollViewStyle: {
-            
-          }
 
   });

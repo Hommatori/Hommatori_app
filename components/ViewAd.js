@@ -1,6 +1,8 @@
+
 import { React } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 
+// tämä funktio piirtää sekä oman ilmoituksen että haun kautta aukaistun ilmoituksen näytölle
 export default function ViewAd({ ad, publisher }) {
 
     const date = new Date(ad.date);
@@ -11,7 +13,7 @@ export default function ViewAd({ ad, publisher }) {
         timeZone: 'Europe/Helsinki'
     }).replace(/(\d+)\/(\d+)\/(\d+)/, '$1.$2.$3');
 
-    let type;
+    let type;                                       //tässä tehdään käännös
     if (ad.type === 'joboffer') {
         type = 'Tarjotaan työsuorite';
     } else if (ad.type === 'jobseeker') {
@@ -20,7 +22,7 @@ export default function ViewAd({ ad, publisher }) {
         type = 'kaikki ilmoitustyypit';
     }
 
-    let region;
+    let region;                                     //tässä on myös käännnös
     if (ad.region === 'all') {
         region = 'Kokosuomi'
     } else {
@@ -31,7 +33,7 @@ export default function ViewAd({ ad, publisher }) {
 
         <View style={styles.adContainer}>
             <View style={{ alignItems: 'center' }}>
-                <Image
+                <Image                                                                //tässä piirrettäisiin kuva mutta se jäi tekemättä
                     style={styles.image}
                     source={ad.image && ad.image != '' ? { uri: ad.image } : null}
                 />

@@ -1,3 +1,4 @@
+
 import { React, useState } from 'react';
 import {
   View, Text, Pressable, Alert, Keyboard, TouchableWithoutFeedback, StyleSheet,
@@ -11,6 +12,7 @@ import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl'
 
+// lisätään käyttätunnus
 export default function AdAccount({ navigation }) {
 
   const [fname, setFname] = useState('')
@@ -20,10 +22,8 @@ export default function AdAccount({ navigation }) {
   const [phonenumber, setPhonenumber] = useState('')
   const [password, setPassword] = useState('')
 
-  const newUser = async () => {
-
+  const newUser = async () => {         //Lisätään uusi käyttäjätunnus ja siirrytään kirjautumisnäkymään
     const accessToken = await SecureStore.getItemAsync('accessToken');
-
     try {
       await axios.post(BASE_URL + '/signup', {
         fname: fname,

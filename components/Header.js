@@ -1,5 +1,7 @@
+
 import { Text, View, StyleSheet } from 'react-native';
 
+//luo jokeiselle sivuille yläpalkin jossa lukee Hommatori
 export default function Header({ navigation }) {
 
   return (

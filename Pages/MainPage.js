@@ -1,35 +1,33 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, TextInput, View, ScrollView, Image, Pressable, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
+import { Text, View, ScrollView, Image, Pressable, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Styles from '../Styles/Styles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
-import DropDownPicker from 'react-native-dropdown-picker';
-import DropdownStyles from '../Styles/DropdownStyles';
-import regions from '../json/regions';
-import TypeTranslations from '../json/TypeTranslations';
 import BASE_URL from '../json/BaseUrl';
+import SearchBox from '../components/SearchBox';
 
+// sivu joka näyttää kaikki tai filtteröidyt ilmoitukset
 export default function MainPage({ navigation }) {
 
-  const [open, setOpen] = useState(false);
-  const [openAnother, setOpenAnother] = useState(false);
   const [ads, setAds] = useState([]);
   const [page, setPage] = useState(1);
   const [total_rows, setTota_rows] = useState(0)
   const [region, setRegion] = useState('');
   const [type, setType] = useState('');
   const [searchText, setSearchText] = useState("");
+  const [filter, setFilter] = useState('1')
 
   useEffect(() => {
-    getData();
+    getData(type, region, filter, page, searchText);
   }, [page]);
 
-  const getData = async () => {
+  const getData = async (type, region, filter, page, searchText) => {       //haetaan parametrien mukaiset ilmoitukset 10kpl
+    console.log('getdata', region)
     try {
-      const results = await axios.get(BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=&page=' + page + '&query=' + searchText + '')
+      const results = await axios.get(BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=' + filter + '&page=' + page + '&query=' + searchText + '')
       setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       console.log('getData success')
@@ -37,56 +35,27 @@ export default function MainPage({ navigation }) {
 
     } catch (error) {
       console.log("getData error ", error)
-      Alert.alert('Haku epännostui!')
+      Alert.alert('Ei hakutuloksia!')
     }
   }
-
-  const search = async () => {
-    try {
-      setPage(1)
-      getData();
-    } catch (error) {
-      Alert.alert('Haku epännostui!')
-    }
-  }
-
-  //tässä lisätään offsettia jotta saadaan seuraava sivu
-  const nextAds = async () => {
+                                                               
+  const nextAds = async () => {                                    //tässä lisätään offsettia jotta saadaan seuraava sivu
     const pages = Math.ceil(total_rows / 10)
     if (page < pages) {
       setPage(page + 1);
-      getData();
+      getData(type, region, filter, page, searchText);
     }
-  }
-  // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
-  const previousAds = async () => {
+  }                                                            
+  const previousAds = async () => {                              // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
     if (page > 1) {
       setPage(page - 1);
-      getData();
+      getData(type, region, filter, page, searchText);
     }
   }
 
-  //tämää aukoo ja sulkee vain toisen pudotuslistan kerrallaan.
-  const onOpen = useCallback(() => {
-    setOpenAnother(false);
-  }, []);
-  const onAnotherOpen = useCallback(() => {
-    setOpen(false);
-  }, []);
-
-  const handleButtonAdClicket = (adid, userid) => {
+  const handleButtonAdClicket = (adid, userid) => {               //kun painetaan ilmoitusta, avataan seuraava sivu
     navigation.navigate('ShowAd', { adid, userid })
   }
-
-  const handleTypeChange = (selectedType) => {
-    setType(selectedType);
-  };
-
-  const getTranslatedType = (typeValue, language) => {
-    return TypeTranslations[language].type[typeValue];
-  };
-
-
 
   return (
 
@@ -95,80 +64,7 @@ export default function MainPage({ navigation }) {
         <StatusBar style="light" translucent={true} />
         <Header></Header>
         <View style={Styles.container2}>
-
-
-          <View style={Styles.searchBoxContainer1}>
-            <View style={Styles.searchBoxContainer2}>
-              <View style={Styles.searchBoxContainer3}>
-                <TextInput
-                  style={Styles.textInputContainer1}
-                  placeholder="Syötä hakusana"
-                  onChangeText={(text => setSearchText(text))}
-                  returnKeyType='search'
-                />
-                <Pressable style={ButtonStyles.buttonSearch}
-                  onPress={() => search()}
-                >
-                  <Text style={ButtonStyles.buttonText}>Hae</Text>
-                </Pressable>
-              </View>
-              <View style={Styles.searchButtonContainer}>
-                <View style={DropdownStyles.dropDawnList}>
-
-                  <DropDownPicker
-                    style={DropdownStyles.dropDawn}
-                    placeholder="Alue"
-                    listMode="MODAL"
-                    searchable={true}
-                    dropDownDirection="AUTO"
-                    dropDownContainerStyle={{
-                      backgroundColor: "#dfdfdf",
-                      borderColor: '#25db55',
-                      borderRadius: 12,
-                    }}
-                    open={open}
-                    onOpen={onOpen}
-                    setOpen={setOpen}
-                    items={[
-                      {
-                        value: "all",
-                        label: "Kokosuomi",
-                      },
-                      ...Object.keys(regions).map((item, index) => ({
-                        value: item,
-                        label: item,
-                      })),
-                    ]}
-                    value={region}
-                    setValue={setRegion}
-                  />
-                </View>
-                <View style={DropdownStyles.dropDawnList}>
-                  <DropDownPicker
-                    style={DropdownStyles.dropDawn}
-                    placeholder={getTranslatedType("all", "fi")} // example usage of translation function
-                    listMode="SCROLLVIEW"
-                    dropDownDirection="DOWN"
-                    dropDownContainerStyle={{
-                      backgroundColor: "white",
-                      borderColor: "#25db55",
-                      borderRadius: 12,
-                    }}
-                    open={openAnother}
-                    onOpen={() => setOpenAnother(true)}
-                    onClose={() => setOpenAnother(false)}
-                    value={type}
-                    setValue={handleTypeChange}
-                    items={Object.keys(TypeTranslations["en"].type).map((item) => ({
-                      value: item,
-                      label: getTranslatedType(item, "fi"), // example usage of translation function
-                    }))}
-                  />
-                </View>
-              </View>
-            </View>
-          </View>
-
+          <SearchBox getData={getData} />
           <ScrollView style={Styles.scrollViewStyle}>
             {
               Object.values(ads).map((item, index) => (
@@ -193,7 +89,6 @@ export default function MainPage({ navigation }) {
                   </View>
                 </Pressable>
               ))
-
             }
           </ScrollView>
           <View style={ButtonStyles.nextContainer}>

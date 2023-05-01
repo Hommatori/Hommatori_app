@@ -10,6 +10,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import DropdownStyles from '../Styles/DropdownStyles';
 import regions from '../json/regions';
 import TypeTranslations from '../json/TypeTranslations';
+import FilterTranslations from '../json/FilterTranslations';
 import BASE_URL from '../json/BaseUrl';
 
 export default function MainPage({ navigation }) {
@@ -22,6 +23,7 @@ export default function MainPage({ navigation }) {
   const [region, setRegion] = useState('');
   const [type, setType] = useState('');
   const [searchText, setSearchText] = useState("");
+  const [filter, setFilter] = useState('1')
 
   useEffect(() => {
     getData();
@@ -29,7 +31,7 @@ export default function MainPage({ navigation }) {
 
   const getData = async () => {
     try {
-      const results = await axios.get(BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=&page=' + page + '&query=' + searchText + '')
+      const results = await axios.get(BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=' + filter + '&page=' + page + '&query=' + searchText + '')
       setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       console.log('getData success')
@@ -84,6 +86,14 @@ export default function MainPage({ navigation }) {
 
   const getTranslatedType = (typeValue, language) => {
     return TypeTranslations[language].type[typeValue];
+  };
+
+  const handleFilterChange = (selectedFilter) => {
+    setFilter(selectedFilter);
+  };
+
+  const getTranslatedFilter = (filterValue, language) => {
+    return FilterTranslations[language].filter[filterValue];
   };
 
 
@@ -162,6 +172,26 @@ export default function MainPage({ navigation }) {
                     items={Object.keys(TypeTranslations["en"].type).map((item) => ({
                       value: item,
                       label: getTranslatedType(item, "fi"), // example usage of translation function
+                    }))}
+                  />
+                   <DropDownPicker
+                    style={DropdownStyles.dropDawn}
+                    placeholder={getTranslatedFilter("1", "fi")} // example usage of translation function
+                    listMode="SCROLLVIEW"
+                    dropDownDirection="DOWN"
+                    dropDownContainerStyle={{
+                      backgroundColor: "white",
+                      borderColor: "#25db55",
+                      borderRadius: 12,
+                    }}
+                    open={openAnother}
+                    onOpen={() => setOpenAnother(true)}
+                    onClose={() => setOpenAnother(false)}
+                    value={filter}
+                    setValue={handleFilterChange}
+                    items={Object.keys(FilterTranslations["en"].filter).map((item) => ({
+                      value: item,
+                      label: getTranslatedFilter(item, "fi"), // example usage of translation function
                     }))}
                   />
                 </View>

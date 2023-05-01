@@ -9,7 +9,7 @@ import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DropdownStyles from '../Styles/DropdownStyles';
 import regions from '../json/regions';
-import Type from '../json/Type';
+import TypeTranslations from '../json/TypeTranslations';
 import BASE_URL from '../json/BaseUrl';
 
 export default function MainPage({ navigation }) {
@@ -78,6 +78,15 @@ export default function MainPage({ navigation }) {
     navigation.navigate('ShowAd', { adid, userid })
   }
 
+  const handleTypeChange = (selectedType) => {
+    setType(selectedType);
+  };
+
+  const getTranslatedType = (typeValue, language) => {
+    return TypeTranslations[language].type[typeValue];
+  };
+
+
   return (
 
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -130,23 +139,23 @@ export default function MainPage({ navigation }) {
                 <View style={DropdownStyles.dropDawnList}>
                   <DropDownPicker
                     style={DropdownStyles.dropDawn}
-                    placeholder="Tyyppi"
+                    placeholder={getTranslatedType("all", "fi")} // example usage of translation function
                     listMode="SCROLLVIEW"
                     dropDownDirection="DOWN"
                     dropDownContainerStyle={{
                       backgroundColor: "white",
-                      borderColor: '#25db55',
+                      borderColor: "#25db55",
                       borderRadius: 12,
                     }}
                     open={openAnother}
-                    onOpen={onAnotherOpen}
-                    setOpen={setOpenAnother}
-                    items={Type.map((item, index) => ({
-                      value: item,
-                      label: item
-                    }))}
+                    onOpen={() => setOpenAnother(true)}
+                    onClose={() => setOpenAnother(false)}
                     value={type}
-                    setValue={setType}
+                    setValue={handleTypeChange}
+                    items={Object.keys(TypeTranslations["en"].type).map((item) => ({
+                      value: item,
+                      label: getTranslatedType(item, "fi"), // example usage of translation function
+                    }))}
                   />
                 </View>
               </View>

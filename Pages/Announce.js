@@ -148,7 +148,7 @@ export default function Announce({ navigation }) {
               setOpen={setOpen}
               items={Object.keys(regions).map((item, index) => ({
                 value: item,
-                label: item
+                label: item,
               }))}
               value={region}
               setValue={setRegion}

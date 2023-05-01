@@ -1,7 +1,8 @@
+
 import { StyleSheet, Text, View, Pressable, } from 'react-native';
 
+//luo jokaiselle sivulle alalaitaan navigointipalkin
 export default function NavBar({ navigation, userId }) {
-
 
   return (
 

@@ -1,6 +1,8 @@
+
 import { React } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
+// Tämä funktio piirtää asiakastiedot näytölle
 export default function UserDetails({ user }) {
 
     const date = new Date(user.creation_time);

@@ -1,3 +1,4 @@
+
 import { React, useState, useEffect } from 'react';
 import { View, Text, Pressable, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
 import AnnounceStyles from '../Styles/AnnounceStyles';
@@ -14,8 +15,7 @@ import BASE_URL from '../json/BaseUrl.json'
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
-
-
+// muokataan ilmoitusta
 export default function EditAd({ navigation, route }) {
 
   const [open, setOpen] = useState(false);
@@ -27,24 +27,22 @@ export default function EditAd({ navigation, route }) {
     getData();
   }, []);
 
-  const options = [
+  const options = [                                       //radioButton sisältö
     { label: 'Myyn', value: 'joboffer' },
     { label: 'Ostan', value: 'jobseeker' },
   ]
 
 
-  const getData = async () => {
+  const getData = async () => {                           //haetaan ilmoituksen tiedot id.llä
     try {
       const results = await axios.get(BASE_URL + '/ad/' + route.params.adid)
       setAd(results.data)
-      //console.log(results.data)
-
     } catch (error) {
       console.log("getAd error", error)
     }
   }
 
-  const updateAd = async () => {
+  const updateAd = async () => {                          //päivitetään ilmoitus
 
     const accessToken = await SecureStore.getItemAsync('accessToken');
     console.log(ad.header)
@@ -72,7 +70,7 @@ export default function EditAd({ navigation, route }) {
     }
   }
 
-  const handelSaveClicked = () => {
+  const handelSaveClicked = () => {                 //tallennettaessa ajetaan update ja siirrytään tilisivulle
     updateAd()
     navigation.navigate('LoggedIn')
   }

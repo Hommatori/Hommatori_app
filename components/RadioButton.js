@@ -1,6 +1,8 @@
+
 import { View, Text, Pressable, StyleSheet } from 'react-native'
 import { useState, React, useEffect } from 'react'
 
+//ilmoituksen luontiin sovellus radiobuttonin toimintaan
 export default function RadioButton({ options, onPress, initialValue }) {
 
     const [value, setValue] = useState(initialValue)

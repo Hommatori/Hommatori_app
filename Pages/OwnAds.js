@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Text, View, ScrollView, Image, Pressable, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -8,6 +9,7 @@ import Header from '../components/Header';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
 
+//Näytetään kaikki omat ilmoitukset
 export default function OwnAds({ navigation, route }) {
 
   const [ads, setAds] = useState([]);
@@ -16,7 +18,7 @@ export default function OwnAds({ navigation, route }) {
     getDataByUserId()
   }, []);
 
-  const getDataByUserId = async () => {
+  const getDataByUserId = async () => {               //haetaan ilmoitukset käyttäjän id.n perusteella
     try {
       const results = await axios.get(BASE_URL + '/ad/withuserid/get/?userid=' + route.params.userId)
       setAds(Object.values(results.data))
@@ -28,11 +30,11 @@ export default function OwnAds({ navigation, route }) {
     }
   }
 
-  const handleButtonAdClicket = (adid, userid) => {
+  const handleButtonAdClicket = (adid, userid) => { //määritetään mitä tapahtuu kun painetaan ilmoitusta
     navigation.navigate('OwnAd', { adid, userid })
   }
 
-  const translateRegion = (region) => {
+  const translateRegion = (region) => {             //tehdään käännös alueen all sanalle.
     if (region === 'all') {
       return 'Kokosuomi'
     } else {
@@ -47,7 +49,6 @@ export default function OwnAds({ navigation, route }) {
         <Header></Header>
         <View style={Styles.container2}>
           <Text style={Styles.headerTextStyle}> Omat ilmoitukset </Text>
-
           <ScrollView style={Styles.scrollViewStyle}>
             {
               Object.values(ads).map((item, index) => (

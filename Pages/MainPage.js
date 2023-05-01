@@ -1,19 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, TextInput, View, ScrollView, Image, Pressable, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
+import { Text, View, ScrollView, Image, Pressable, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import Styles from '../Styles/Styles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
 import axios from 'axios';
-import DropDownPicker from 'react-native-dropdown-picker';
-import DropdownStyles from '../Styles/DropdownStyles';
-import regions from '../json/regions';
-import TypeTranslations from '../json/TypeTranslations';
-import FilterTranslations from '../json/FilterTranslations';
 import BASE_URL from '../json/BaseUrl';
 import SearchBox from '../components/SearchBox';
 
+// sivu joka näyttää kaikki tai filtteröidyt ilmoitukset
 export default function MainPage({ navigation }) {
 
   const [ads, setAds] = useState([]);
@@ -28,7 +24,7 @@ export default function MainPage({ navigation }) {
     getData(type, region, filter, page, searchText);
   }, [page]);
 
-  const getData = async (type, region, filter, page, searchText) => {
+  const getData = async (type, region, filter, page, searchText) => {       //haetaan parametrien mukaiset ilmoitukset 10kpl
     console.log('getdata', region)
     try {
       const results = await axios.get(BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=' + filter + '&page=' + page + '&query=' + searchText + '')
@@ -42,24 +38,22 @@ export default function MainPage({ navigation }) {
       Alert.alert('Ei hakutuloksia!')
     }
   }
-
-  //tässä lisätään offsettia jotta saadaan seuraava sivu
-  const nextAds = async () => {
+                                                               
+  const nextAds = async () => {                                    //tässä lisätään offsettia jotta saadaan seuraava sivu
     const pages = Math.ceil(total_rows / 10)
     if (page < pages) {
       setPage(page + 1);
       getData(type, region, filter, page, searchText);
     }
-  }
-  // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
-  const previousAds = async () => {
+  }                                                            
+  const previousAds = async () => {                              // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
     if (page > 1) {
       setPage(page - 1);
       getData(type, region, filter, page, searchText);
     }
   }
 
-  const handleButtonAdClicket = (adid, userid) => {
+  const handleButtonAdClicket = (adid, userid) => {               //kun painetaan ilmoitusta, avataan seuraava sivu
     navigation.navigate('ShowAd', { adid, userid })
   }
 
@@ -95,7 +89,6 @@ export default function MainPage({ navigation }) {
                   </View>
                 </Pressable>
               ))
-
             }
           </ScrollView>
           <View style={ButtonStyles.nextContainer}>

@@ -8,6 +8,7 @@ import TypeTranslations from '../json/TypeTranslations';
 import FilterTranslations from '../json/FilterTranslations';
 import ButtonStyles from '../Styles/ButtonStyles';
 
+//SearchBox luodaan hakusivulle, tällä voidaan hakea kirjoittamalla, alueen, tyypin ja järjestyksen mukaan.
 export default function SearchBox({ navigation, getData }) {
 
     const [page, setPage] = useState(1);
@@ -19,12 +20,13 @@ export default function SearchBox({ navigation, getData }) {
     const [openType, setOpenType] = useState(false);
     const [openFilter, setOpenFilter] = useState(false);
 
+    //kutsutaan MainPage sivulla olevaa getData funktiota
     const search = async (type, region, filter, page, searchText) => {
         getData(type, region, filter, page, searchText)
             setPage(1)          
     }
 
-    //Nämä aukoo ja sulkee vain toisen pudotuslistan kerrallaan.
+    //Nämä aukoo ja sulkee vain Yhden pudotuslistan kerrallaan.
     const onOpenRegion = useCallback(() => {
         setOpenType(false);
         setOpenFilter(false);
@@ -41,6 +43,7 @@ export default function SearchBox({ navigation, getData }) {
         setOpenFilter(true);
     }, []);
 
+    //Tässä suoritetaan käännöksiä halutulle kielelle
     const handleTypeChange = (selectedType) => {
         setType(selectedType);
     };
@@ -59,13 +62,13 @@ export default function SearchBox({ navigation, getData }) {
 
         <View style={Styles.searchBoxContainer}>
             <View style={Styles.searchBoxContainer2}>
-                <TextInput
+                <TextInput                                                              //käsin haku
                     style={Styles.textInputContainer1}
                     placeholder="Syötä hakusana"
                     onChangeText={(text => setSearchText(text))}
                     returnKeyType='search'
                 />
-                <Pressable style={ButtonStyles.buttonSearch}
+                <Pressable style={ButtonStyles.buttonSearch}                            //kutsutaan searh funktiota
                     onPress={(() => search(type, region, filter, page, searchText))}
                 >
                     <Text style={ButtonStyles.buttonText}>Hae</Text>
@@ -73,8 +76,7 @@ export default function SearchBox({ navigation, getData }) {
             </View>
             <View style={Styles.searchButtonContainer}>
                 <View style={DropdownStyles.dropDawnList}>
-
-                    <DropDownPicker
+                    <DropDownPicker                                 //tässä valitaan alue hakuavarten
                         style={DropdownStyles.dropDawn}
                         placeholder="Alue"
                         listMode="MODAL"
@@ -103,7 +105,7 @@ export default function SearchBox({ navigation, getData }) {
                     />
                 </View>
                 <View style={DropdownStyles.dropDawnList}>
-                    <DropDownPicker
+                    <DropDownPicker                                 //tässä valitaan ilmoituksen tyyppi hakua varten
                         style={DropdownStyles.dropDawn}
                         placeholder={getTranslatedType("all", "fi")} // example usage of translation function
                         listMode="SCROLLVIEW"
@@ -125,7 +127,7 @@ export default function SearchBox({ navigation, getData }) {
                     />
                 </View>
                 <View style={DropdownStyles.dropDawnList}>
-                    <DropDownPicker
+                    <DropDownPicker                                     //tässä valitaan tapa jolla ilmoitukset järjestellään
                         style={DropdownStyles.dropDawn}
                         placeholder={getTranslatedFilter("1", "fi")} // example usage of translation function
                         listMode="SCROLLVIEW"

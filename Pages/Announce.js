@@ -1,3 +1,4 @@
+
 import { React, useState, useEffect } from 'react';
 import { View, Text, Pressable, Keyboard, TouchableWithoutFeedback, Alert } from 'react-native';
 import AnnounceStyles from '../Styles/AnnounceStyles';
@@ -14,6 +15,7 @@ import BASE_URL from '../json/BaseUrl.json'
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
 
+// tehdään uusi ilmoitus
 export default function Announce({ navigation }) {
 
   const [open, setOpen] = useState(false);
@@ -27,7 +29,7 @@ export default function Announce({ navigation }) {
   const [userData, setUserData] = useState('');
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async () => {               //Käyttäjätiedot palvelimelta
       try {
         const accessToken = await SecureStore.getItemAsync('accessToken');
         const user = await SecureStore.getItemAsync('userData');
@@ -47,15 +49,13 @@ export default function Announce({ navigation }) {
     fetchData();
   }, []);
 
-  const options = [
+  const options = [                               //radiobuttonin arvot
     { label: 'Myyn', value: 'joboffer' },
     { label: 'Ostan', value: 'jobseeker' },
   ]
 
-  const newAd = async () => {
-
+  const newAd = async () => {                     //lisätään uusi ilmoitus
     const accessToken = await SecureStore.getItemAsync('accessToken');
-
     try {
       await axios.post(BASE_URL + '/ad', {
         type: type,
@@ -69,18 +69,15 @@ export default function Announce({ navigation }) {
       }, {
         headers: { Authorization: 'Bearer' + accessToken }
       })
-
       console.log('newAd created successfully')
       Alert.alert('Ilmoitus luotu!');
-      //console.log(cookieHeader)
-
     } catch (e) {
       console.log('newAd error', e)
       Alert.alert('Ilmoituksen luonti epäonnistui!')
     }
   }
 
-  const handelSaveClicked = () => {
+  const handelSaveClicked = () => {           //käsitellään tallennanapin käyttö
     newAd()
     navigation.navigate('LoggedIn')
   }

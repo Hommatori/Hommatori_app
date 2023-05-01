@@ -1,3 +1,4 @@
+
 import { React, useEffect, useState } from 'react';
 import { View, Text, Pressable, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -10,16 +11,16 @@ import BASE_URL from '../json/BaseUrl';
 import UserDetails from '../components/UserDetails'
 import axios from 'axios';
 
+//ensimmäinen sivu kun kirjaudutaan sisään
 export default function LoggedIn({ navigation }) {
 
   const [userData, setUserData] = useState('')
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
+  useEffect(() => {                     
+    const fetchData = async () => {                 //Haetaan käyttäjätiedot palvelimelta
+      try {   
         const accessToken = await SecureStore.getItemAsync('accessToken');
         const user = await SecureStore.getItemAsync('userData');
-        //console.log(accessToken)
         const userObject = JSON.parse(user);
         const config = {
           headers: {
@@ -28,7 +29,6 @@ export default function LoggedIn({ navigation }) {
         };
         const response = await axios.get(`${BASE_URL}/userr/getprivatedata/${userObject.id}`, config);
         setUserData(response.data);
-        //console.log(response.data)
       } catch (error) {
         console.error(error);
         Alert.alert('Error fetching data');
@@ -38,7 +38,7 @@ export default function LoggedIn({ navigation }) {
     fetchData();
   }, []);
 
-  async function logout() {
+  async function logout() {                   //Kirjaudutaan ulos ja siirrytään kirjautumissuvulle
     try {
       fetch(BASE_URL + '/logout', {
         method: 'POST',
@@ -54,11 +54,11 @@ export default function LoggedIn({ navigation }) {
     }
   }
 
-  const ownAdsClicket = (userId) => {
+  const ownAdsClicket = (userId) => {               //käsitellään omat ilmoitukset painaminen
     navigation.navigate('OwnAds', { userId })
   }
 
-  const ediAccountClicket = (userData) => {
+  const ediAccountClicket = (userData) => {         //käsitellään muokkaa käyttäjätunnusta painaminen
     navigation.navigate('Account', { userData })
   }
 

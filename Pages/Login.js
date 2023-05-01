@@ -1,3 +1,4 @@
+
 import { React, useState } from 'react';
 import { View, Text, Pressable, TextInput, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -9,13 +10,13 @@ import LoginStyles from '../Styles/LoginStyles';
 import BaseUrl from '../json/BaseUrl';
 import jwtDecode from 'jwt-decode'
 
-
+//Kirjaudu sisään sivu
 export default function Login({ navigation }) {
 
   const [username, setUsername] = useState('Petteri91@ggmail.com')
   const [password, setPassword] = useState('Salasana')
 
-  const login = async () => {
+  const login = async () => {             //funktio jolla lähetetään palvelimelle kirjautumis pyyntö
     try {
       const requestBody = {
         usingMobile: true

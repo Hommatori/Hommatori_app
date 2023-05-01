@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { View, Text, Pressable, TextInput, Alert } from 'react-native';
+import { View, Text, Pressable, Alert, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as SecureStore from 'expo-secure-store';
 import NavBar from '../components/NavBar';
@@ -9,7 +9,6 @@ import Styles from '../Styles/LoggedInStyles';
 import BASE_URL from '../json/BaseUrl';
 import UserDetails from '../components/UserDetails'
 import axios from 'axios';
-
 
 export default function LoggedIn({ navigation }) {
 
@@ -63,45 +62,43 @@ export default function LoggedIn({ navigation }) {
     navigation.navigate('Account', { userData })
   }
 
-
-
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={Styles.container}>
+        <StatusBar style="light" translucent={true} />
+        <Header></Header>
+        <View style={Styles.container2}>
+          <View style={Styles.headerContainer}>
+            <Text style={Styles.headerText}>Omasivu</Text>
+          </View>
 
-    <View style={Styles.container}>
-      <StatusBar style="light" translucent={true} />
-      <Header></Header>
-      <View style={Styles.container2}>
-        <View style={Styles.headerContainer}>
-          <Text style={Styles.headerText}>Omasivu</Text>
+          <View style={Styles.userDataContainer}>
+            <UserDetails user={userData} />
+          </View>
+
+          <View>
+            <Pressable style={ButtonStyles.button}
+              onPress={() => ediAccountClicket(userData)}>
+              <Text style={ButtonStyles.buttonText}>Muokkaa Tiliä</Text>
+            </Pressable>
+
+            <Pressable
+              style={ButtonStyles.button}
+              onPress={() => ownAdsClicket(userData.userid)}>
+              <Text style={ButtonStyles.buttonText}>Omat ilmoitukset</Text>
+            </Pressable>
+
+            <Pressable
+              style={ButtonStyles.button}
+              onPress={() => logout()}>
+              <Text style={ButtonStyles.buttonText}>Kirjaudu ulos</Text>
+            </Pressable>
+          </View>
         </View>
 
-        <View style={Styles.userDataContainer}>
-          <UserDetails user={userData} />
-        </View>
+        <NavBar navigation={navigation}></NavBar>
 
-        <View>
-          <Pressable style={ButtonStyles.button}
-            onPress={() => ediAccountClicket(userData)}>
-            <Text style={ButtonStyles.buttonText}>Muokkaa Tiliä</Text>
-          </Pressable>
-
-          <Pressable
-            style={ButtonStyles.button}
-            onPress={() => ownAdsClicket(userData.userid)}>
-            <Text style={ButtonStyles.buttonText}>Omat ilmoitukset</Text>
-          </Pressable>
-
-          <Pressable
-            style={ButtonStyles.button}
-            onPress={() => logout()}>
-            <Text style={ButtonStyles.buttonText}>Kirjaudu ulos</Text>
-          </Pressable>
-        </View>
       </View>
-
-      <NavBar navigation={navigation}></NavBar>
-
-    </View>
-
+    </TouchableWithoutFeedback>
   );
 }

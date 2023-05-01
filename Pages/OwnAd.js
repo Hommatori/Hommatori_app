@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Text, View, Image, Pressable, Alert, StyleSheet } from 'react-native';
-import { StatusBar, hidden } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import { Text, View, Pressable, Alert, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
@@ -8,7 +8,6 @@ import axios from 'axios';
 import BASE_URL from '../json/BaseUrl';
 import * as SecureStore from 'expo-secure-store';
 import ViewAd from '../components/ViewAd';
-
 
 export default function OwnAd({ navigation, route }) {
 
@@ -48,6 +47,7 @@ export default function OwnAd({ navigation, route }) {
       });
       console.log('ad removed successfully');
       Alert.alert('Ilmoitus poistettu!');
+      navigation.navigate('LoggedIn')
     } catch (error) {
       console.log('error occurred in removing ad', error);
       Alert.alert('Ilmoituksen poistaminen epäonnistui!');
@@ -55,42 +55,48 @@ export default function OwnAd({ navigation, route }) {
   };
 
   const handleDeleteClicked = () => {
-    deleteAd()
-    navigation.navigate('LoggedIn')
+    Alert.alert(
+      "Oletko varma?",
+      "Tätä ei voi enää perua.",
+      [
+        { text: "Peruuta", onPress: () => console.log("Cancel Pressed"), style: "cancel" },
+        { text: "Hyväksy", onPress: () => deleteAd()}
+      ]
+    );
   }
 
   const handleEditAdClicked = (adid, userid) => {
-    navigation.navigate('EditAd',{adid, userid})
+    navigation.navigate('EditAd', { adid, userid })
     //console.log(adid)
   }
 
 
   return (
 
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <StatusBar style="light" translucent={true} />
+        <Header></Header>
+        <View style={styles.container2}>
+          <ViewAd ad={ad} publisher={publisher} />
+          <Pressable style={ButtonStyles.button}
+            onPress={(() => handleEditAdClicked(route.params.adid, route.params.userid))} >
+            <Text style={ButtonStyles.buttonText}>Muokkaa ilmoitusta</Text>
+          </Pressable>
 
-    <View style={styles.container}>
-      <StatusBar style="light" translucent={true} />
-      <Header></Header>
-      <View style={styles.container2}>
-        <ViewAd ad={ad} publisher={publisher} />
-        <Pressable style={ButtonStyles.button}
-          onPress={(() => handleEditAdClicked(route.params.adid, route.params.userid))} >
-          <Text style={ButtonStyles.buttonText}>Muokkaa ilmoitusta</Text>
-        </Pressable>
-        
-        <Pressable style={ButtonStyles.button}
-          onPress={() => handleDeleteClicked()}>
-          <Text style={ButtonStyles.buttonText}> Poista</Text>
-        </Pressable>
+          <Pressable style={ButtonStyles.button}
+            onPress={() => handleDeleteClicked()}>
+            <Text style={ButtonStyles.buttonText}> Poista</Text>
+          </Pressable>
 
-        <Pressable style={ButtonStyles.button}
-          onPress={() => navigation.navigate("OwnAds")} >
-          <Text style={ButtonStyles.buttonText}> Takaisin</Text>
-        </Pressable>
+          <Pressable style={ButtonStyles.button}
+            onPress={() => navigation.navigate("OwnAds")} >
+            <Text style={ButtonStyles.buttonText}> Takaisin</Text>
+          </Pressable>
+        </View>
+        <NavBar navigation={navigation}></NavBar>
       </View>
-      <NavBar navigation={navigation}></NavBar>
-    </View>
-
+    </TouchableWithoutFeedback>
   );
 }
 const styles = StyleSheet.create({

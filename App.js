@@ -1,20 +1,17 @@
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Image } from 'react-native';
 import MainPage from './Pages/MainPage';
 import Announce from './Pages/Announce';
 import NavBar from './components/NavBar';
-import Messages from './Pages/Messages';
 import Account from './Pages/Account';
 import AdAccount from './Pages/AdAccount';
 import ShowAd from './Pages/ShowAd';
-import WriteMessage from './Pages/WriteMessage';
 import Login from './Pages/Login';
 import LoggedIn from './Pages/LoggedIn';
 import OwnAds from './Pages/OwnAds';
 import OwnAd from './Pages/OwnAd';
-import EditAd from './Pages/EditAd';
+import EditAd from './Pages/editAd';
 
 
 export default function App() {
@@ -51,11 +48,6 @@ export default function App() {
             options={{ headerTitle: 'Hommatori'}}
             />
             <Stack.Screen 
-            name="Messages" 
-            component={Messages}
-            options={{ headerTitle: 'Messages'}}
-            />
-            <Stack.Screen 
             name="Account" 
             component={Account}
             options={{ headerTitle: 'Account'}}
@@ -69,11 +61,6 @@ export default function App() {
             name="ShowAd" 
             component={ShowAd}
             options={{ headerTitle: 'ShowAd'}}
-            />
-            <Stack.Screen 
-            name="WriteMessage" 
-            component={WriteMessage}
-            options={{ headerTitle: 'WriteMessage'}}
             />
             <Stack.Screen 
             name="Login" 

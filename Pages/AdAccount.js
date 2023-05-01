@@ -1,15 +1,15 @@
 import { React, useState } from 'react';
-import { View, Text, Pressable, Alert, StyleSheet } from 'react-native';
+import {
+  View, Text, Pressable, Alert, Keyboard, TouchableWithoutFeedback, StyleSheet,
+  Platform, KeyboardAvoidingView
+} from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
-import NavBar from '../components/NavBar';
 import Header from '../components/Header';
-import { StatusBar, hidden } from 'expo-status-bar';
+import { StatusBar } from 'expo-status-bar';
 import ButtonStyles from '../Styles/ButtonStyles';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import BASE_URL from '../json/BaseUrl'
-
-
 
 export default function AdAccount({ navigation }) {
 
@@ -19,8 +19,6 @@ export default function AdAccount({ navigation }) {
   const [email, setEmail] = useState('')
   const [phonenumber, setPhonenumber] = useState('')
   const [password, setPassword] = useState('')
-
-  //console.log(password)
 
   const newUser = async () => {
 
@@ -37,11 +35,9 @@ export default function AdAccount({ navigation }) {
       }, {
         headers: { Authorization: 'Bearer' + accessToken }
       })
-
       console.log('new user created successfully')
       Alert.alert('Uusi käyttäjä luotu, voit nyt kirjautua sisään!');
       navigation.navigate('Login')
-      //console.log(cookieHeader)
 
     } catch (e) {
       console.log('new user error', e)
@@ -50,60 +46,68 @@ export default function AdAccount({ navigation }) {
   }
 
   return (
-
-    <View style={styles.container}>
-      <StatusBar style="light" translucent={true} />
-      <Header></Header>
-      <View style={styles.property}>
-        <Text style={styles.headerText}>Luo tili</Text>
-        <View>
-          <Text style={styles.itemText}>Etunimi</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setFname(text))}
-          >
-          </TextInput>
-          <Text style={styles.itemText}>Sukunimi</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setLname(text))}
-          >
-          </TextInput>
-          <Text style={styles.itemText}>Käyttäjätunnus</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setUserName(text))}
-          >
-          </TextInput>
-          <Text style={styles.itemText}>Sähköposti</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setEmail(text))}
-            keyboardType='email-address'
-          >
-          </TextInput>
-          <Text style={styles.itemText}>Puhelinumero</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setPhonenumber(text))}
-            keyboardType='numeric'
-          >
-          </TextInput>
-          <Text style={styles.itemText}>Salasana</Text>
-          <TextInput style={styles.textInputContainer}
-            onChangeText={(text => setPassword(text))}
-          >
-          </TextInput>
-
-          <Pressable style={ButtonStyles.button}
-            onPress={() => newUser()}>
-            <Text style={ButtonStyles.buttonText}>Tallenna</Text>
-          </Pressable>
-          <Pressable
-            style={ButtonStyles.button}
-            onPress={() => { navigation.navigate('Login') }}>
-            <Text style={ButtonStyles.buttonText}>Peruuta</Text>
-          </Pressable>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <StatusBar style="light" translucent={true} />
+        <Header></Header>
+        <View style={styles.property} >
+          <Text style={styles.headerText}>Luo tili</Text>
+          <View style={styles.content}>
+            <KeyboardAvoidingView
+              style={styles.content}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            >
+              <View style={styles.content2}>
+                <Text style={styles.itemText}>Etunimi</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setFname(text))}
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Sukunimi</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setLname(text))}
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Käyttäjätunnus</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setUserName(text))}
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Sähköposti</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setEmail(text))}
+                  keyboardType='email-address'
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Puhelinumero</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setPhonenumber(text))}
+                  keyboardType='numeric'
+                >
+                </TextInput>
+                <Text style={styles.itemText}>Salasana</Text>
+                <TextInput style={styles.textInputContainer}
+                  onChangeText={(text => setPassword(text))}
+                >
+                </TextInput>
+              </View>
+            </KeyboardAvoidingView>
+            <View>
+              <Pressable style={ButtonStyles.button}
+                onPress={() => newUser()}>
+                <Text style={ButtonStyles.buttonText}>Tallenna</Text>
+              </Pressable>
+              <Pressable
+                style={ButtonStyles.button}
+                onPress={() => { navigation.navigate('Login') }}>
+                <Text style={ButtonStyles.buttonText}>Peruuta</Text>
+              </Pressable>
+            </View>
+          </View>
         </View>
+        {/*  <NavBar navigation={navigation}></NavBar> */}
       </View>
-      {/*  <NavBar navigation={navigation}></NavBar> */}
-    </View>
-
+    </TouchableWithoutFeedback>
   )
 }
 
@@ -115,8 +119,16 @@ const styles = StyleSheet.create({
   },
   property: {
     flex: 1,
-    justifyContent: 'center',
     margin: 10,
+    marginBottom: 20,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
+  content2: {
+    flex: 1,
+    justifyContent: 'center',
   },
   headerText: {
     fontSize: 30,
@@ -131,6 +143,4 @@ const styles = StyleSheet.create({
     padding: 7,
     borderRadius: 10,
   }
-
-
 });

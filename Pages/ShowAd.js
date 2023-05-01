@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { Text, View, Image, Pressable, Alert, Linking, StyleSheet } from 'react-native';
-import { StatusBar, hidden } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import { Text, View, Pressable, Linking, StyleSheet, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
 import Header from '../components/Header';
@@ -13,9 +13,6 @@ export default function ShowAd({ navigation, route }) {
 
   const [ad, setAd] = useState([]);
   const [publisher, setPublisher] = useState([]);
-  const [page, setPage] = useState(1);
-  const [total_rows, setTota_rows] = useState(0)
-
 
   useEffect(() => {
     getData();
@@ -61,31 +58,28 @@ export default function ShowAd({ navigation, route }) {
     }
   }
 
-  // Then you can use the handleEmailPress function as an onPress handler in your component
-
-
   return (
 
-
-    <View style={styles.container}>
-      <StatusBar style="light" translucent={true} />
-      <Header></Header>
-      <View style={styles.container2}>
-        <ViewAd ad={ad} publisher={publisher}/>
-        <Pressable style={ButtonStyles.button}
-          onPress={() => handleEmailPress()}
-        >
-          <Text style={ButtonStyles.buttonText}>Lähetä sähköposti</Text>
-        </Pressable>
-        <Pressable style={ButtonStyles.button}
-          onPress={() => handlSmsPress()}
-        >
-          <Text style={ButtonStyles.buttonText}>Lähetä textiviesti</Text>
-        </Pressable>
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <StatusBar style="light" translucent={true} />
+        <Header></Header>
+        <View style={styles.container2}>
+          <ViewAd ad={ad} publisher={publisher} />
+          <Pressable style={ButtonStyles.button}
+            onPress={() => handleEmailPress()}
+          >
+            <Text style={ButtonStyles.buttonText}>Lähetä sähköposti</Text>
+          </Pressable>
+          <Pressable style={ButtonStyles.button}
+            onPress={() => handlSmsPress()}
+          >
+            <Text style={ButtonStyles.buttonText}>Lähetä textiviesti</Text>
+          </Pressable>
+        </View>
+        <NavBar navigation={navigation}></NavBar>
       </View>
-      <NavBar navigation={navigation}></NavBar>
-    </View>
-
+    </TouchableWithoutFeedback>
   );
 }
 

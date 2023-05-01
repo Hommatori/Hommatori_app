@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { Text, TextInput, View, ScrollView, Image, Pressable, Alert } from 'react-native';
-import { StatusBar, hidden } from 'expo-status-bar';
+import { Text, TextInput, View, ScrollView, Image, Pressable, Alert, Keyboard, TouchableWithoutFeedback, } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import Styles from '../Styles/Styles';
 import ButtonStyles from '../Styles/ButtonStyles';
 import NavBar from '../components/NavBar';
@@ -9,31 +9,27 @@ import axios from 'axios';
 import DropDownPicker from 'react-native-dropdown-picker';
 import DropdownStyles from '../Styles/DropdownStyles';
 import regions from '../json/regions';
-import Type from '../json/Type';
+import TypeTranslations from '../json/TypeTranslations';
 import BASE_URL from '../json/BaseUrl';
 
 export default function MainPage({ navigation }) {
 
   const [open, setOpen] = useState(false);
   const [openAnother, setOpenAnother] = useState(false);
-  const [ad, setAd] = useState([]);
   const [ads, setAds] = useState([]);
   const [page, setPage] = useState(1);
   const [total_rows, setTota_rows] = useState(0)
   const [region, setRegion] = useState('');
   const [type, setType] = useState('');
-  const [types, setTypes] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [id, setId] = useState('')
 
-  // tämä hakee databasesta ilmoitukset.
   useEffect(() => {
     getData();
   }, [page]);
 
   const getData = async () => {
     try {
-      const results = await axios.get(BASE_URL+ '/ad/withparams/get?type=' + type + '&region=' + region + '&order=&page=' + page + '&query=' + searchText + '')
+      const results = await axios.get(BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=&page=' + page + '&query=' + searchText + '')
       setAds(Object.values(results.data.data))
       setTota_rows(results.data.total_rows)
       console.log('getData success')
@@ -81,131 +77,143 @@ export default function MainPage({ navigation }) {
   const handleButtonAdClicket = (adid, userid) => {
     navigation.navigate('ShowAd', { adid, userid })
   }
-  // console.log (ad)
+
+  const handleTypeChange = (selectedType) => {
+    setType(selectedType);
+  };
+
+  const getTranslatedType = (typeValue, language) => {
+    return TypeTranslations[language].type[typeValue];
+  };
+
 
 
   return (
 
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={Styles.container}>
+        <StatusBar style="light" translucent={true} />
+        <Header></Header>
+        <View style={Styles.container2}>
 
-    <View style={Styles.container}>
-      <StatusBar style="light" translucent={true} />
-      <Header></Header>
-      <View style={Styles.container2}>
 
-
-        <View style={Styles.searchBoxContainer1}>
-          <View style={Styles.searchBoxContainer2}>
-            <View style={Styles.searchBoxContainer3}>
-              <TextInput
-                style={Styles.textInputContainer1}
-                placeholder="Syötä hakusana"
-                onChangeText={(text => setSearchText(text))}
-                returnKeyType='search'
-              // onSubmitEditing={() => executeSearch(search) }
-              />
-              <Pressable style={ButtonStyles.buttonSearch}
-                onPress={() => search()}
-              >
-                <Text style={ButtonStyles.buttonText}>Hae</Text>
-              </Pressable>
-            </View>
-            <View style={Styles.searchButtonContainer}>
-              <View style={DropdownStyles.dropDawnList}>
-
-                <DropDownPicker
-                  style={DropdownStyles.dropDawn}
-                  placeholder="Maakunta"
-                  listMode="MODAL"
-                  searchable={true}
-                  dropDownDirection="AUTO"
-                  dropDownContainerStyle={{
-                    backgroundColor: "#dfdfdf",
-                    borderColor: '#25db55',
-                    borderRadius: 12,
-                  }}
-                  open={open}
-                  onOpen={onOpen}
-                  setOpen={setOpen}
-                  items={Object.keys(regions).map((item, index) => ({
-                    value: item,
-                    label: item,
-                  }))}
-                  value={region}
-                  setValue={setRegion}
+          <View style={Styles.searchBoxContainer1}>
+            <View style={Styles.searchBoxContainer2}>
+              <View style={Styles.searchBoxContainer3}>
+                <TextInput
+                  style={Styles.textInputContainer1}
+                  placeholder="Syötä hakusana"
+                  onChangeText={(text => setSearchText(text))}
+                  returnKeyType='search'
                 />
+                <Pressable style={ButtonStyles.buttonSearch}
+                  onPress={() => search()}
+                >
+                  <Text style={ButtonStyles.buttonText}>Hae</Text>
+                </Pressable>
               </View>
-              <View style={DropdownStyles.dropDawnList}>
-                <DropDownPicker
-                  style={DropdownStyles.dropDawn}
-                  placeholder="Tyyppi"
-                  listMode="SCROLLVIEW"
-                  dropDownDirection="DOWN"
-                  dropDownContainerStyle={{
-                    backgroundColor: "white",
-                    borderColor: '#25db55',
-                    borderRadius: 12,
-                  }}
-                  open={openAnother}
-                  onOpen={onAnotherOpen}
-                  setOpen={setOpenAnother}
-                  items={Type.map((item, index) => ({
-                    value: item,
-                    label: item
-                  }))}
-                  value={type}
-                  setValue={setType}
-                  setItems={setTypes}
-                />
+              <View style={Styles.searchButtonContainer}>
+                <View style={DropdownStyles.dropDawnList}>
+
+                  <DropDownPicker
+                    style={DropdownStyles.dropDawn}
+                    placeholder="Alue"
+                    listMode="MODAL"
+                    searchable={true}
+                    dropDownDirection="AUTO"
+                    dropDownContainerStyle={{
+                      backgroundColor: "#dfdfdf",
+                      borderColor: '#25db55',
+                      borderRadius: 12,
+                    }}
+                    open={open}
+                    onOpen={onOpen}
+                    setOpen={setOpen}
+                    items={[
+                      {
+                        value: "all",
+                        label: "Kokosuomi",
+                      },
+                      ...Object.keys(regions).map((item, index) => ({
+                        value: item,
+                        label: item,
+                      })),
+                    ]}
+                    value={region}
+                    setValue={setRegion}
+                  />
+                </View>
+                <View style={DropdownStyles.dropDawnList}>
+                  <DropDownPicker
+                    style={DropdownStyles.dropDawn}
+                    placeholder={getTranslatedType("all", "fi")} // example usage of translation function
+                    listMode="SCROLLVIEW"
+                    dropDownDirection="DOWN"
+                    dropDownContainerStyle={{
+                      backgroundColor: "white",
+                      borderColor: "#25db55",
+                      borderRadius: 12,
+                    }}
+                    open={openAnother}
+                    onOpen={() => setOpenAnother(true)}
+                    onClose={() => setOpenAnother(false)}
+                    value={type}
+                    setValue={handleTypeChange}
+                    items={Object.keys(TypeTranslations["en"].type).map((item) => ({
+                      value: item,
+                      label: getTranslatedType(item, "fi"), // example usage of translation function
+                    }))}
+                  />
+                </View>
               </View>
             </View>
           </View>
-        </View>
 
-        <ScrollView style={Styles.scrollViewStyle}>
-          {
-            Object.values(ads).map((item, index) => (
-              <Pressable key={index} onPress={(() => handleButtonAdClicket(item.adid, item.userid))}>
-                <View style={Styles.adContainer}>
-                  <Image
-                    style={Styles.image}
-                    source={item.image && item.image != '' ? { uri: item.image } : null}
-                  />
-                  <View style={Styles.descriptionContainer1}>
-                    <View style={Styles.descriptionContainer2}>
+          <ScrollView style={Styles.scrollViewStyle}>
+            {
+              Object.values(ads).map((item, index) => (
+                <Pressable key={index} onPress={(() => handleButtonAdClicket(item.adid, item.userid))}>
+                  <View style={Styles.adContainer}>
+                    <Image
+                      style={Styles.image}
+                      source={item.image && item.image != '' ? { uri: item.image } : null}
+                    />
+                    <View style={Styles.descriptionContainer1}>
+                      <View style={Styles.descriptionContainer2}>
+                        <View style={Styles.descriptionContainer3}>
+                          <Text style={Styles.textStyle}>{item.header} </Text>
+                          <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
+                          <Text style={Styles.textStyle}>{item.region}</Text>
+                        </View>
+                      </View>
                       <View style={Styles.descriptionContainer3}>
-                        <Text style={Styles.textStyle}>{item.header} </Text>
-                        <Text style={Styles.textStyle}>Hinta {item.price}€</Text>
-                        <Text style={Styles.textStyle}>{item.region}</Text>
+                        <Text>{item.description}</Text>
                       </View>
                     </View>
-                    <View style={Styles.descriptionContainer3}>
-                      <Text>{item.description}</Text>
-                    </View>
                   </View>
-                </View>
-              </Pressable>
-            ))
+                </Pressable>
+              ))
 
-          }
-        </ScrollView>
-        <View style={ButtonStyles.nextContainer}>
-          <Pressable style={ButtonStyles.buttonSearch}
-            onPress={() => previousAds()}
-          >
-            <Text style={ButtonStyles.buttonText}>Takaisin</Text>
-          </Pressable>
-          <View style={ButtonStyles.infoContainer}>
-            <Text style={ButtonStyles.infoText}>Sivu {page}/{Math.ceil(total_rows / 10)}   osumia {total_rows}</Text>
+            }
+          </ScrollView>
+          <View style={ButtonStyles.nextContainer}>
+            <Pressable style={ButtonStyles.buttonSearch}
+              onPress={() => previousAds()}
+            >
+              <Text style={ButtonStyles.buttonText}>Takaisin</Text>
+            </Pressable>
+            <View style={ButtonStyles.infoContainer}>
+              <Text style={ButtonStyles.infoText}>Sivu {page}/{Math.ceil(total_rows / 10)}   osumia {total_rows}</Text>
+            </View>
+            <Pressable style={ButtonStyles.buttonSearch}
+              onPress={() => nextAds()}
+            >
+              <Text style={ButtonStyles.buttonText}>Seuraava</Text>
+            </Pressable>
           </View>
-          <Pressable style={ButtonStyles.buttonSearch}
-            onPress={() => nextAds()}
-          >
-            <Text style={ButtonStyles.buttonText}>Seuraava</Text>
-          </Pressable>
         </View>
+        <NavBar navigation={navigation}></NavBar>
       </View>
-      <NavBar navigation={navigation}></NavBar>
-    </View>
-
+    </TouchableWithoutFeedback>
   );
 }

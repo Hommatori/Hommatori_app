@@ -3,10 +3,6 @@ import { View, Text, StyleSheet, Image } from 'react-native';
 
 export default function ViewAd({ ad, publisher }) {
 
-    //console.log(ad)
-    //console.log(ad)
-
-
     const date = new Date(ad.date);
     const formattedDate = date.toLocaleString('en-GB', {
         year: 'numeric',
@@ -14,6 +10,22 @@ export default function ViewAd({ ad, publisher }) {
         day: '2-digit',
         timeZone: 'Europe/Helsinki'
     }).replace(/(\d+)\/(\d+)\/(\d+)/, '$1.$2.$3');
+
+    let type;
+    if (ad.type === 'joboffer') {
+        type = 'Tarjotaan työsuorite';
+    } else if (ad.type === 'jobseeker') {
+        type = 'Haetaan työntekijää';
+    } else {
+        type = 'kaikki ilmoitustyypit';
+    }
+
+    let region;
+    if (ad.region === 'all') {
+        region = 'Kokosuomi'
+    } else {
+        region = ad.region
+    }
 
     return (
 
@@ -31,7 +43,7 @@ export default function ViewAd({ ad, publisher }) {
                 <View style={styles.textContainer}>
                     <View style={styles.row}>
                         <Text style={styles.text2}>Ilmoituksen tyyppi: </Text>
-                        <Text style={styles.text}>{ad.type}</Text>
+                        <Text style={styles.text}>{type}</Text>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.text2}>ilmoitus luotu: </Text>
@@ -55,7 +67,7 @@ export default function ViewAd({ ad, publisher }) {
                 <View style={styles.textContainer}>
                     <View style={styles.row}>
                         <Text style={styles.text2}>Alue: </Text>
-                        <Text style={styles.text}>{ad.region}</Text>
+                        <Text style={styles.text}>{region}</Text>
                     </View>
                     <View style={styles.row}>
                         <Text style={styles.text2}>Paikkakunta: </Text>

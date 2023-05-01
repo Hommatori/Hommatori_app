@@ -1,0 +1,16 @@
+{
+    "en": {
+        "type": {
+            "all": "All",
+            "jobseeker": "Jobseeker",
+            "joboffer": "Job Offer"
+        }
+    },
+    "fi": {
+        "type": {
+            "all": "Kaikki",
+            "jobseeker": "Haetaan työntekijää",
+            "joboffer": "Tarjotaan työsuorite"
+        }
+    }
+}

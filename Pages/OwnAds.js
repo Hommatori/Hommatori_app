@@ -56,7 +56,6 @@ export default function OwnAds({ navigation, route }) {
                   <View style={Styles.adContainer}>
                     <Image
                       style={Styles.image}
-                      source={item.image && item.image != '' ? { uri: item.image } : null}
                     />
                     <View style={Styles.descriptionContainer1}>
                       <View style={Styles.descriptionContainer2}>

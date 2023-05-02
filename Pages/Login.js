@@ -23,6 +23,7 @@ export default function Login({ navigation }) {
       };
 
       const token = Buffer.from(username.toLowerCase() + ':' + password).toString('base64');
+      console.log(BaseUrl)
       const response = await fetch(BaseUrl + '/login', {
         method: 'POST',
         headers: {

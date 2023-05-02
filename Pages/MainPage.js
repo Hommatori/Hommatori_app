@@ -24,8 +24,8 @@ export default function MainPage({ navigation }) {
     getData(type, region, filter, page, searchText);
   }, [page]);
 
-  const getData = async (type, region, filter, page, searchText) => { 
-     //haetaan parametrien mukaiset ilmoitukset 10kpl
+  const getData = async (type, region, filter, page, searchText) => {
+    //haetaan parametrien mukaiset ilmoitukset 10kpl
     console.log('getdata', region)
     try {
       const results = await axios.get(BASE_URL + '/ad/withparams/get?type=' + type + '&region=' + region + '&order=' + filter + '&page=' + page + '&query=' + searchText + '')
@@ -38,14 +38,14 @@ export default function MainPage({ navigation }) {
       Alert.alert('Ei hakutuloksia!')
     }
   }
-                                                               
+
   const nextAds = async () => {                                    //tässä lisätään offsettia jotta saadaan seuraava sivu
     const pages = Math.ceil(total_rows / 10)
     if (page < pages) {
       setPage(page + 1);
       getData(type, region, filter, page, searchText);
     }
-  }                                                            
+  }
   const previousAds = async () => {                              // tässä vähennetään offsettia nollaan asti jotta saadaan aiempi sivu
     if (page > 1) {
       setPage(page - 1);
@@ -72,7 +72,6 @@ export default function MainPage({ navigation }) {
                   <View style={Styles.adContainer}>
                     <Image
                       style={Styles.image}
-                      source={item.image && item.image != '' ? { uri: item.image } : null}
                     />
                     <View style={Styles.descriptionContainer1}>
                       <View style={Styles.descriptionContainer2}>
